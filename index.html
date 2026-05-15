@@ -293,7 +293,7 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .forgot-link{font-size:9px;color:var(--blue);cursor:pointer;text-align:right;display:block;margin-top:3px;font-family:var(--mono)}.forgot-link:hover{color:var(--cyan)}
 
 /* VIP modal */
-.upgrade-modal{max-width:480px}
+.upgrade-modal{max-width:440px}
 .vip-hero{background:linear-gradient(135deg,rgba(255,184,0,.12),rgba(255,107,43,.05));border:1px solid rgba(255,184,0,.24);border-radius:8px;padding:14px;margin:10px 0 12px}
 .vip-benefits{display:grid;gap:8px;margin:12px 0}
 .vip-benefit{display:flex;gap:8px;align-items:flex-start;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:9px 10px;font-size:11px;color:var(--text2);line-height:1.5}
@@ -304,27 +304,6 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .redeem-tip{font-size:9px;color:var(--text3);line-height:1.7;margin-bottom:10px}
 .redeem-row{display:flex;gap:6px}
 .redeem-row .finput{flex:1;text-transform:uppercase;font-family:var(--mono);letter-spacing:2px;font-size:11px}
-
-/* 支付套餐 */
-.plan-tabs{display:flex;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:12px}
-.plan-tab{flex:1;padding:7px 5px;text-align:center;font-size:10px;font-weight:600;cursor:pointer;background:transparent;border:none;color:var(--text3);transition:all .15s;font-family:var(--mono);border-right:1px solid var(--border)}
-.plan-tab:last-child{border-right:none}
-.plan-tab.on{background:var(--orange);color:#fff}
-.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
-.plan-card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:11px 10px;cursor:pointer;transition:all .17s;position:relative}
-.plan-card:hover{border-color:var(--bhi2)}
-.plan-card.sel{border-color:var(--orange);background:var(--orange3);box-shadow:0 0 0 1px rgba(255,107,43,.15) inset}
-.plan-card.best{border-color:rgba(255,184,0,.35)}
-.best-tag{position:absolute;top:-8px;right:10px;background:linear-gradient(90deg,#f97316,#fbbf24);color:#fff;font-size:8px;font-weight:700;padding:2px 7px;border-radius:10px;font-family:var(--mono);letter-spacing:.5px}
-.plan-name{font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px}
-.plan-price{font-family:var(--mono);font-size:16px;font-weight:800;color:var(--orange);line-height:1}
-.plan-desc{font-size:8px;color:var(--text3);margin-top:3px}
-.pay-btn{width:100%;padding:10px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--body)}
-.pay-btn:hover{box-shadow:0 0 18px rgba(255,107,43,.35);transform:translateY(-1px)}
-.pay-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.pay-divider{display:flex;align-items:center;gap:8px;margin:12px 0;color:var(--text3);font-size:9px;font-family:var(--mono)}
-.pay-divider::before,.pay-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.pay-notice{font-size:9px;color:var(--text3);line-height:1.7;text-align:center;margin-top:8px;font-family:var(--mono)}
 
 /* QR placeholder */
 .qr-ph{width:140px;height:140px;background:var(--bg2);border:2px dashed var(--border);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--text3);font-size:10px;gap:5px}
@@ -639,13 +618,21 @@ tr:hover td{background:var(--orange3)}
       <div class="scard">
         <div class="s-title">订阅方案</div>
         <div class="plan-list">
-          <div class="plan-item"><div><div class="p-name">免费版</div><div class="p-desc">延迟24h · 基础内容</div></div><span style="color:var(--text3);font-size:9px;font-family:var(--mono)">免费</span></div>
-          <div class="plan-item"><div><div class="p-name">体验版</div><div class="p-desc">实时推送 · 10天</div></div><span style="color:var(--orange);font-size:9px;font-family:var(--mono);font-weight:700">¥9.9</span></div>
-          <div class="plan-item"><div><div class="p-name">月付</div><div class="p-desc">全功能 · 30天</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥39</span></div>
-          <div class="plan-item"><div><div class="p-name">半年付</div><div class="p-desc">180天 · 约¥21/月</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥128</span></div>
-          <div class="plan-item vp"><div><div class="p-name" style="color:var(--gold)">⚡ 年付</div><div class="p-desc">365天 · 约¥16.6/月</div></div><span style="color:var(--gold);font-size:9px;font-family:var(--mono);font-weight:600">¥199</span></div>
+          <div class="plan-item"><div><div class="p-name">免费版</div><div class="p-desc">延迟24h · 20条/日</div></div><span style="color:var(--text3);font-size:9px;font-family:var(--mono)">免费</span></div>
+          <div class="plan-item"><div><div class="p-name">VIP 30天</div><div class="p-desc">实时弹窗 · 无限量 · 关键词</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">邀请码</span></div>
+          <div class="plan-item vp"><div><div class="p-name" style="color:var(--gold)">⚡ VIP 365天</div><div class="p-desc">VIP终端 · 优先队列 · 全功能</div></div><span style="color:var(--gold);font-size:9px;font-family:var(--mono);font-weight:600">邀请码</span></div>
         </div>
-        <button class="btn-full btn-orange" onclick="openVipModal()" style="margin-top:9px;font-size:11px">立即订阅 / 兑换邀请码</button>
+        <p style="font-size:8px;color:var(--text3);margin-top:8px;line-height:1.6;font-family:var(--mono)">支持30/90/180/360天 · 联系管理员获取</p>
+      </div>
+
+      <div class="scard drawer-redeem">
+        <div class="s-title">邀请码兑换</div>
+        <p style="font-size:9px;color:var(--text3);line-height:1.7;margin-bottom:9px">输入主理人提供的邀请码，系统自动延长VIP天数。</p>
+        <div class="drawer-redeem-row">
+          <input class="finput" id="drawer-redeem-code" placeholder="输入邀请码" autocomplete="one-time-code" style="text-transform:uppercase;font-family:var(--mono)">
+          <button class="btn btn-pri" onclick="doDrawerRedeem()" style="flex-shrink:0;padding:7px 10px">兑换</button>
+        </div>
+        <div class="fmsg" id="drawer-redeem-msg"></div>
       </div>
 
       <div class="scard">
@@ -679,107 +666,45 @@ tr:hover td{background:var(--orange3)}
     <div class="set-stitle">会员状态</div>
     <div class="vip-box">
       <div class="vip-box-t" id="vip-t">免费版</div>
-      <div class="vip-box-s" id="vip-s">订阅VIP解锁实时推送权限</div>
+      <div class="vip-box-s" id="vip-s">兑换邀请码升级VIP，解锁实时推送权限</div>
     </div>
-    <button class="btn-full btn-orange" onclick="openVipModal()" id="goto-upgrade-btn" style="margin-top:8px;font-size:11px">立即订阅 / 兑换邀请码</button>
+    <div class="redeem-card">
+      <div class="redeem-title"><span>邀请码兑换</span><span style="font-family:var(--mono);font-size:9px">PRIVATE ACCESS</span></div>
+      <div class="redeem-tip">输入主理人提供的邀请码，系统将自动识别并为您延长相应的 VIP 天数。</div>
+      <div class="redeem-row">
+        <input class="finput" id="redeem-code" placeholder="输入专属邀请码" autocomplete="one-time-code" style="text-transform:uppercase;font-family:var(--mono)">
+        <button class="btn btn-pri" onclick="doRedeem()" style="flex-shrink:0;padding:7px 12px">立即兑换</button>
+      </div>
+      <div class="fmsg" id="redeem-msg"></div>
+      <div style="text-align:right;margin-top:6px"><span class="inv-link" onclick="openVipModal()">联系主理人获取邀请码</span></div>
+    </div>
   </div>
 
-  <!-- ══ 推送渠道二选一（已锁定则展示只读状态） ══ -->
-  <div class="set-sec" id="channel-section">
-    <div class="set-stitle">推送渠道 <span id="channel-lock-badge" style="display:none;background:var(--orange);color:#fff;font-size:8px;padding:1px 7px;border-radius:10px;font-family:var(--mono);margin-left:6px">已锁定</span></div>
-    <p style="font-size:9px;color:var(--text3);margin-bottom:12px;line-height:1.7;font-family:var(--mono)" id="channel-tip">选择一种推送渠道后将永久锁定，不可切换（防多渠道倒卖）。VIP专属功能。</p>
-
-    <!-- 未锁定时：二选一卡片 -->
-    <div id="channel-choose" style="display:none">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <div class="plan-card" id="ch-email-card" onclick="chooseChannel('email')" style="cursor:pointer">
-          <div style="font-size:20px;margin-bottom:6px">📧</div>
-          <div class="plan-name">邮件推送</div>
-          <div class="plan-desc" style="margin-top:4px">快讯直接发至您的邮箱，支持自定义地址</div>
-        </div>
-        <div class="plan-card" id="ch-feishu-card" onclick="chooseChannel('feishu')" style="cursor:pointer">
-          <div style="font-size:20px;margin-bottom:6px">🔔</div>
-          <div class="plan-name">飞书推送</div>
-          <div class="plan-desc" style="margin-top:4px">添加主理人飞书，接收即时快讯提醒</div>
-        </div>
-      </div>
-      <div style="background:rgba(255,107,43,.06);border:1px solid rgba(255,107,43,.15);border-radius:6px;padding:8px 10px;font-size:9px;color:var(--orange);font-family:var(--mono);line-height:1.7">
-        ⚠️ 选择后将永久锁定此渠道，无法切换。请谨慎选择。
-      </div>
+  <div class="set-sec">
+    <div class="set-stitle">推送矩阵</div>
+    <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.6;font-family:var(--mono)">精细控制每个信源 × 每个通道的推送组合。VIP终端消息默认全量推送。</p>
+    <div class="notif-matrix">
+      <div class="nm-header"></div><div class="nm-header">网页弹窗</div><div class="nm-header">邮件推送</div><div class="nm-header">飞书</div>
+      <div class="nm-row-label">⚡ VIP终端</div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-vip-ws" checked></div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-vip-email"></div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-vip-feishu"></div>
+      <div class="nm-row-label">📡 彭博路透</div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-pub-ws" checked></div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-pub-email"></div>
+      <div class="nm-cell"><input type="checkbox" class="nm-check" id="nm-pub-feishu"></div>
     </div>
-
-    <!-- 已锁定：邮件渠道配置 -->
-    <div id="channel-email-locked" style="display:none">
-      <div style="display:flex;align-items:center;gap:8px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);border-radius:7px;padding:10px 12px;margin-bottom:10px">
-        <span style="font-size:18px">📧</span>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text)">邮件推送 · 已锁定</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">此账号已绑定邮件推送渠道</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(34,197,94,.12);color:#22c55e;font-size:8px;padding:2px 8px;border-radius:10px;font-family:var(--mono)">LOCKED</span>
-      </div>
-      <div class="fg">
-        <div class="flabel">推送邮箱地址</div>
-        <input class="finput" id="s-email" placeholder="输入接收快讯的邮箱" type="email">
-      </div>
-      <div class="tgl-row">
-        <div class="tgl-info"><div class="tl">仅关键词命中才发邮件</div><div class="ts">其他快讯仅网页展示，不发邮件（省去干扰）</div></div>
-        <label class="tgl"><input type="checkbox" id="tog-email-only"><span class="sldr"></span></label>
-      </div>
+    <div class="fg">
+      <div class="flabel">邮箱推送地址</div>
+      <input class="finput" id="s-email" placeholder="请输入接收推送的邮箱" type="email">
     </div>
-
-    <!-- 已锁定：飞书渠道配置 -->
-    <div id="channel-feishu-locked" style="display:none">
-      <div style="display:flex;align-items:center;gap:8px;background:rgba(255,107,43,.06);border:1px solid rgba(255,107,43,.2);border-radius:7px;padding:10px 12px;margin-bottom:12px">
-        <span style="font-size:18px">🔔</span>
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text)">飞书推送 · 已锁定</div>
-          <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">此账号已绑定飞书推送渠道</div>
-        </div>
-        <span style="margin-left:auto;background:rgba(34,197,94,.12);color:#22c55e;font-size:8px;padding:2px 8px;border-radius:10px;font-family:var(--mono)">LOCKED</span>
-      </div>
-
-      <!-- 飞书添加引导 -->
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">
-        <div style="font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--text3);margin-bottom:8px">— 如何接收飞书推送 —</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <div style="width:18px;height:18px;border-radius:50%;background:var(--orange);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</div>
-            <div style="font-size:10px;color:var(--text2);line-height:1.6">打开飞书App → 搜索 <strong style="color:var(--text)">外部联系人</strong></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <div style="width:18px;height:18px;border-radius:50%;background:var(--orange);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</div>
-            <div style="font-size:10px;color:var(--text2);line-height:1.6">搜索邮箱 <span style="font-family:var(--mono);color:var(--orange);font-size:10px;font-weight:700">1335446145@qq.com</span><br><span style="font-size:9px;color:var(--text3)">（主理人飞书账号）</span></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <div style="width:18px;height:18px;border-radius:50%;background:var(--orange);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</div>
-            <div style="font-size:10px;color:var(--text2);line-height:1.6">发送申请时备注：<strong style="color:var(--text)">AH订阅用户 + 您的用户名</strong></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start">
-            <div style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">4</div>
-            <div style="font-size:10px;color:var(--text2);line-height:1.6">主理人验证后即开启推送，通常在24小时内处理</div>
-          </div>
-        </div>
-        <button class="btn-full btn-outline" onclick="copyFeishuId()" style="margin-top:10px;font-size:10px">📋 复制主理人飞书账号</button>
-      </div>
-
-      <div class="fg">
-        <div class="flabel">您的飞书显示名（发送申请时必填）</div>
-        <input class="finput" id="s-feishu" placeholder="填写您在飞书上的名字">
-        <div style="font-size:8px;color:var(--text3);margin-top:4px;font-family:var(--mono)">填写后点保存，管理员通过验证后推送自动开启</div>
-      </div>
-      <!-- 隐藏字段，保持兼容 -->
-      <input type="hidden" id="s-email" value="">
-      <input type="hidden" id="tog-email-only" value="">
+    <div class="tgl-row">
+      <div class="tgl-info"><div class="tl">仅自定义关键词命中才发邮件</div><div class="ts">其他快讯只在网页弹窗，不发邮件</div></div>
+      <label class="tgl"><input type="checkbox" id="tog-email-only"><span class="sldr"></span></label>
     </div>
-
-    <!-- 非VIP提示 -->
-    <div id="channel-novip" style="display:none">
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:12px;text-align:center">
-        <div style="font-size:24px;margin-bottom:6px">🔒</div>
-        <div style="font-size:11px;color:var(--text2);margin-bottom:4px">推送渠道为VIP专属功能</div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">订阅后解锁邮件或飞书推送</div>
-      </div>
+    <div class="fg" style="margin-top:10px">
+      <div class="flabel">飞书显示名（管理员验证入群）</div>
+      <input class="finput" id="s-feishu" placeholder="您的飞书名字">
     </div>
   </div>
 
@@ -1072,57 +997,20 @@ tr:hover td{background:var(--orange3)}
 <div class="modal upgrade-modal">
   <button class="modal-close" onclick="closeVipModal()">✕</button>
   <div class="modal-title">升级 Alpha Heartbeat VIP</div>
-  <div class="modal-sub">支付宝扫码即时升级，或输入邀请码兑换。付款后系统自动到账，无需等待。</div>
-
-  <div class="vip-hero" style="padding:10px 12px;margin:8px 0 10px">
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <span style="font-size:10px;color:var(--text2)">⚡ 零延迟实时推送</span>
-      <span style="font-size:10px;color:var(--text2)">🎯 关键词精准定向</span>
-      <span style="font-size:10px;color:var(--text2)">📡 VIP专属快讯源</span>
-      <span style="font-size:10px;color:var(--text2)">📧 邮件/飞书推送</span>
-    </div>
+  <div class="modal-sub">私域邀请码制会员服务。适合需要第一时间捕捉宏观、科技股、加密和跨市场突发消息的用户。</div>
+  <div class="vip-hero">
+    <div style="font-size:20px;font-weight:900;color:var(--gold);margin-bottom:4px">👑 VIP 实时情报席位</div>
+    <div style="font-size:10px;color:var(--text3);line-height:1.7">免费用户内容延迟；VIP 用户享受无延迟 WebSocket 推送与高级定制筛选。</div>
   </div>
-
-  <div style="font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--text3);margin-bottom:8px">— 选择套餐 —</div>
-  <div class="plan-grid" id="plan-grid">
-    <div class="plan-card" data-plan="trial" onclick="selectPlan(this)">
-      <div class="plan-name">体验版</div>
-      <div class="plan-price">¥9.9</div>
-      <div class="plan-desc">10天 · 适合试用</div>
-    </div>
-    <div class="plan-card" data-plan="month" onclick="selectPlan(this)">
-      <div class="plan-name">月付</div>
-      <div class="plan-price">¥39</div>
-      <div class="plan-desc">30天 · 按月订阅</div>
-    </div>
-    <div class="plan-card best" data-plan="half" onclick="selectPlan(this)">
-      <div class="best-tag">推荐</div>
-      <div class="plan-name">半年付</div>
-      <div class="plan-price">¥128</div>
-      <div class="plan-desc">180天 · ≈¥21/月</div>
-    </div>
-    <div class="plan-card" data-plan="year" onclick="selectPlan(this)">
-      <div class="plan-name">年付</div>
-      <div class="plan-price">¥199</div>
-      <div class="plan-desc">365天 · ≈¥16/月</div>
-    </div>
+  <div class="vip-benefits">
+    <div class="vip-benefit"><strong>⚡ 零延迟推送</strong>&nbsp;<span>WebSocket 实时到达，不错过 S 级突发。</span></div>
+    <div class="vip-benefit"><strong>🎯 关键词监控</strong>&nbsp;<span>按标的、行业、事件关键词定向触达。</span></div>
+    <div class="vip-benefit"><strong>📡 专属快讯源</strong>&nbsp;<span>VIP终端、彭博、路透高价值消息优先展示。</span></div>
   </div>
-  <button class="pay-btn" id="pay-btn" onclick="doAlipayPay()" disabled>请先选择套餐</button>
-  <div class="pay-notice">支付宝扫码付款 · 付款后30秒内自动升级 · 如未到账请联系管理员</div>
-
-  <div class="pay-divider">已有邀请码？直接兑换</div>
-
-  <div class="redeem-card">
-    <div class="redeem-title">
-      <span>🎟 邀请码兑换</span>
-      <span style="font-family:var(--mono);font-size:9px;color:var(--text3)">老用户 / 其他渠道购买</span>
-    </div>
-    <div class="redeem-tip">通过其他渠道获取的邀请码请在此输入，系统自动识别天数并延长VIP，现有VIP时长顺延不清零。</div>
-    <div class="redeem-row">
-      <input class="finput" id="vip-redeem-code" placeholder="输入专属邀请码" autocomplete="one-time-code">
-      <button class="btn btn-pri" onclick="doVipRedeem()" style="flex-shrink:0;padding:7px 14px;white-space:nowrap">兑换</button>
-    </div>
-    <div class="fmsg" id="vip-redeem-msg"></div>
+  <div style="font-size:11px;color:var(--text2);line-height:1.7">请联系主理人微信获取专属邀请码进行升级。</div>
+  <div class="wechat-box">
+    <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">主理人微信</div><div class="wechat-code">yz133544</div></div>
+    <button class="btn btn-pri" onclick="copyWechat()">一键复制微信号</button>
   </div>
   <div class="fmsg" id="vip-msg"></div>
 </div>
@@ -1235,7 +1123,7 @@ function connectWS(){
   if(!ME||!ME.is_vip)return;
   if(WS&&WS.readyState===WebSocket.OPEN)return;
   const p=location.protocol==='https:'?'wss:':'ws:';
-WS = new WebSocket('wss://api.alphaheartbeat.com:8443/ws');
+  WS = new WebSocket('wss://api.alphaheartbeat.com:8443/ws');
   WS.onopen=()=>console.log('✅ WS connected');
   WS.onmessage=(e)=>{
     try{
@@ -1390,180 +1278,6 @@ function toggleUserMenu(e){e.stopPropagation();el('profile-menu').classList.togg
 function closeHeaderMenus(){el('profile-menu')&&el('profile-menu').classList.remove('open');}
 function openVipModal(){closeHeaderMenus();el('vip-overlay').classList.add('open');}
 function closeVipModal(){el('vip-overlay').classList.remove('open');}
-
-/* ── 套餐选择 ── */
-let _selectedPlan = null;
-function selectPlan(card){
-  document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('sel'));
-  card.classList.add('sel');
-  _selectedPlan = card.dataset.plan;
-  const btn = el('pay-btn');
-  const names = {trial:'体验版10天',month:'月付30天',half:'半年付180天',year:'年付365天'};
-  const prices = {trial:'¥9.9',month:'¥39',half:'¥128',year:'¥199'};
-  btn.disabled = false;
-  btn.textContent = `支付宝支付 ${prices[_selectedPlan]} · ${names[_selectedPlan]}`;
-}
-
-/* ── 支付宝下单 ── */
-async function doAlipayPay(){
-  if(!_selectedPlan) return;
-  if(!_state.user){ showToast('请先登录'); closeVipModal(); openLogin(); return; }
-  const btn = el('pay-btn');
-  btn.disabled = true; btn.textContent = '正在创建订单...';
-  try {
-    const r = await api('/api/pay/create','POST',{plan_id:_selectedPlan});
-    if(r.pay_url){
-      // 在新窗口打开支付宝支付页
-      window.open(r.pay_url,'_blank','noopener');
-      setMsg('vip-msg','✅ 支付页已在新窗口打开，完成付款后请刷新页面或重新登录查看VIP状态。','ok');
-      btn.textContent = '支付完成后点此刷新';
-      btn.disabled = false;
-      btn.onclick = ()=>{ location.reload(); };
-    } else {
-      setMsg('vip-msg', r.error || '创建订单失败', 'err');
-      btn.disabled = false; btn.textContent = '重试';
-      btn.onclick = doAlipayPay;
-    }
-  } catch(e){
-    setMsg('vip-msg','网络错误，请稍后重试','err');
-    btn.disabled = false; btn.textContent = '重试';
-    btn.onclick = doAlipayPay;
-  }
-}
-
-/* ── 邀请码兑换（VIP弹窗内） ── */
-async function doVipRedeem(){
-  const code = (el('vip-redeem-code').value||'').trim().toUpperCase();
-  if(!code){ setMsg('vip-redeem-msg','请输入邀请码','err'); return; }
-  if(!_state.user){ showToast('请先登录'); closeVipModal(); openLogin(); return; }
-  setMsg('vip-redeem-msg','兑换中...','');
-  const r = await api('/api/redeem','POST',{code});
-  if(r.message){
-    setMsg('vip-redeem-msg', r.message, 'ok');
-    _state.user.is_vip = true; _state.user.plan = 'vip'; _state.user.vip_expire = r.vip_expire;
-    updateUserUI();
-    setTimeout(()=>closeVipModal(), 2200);
-  } else {
-    setMsg('vip-redeem-msg', r.error||'兑换失败', 'err');
-  }
-}
-
-/* ── 复制飞书账号 ── */
-function copyFeishuId(){
-  navigator.clipboard.writeText('1335446145@qq.com').then(()=>{
-    showToast('✅ 主理人飞书账号已复制');
-  }).catch(()=>{
-    showToast('请手动复制：1335446145@qq.com');
-  });
-}
-
-/* ── 渠道选择（未锁定时弹确认） ── */
-async function chooseChannel(ch){
-  const labels = {email:'邮件推送',feishu:'飞书推送'};
-  const warn = ch==='feishu'
-    ? '确认选择【飞书推送】？
-
-选择后将锁定此渠道，无法切换至邮件推送。
-请确保您已准备好添加主理人飞书。'
-    : '确认选择【邮件推送】？
-
-选择后将锁定此渠道，无法切换至飞书推送。';
-  if(!confirm(warn)) return;
-
-  // highlight
-  document.querySelectorAll('#channel-choose .plan-card').forEach(c=>c.classList.remove('sel'));
-  el(ch==='email'?'ch-email-card':'ch-feishu-card').classList.add('sel');
-
-  // 直接调 saveSettings 写入并锁定
-  const prefs = buildPrefsFromForm();
-  prefs.channels = {ws:true, email: ch==='email', feishu: ch==='feishu'};
-  if(ch==='feishu') prefs.push_email='';
-  const r = await api('/api/me/settings','POST',{notification_prefs:prefs, theme: _state.user?.theme||'dark'});
-  if(r.channel_lock){
-    _state.user.channel_lock = r.channel_lock;
-    renderChannelSection(_state.user.channel_lock, prefs);
-    showToast('✅ 推送渠道已锁定：'+labels[ch]);
-  } else {
-    showToast(r.error||'保存失败');
-  }
-}
-/* ── 套餐选择 & 支付宝下单 ── */
-let _selectedPlan=null;
-function selectPlan(card){
-  document.querySelectorAll('.plan-card').forEach(c=>c.classList.remove('sel'));
-  card.classList.add('sel'); _selectedPlan=card.dataset.plan;
-  const labels={trial:'体验版·10天',month:'月付·30天',half:'半年付·180天',year:'年付·365天'};
-  const prices={trial:'¥9.9',month:'¥39',half:'¥128',year:'¥199'};
-  const btn=el('pay-btn');
-  btn.disabled=false;
-  btn.textContent='支付宝支付 '+prices[_selectedPlan]+' · '+labels[_selectedPlan];
-}
-async function doAlipayPay(){
-  if(!_selectedPlan){showToast('请先选择套餐');return}
-  if(!ME){closeVipModal();openModal('login');return}
-  const btn=el('pay-btn'); btn.disabled=true; btn.textContent='正在创建订单...';
-  try{
-    const r=await api('/api/pay/create',{method:'POST',body:JSON.stringify({plan_id:_selectedPlan})});
-    if(r.pay_url){
-      window.open(r.pay_url,'_blank','noopener');
-      showFmsg('vip-msg','✅ 支付宝已在新窗口打开，完成付款后刷新页面查看VIP状态。','ok');
-      btn.textContent='支付完成？点此刷新'; btn.disabled=false;
-      btn.onclick=()=>location.reload();
-    } else {
-      showFmsg('vip-msg',r.error||'创建订单失败','err');
-      btn.disabled=false; btn.textContent='重试'; btn.onclick=doAlipayPay;
-    }
-  }catch(e){
-    showFmsg('vip-msg','网络错误，请稍后重试','err');
-    btn.disabled=false; btn.textContent='重试'; btn.onclick=doAlipayPay;
-  }
-}
-/* ── VIP弹窗内邀请码兑换 ── */
-async function doVipRedeem(){
-  const code=(el('vip-redeem-code')&&el('vip-redeem-code').value||'').trim().toUpperCase();
-  if(!code){showFmsg('vip-redeem-msg','请输入邀请码','err');return}
-  if(!ME){closeVipModal();openModal('login');return}
-  showFmsg('vip-redeem-msg','兑换中...','');
-  try{
-    const d=await api('/api/redeem',{method:'POST',body:JSON.stringify({code})});
-    if(d.message){
-      showFmsg('vip-redeem-msg',d.message,'ok');showToast('🎉 VIP兑换成功！');
-      if(el('vip-redeem-code')) el('vip-redeem-code').value='';
-      await checkAuth(); setTimeout(()=>{closeVipModal();showSettings();},1800);
-    } else { showFmsg('vip-redeem-msg',d.error||'兑换失败','err'); }
-  }catch(e){showFmsg('vip-redeem-msg',e.message||'网络错误','err');}
-}
-/* ── 复制飞书主理人账号 ── */
-function copyFeishuId(){
-  const id='1335446145@qq.com';
-  if(navigator.clipboard){navigator.clipboard.writeText(id).then(()=>showToast('✅ 飞书账号已复制'));}
-  else{prompt('手动复制主理人飞书账号：',id);}
-}
-/* ── 渠道选择二选一 ── */
-async function chooseChannel(ch){
-  const label=ch==='email'?'邮件推送':'飞书推送';
-  const warn=ch==='feishu'
-    ?'确认选择【飞书推送】？
-
-锁定后无法切换邮件推送。
-请确保已准备好添加主理人飞书。'
-    :'确认选择【邮件推送】？
-
-锁定后无法切换飞书推送。';
-  if(!confirm(warn))return;
-  const p=ME&&ME.notification_prefs||{};
-  const prefs=buildPrefsFromForm(p);
-  prefs.channels={ws:true,email:ch==='email',feishu:ch==='feishu'};
-  if(ch==='feishu') prefs.push_email='';
-  try{
-    const r=await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
-    if(r.channel_lock!==undefined){
-      ME.channel_lock=r.channel_lock;
-      renderChannelSection(r.channel_lock,prefs);
-      showToast('✅ 推送渠道已锁定：'+label);
-    } else { showToast(r.error||'保存失败'); }
-  }catch(e){showToast('网络错误');}
-}
 function copyWechat(){navigator.clipboard&&navigator.clipboard.writeText('yz133544').then(()=>{showFmsg('vip-msg','微信号已复制：yz133544','ok');showToast('已复制微信号');}).catch(()=>showFmsg('vip-msg','请手动复制：yz133544','err'));}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.profile-wrap'))closeHeaderMenus();
@@ -1584,143 +1298,65 @@ async function doDrawerRedeem(){
   }catch(e){showFmsg('drawer-redeem-msg',e.message,'err');}
 }
 async function doRedeem(){
-  // settings页内邀请码兑换 (已移至VIP弹窗，此为旧兼容)
-  const code=el('redeem-code')&&el('redeem-code').value.trim().toUpperCase()||'';
+  const code=el('redeem-code').value.trim().toUpperCase();
   if(!code){showFmsg('redeem-msg','请输入邀请码','err');return}
   if(!ME){openModal('login');return}
   try{
     const d=await api('/api/redeem',{method:'POST',body:JSON.stringify({code})});
-    if(d.message){
-      showFmsg('redeem-msg',d.message,'ok');showToast('🎉 VIP兑换成功！');
-      if(el('redeem-code')) el('redeem-code').value='';
-      await checkAuth();
-      el('vip-t').textContent='⚡ VIP会员';
-      el('vip-s').textContent='到期：'+d.vip_expire;
-      const btn=el('goto-upgrade-btn'); if(btn) btn.style.display='none';
-    } else { showFmsg('redeem-msg',d.error||'兑换失败','err'); }
-  }catch(e){showFmsg('redeem-msg',e.message||'网络错误','err');}
+    showFmsg('redeem-msg',d.message,'ok');showToast('🎉 VIP兑换成功！');
+    el('redeem-code').value='';
+    await checkAuth();
+    el('vip-t').textContent='⚡ VIP会员';
+    el('vip-s').textContent='到期：'+d.vip_expire;
+  }catch(e){showFmsg('redeem-msg',e.message,'err');}
 }
 
 // ═══ SETTINGS ═══
-/* 渠道区渲染 */
-function renderChannelSection(lock, p){
-  const isVip = ME && ME.is_vip;
-  const ids = ['channel-choose','channel-email-locked','channel-feishu-locked','channel-novip'];
-  ids.forEach(id=>{ const e=el(id); if(e) e.style.display='none'; });
-  const badge = el('channel-lock-badge');
-  if(badge) badge.style.display='none';
-
-  if(!isVip){ const e=el('channel-novip'); if(e) e.style.display=''; return; }
-  if(!lock){ const e=el('channel-choose'); if(e) e.style.display=''; return; }
-
-  if(badge) badge.style.display='';
-  if(lock==='email'){
-    const e=el('channel-email-locked'); if(e) e.style.display='';
-    const emailEl=el('s-email'); if(emailEl) emailEl.value=p.push_email||'';
-    const togEl=el('tog-email-only'); if(togEl) togEl.checked=!!p.email_only_custom;
-  } else if(lock==='feishu'){
-    const e=el('channel-feishu-locked'); if(e) e.style.display='';
-    const fEl=el('s-feishu'); if(fEl) fEl.value=p.feishu_name||ME.feishu_name||'';
-  }
-}
-
 function showSettings(){
   if(!ME){showPage('main');openModal('login');return}
   const p=ME.notification_prefs||{};
-  const lock=ME.channel_lock||'';
-  // VIP状态
-  if(ME.is_vip){
-    el('vip-t').textContent='⚡ VIP会员';
-    el('vip-s').textContent='到期：'+(ME.vip_expire||'—');
-    const btn=el('goto-upgrade-btn'); if(btn) btn.style.display='none';
-    const fn=el('filter-notice'); if(fn) fn.style.display='none';
-    const fl=el('filter-lock'); if(fl) fl.textContent='';
-  } else {
-    el('vip-t').textContent='免费版';
-    el('vip-s').textContent='订阅后解锁实时推送、邮件/飞书推送';
-    const fn=el('filter-notice'); if(fn) fn.style.display='block';
-    const fl=el('filter-lock'); if(fl) fl.textContent='(VIP专属)';
-  }
-  // 渠道区
-  renderChannelSection(lock, p);
-  // 关键词
+  const ch=p.channels||{};
+  el('nm-vip-ws').checked=ch.vip_ws!==false;
+  el('nm-vip-email').checked=!!ch.vip_email;
+  el('nm-vip-feishu').checked=!!ch.vip_feishu;
+  el('nm-pub-ws').checked=ch.pub_ws!==false;
+  el('nm-pub-email').checked=!!ch.pub_email;
+  el('nm-pub-feishu').checked=!!ch.pub_feishu;
+  el('s-email').value=p.push_email||'';
+  el('s-feishu').value=p.feishu_name||ME.feishu_name||'';
+  el('tog-email-only').checked=!!p.email_only_custom;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
   el('s-maxpm').value=String(p.max_per_min||10);
-  el('tog-theme').checked=localStorage.getItem('theme')!=='dark';
+  el('tog-theme').checked=localStorage.getItem('theme')!=='light';
+  if(ME.is_vip){el('vip-t').textContent='⚡ VIP会员';el('vip-s').textContent='到期：'+(ME.vip_expire||'—');el('filter-notice').style.display='none';el('filter-lock').textContent='';}
+  else{el('vip-t').textContent='免费版';el('vip-s').textContent='升级VIP解锁实时推送';el('filter-notice').style.display='block';el('filter-lock').textContent='(VIP专属)';}
   kwTags=Array.isArray(p.keywords)?p.keywords:(p.keywords||'').split(',').map(s=>s.trim()).filter(Boolean);
   secTags=Array.isArray(p.sectors)?p.sectors:(p.sectors||'').split(',').map(s=>s.trim()).filter(Boolean);
   renderTags('kw-area','kw-inp',kwTags,'kw');
   renderTags('sec-area','sec-inp',secTags,'sec');
 }
-
-/* 渠道二选一（未锁定时） */
-async function chooseChannel(ch){
-  const label = ch==='email'?'邮件推送':'飞书推送';
-  const warn = ch==='feishu'
-    ? '确认选择【飞书推送】？
-
-锁定后无法切换邮件推送。
-请确保已准备好添加主理人飞书。'
-    : '确认选择【邮件推送】？
-
-锁定后无法切换飞书推送。';
-  if(!confirm(warn)) return;
-  const p = ME.notification_prefs||{};
-  const prefs = buildPrefsFromForm(p);
-  prefs.channels = {ws:true, email:ch==='email', feishu:ch==='feishu'};
-  if(ch==='feishu') prefs.push_email='';
-  try{
-    const r=await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
-    if(r.channel_lock!==undefined){
-      ME.channel_lock=r.channel_lock;
-      renderChannelSection(r.channel_lock, prefs);
-      showToast('✅ 推送渠道已锁定：'+label);
-    } else { showToast(r.error||'保存失败'); }
-  }catch(e){ showToast('网络错误'); }
-}
-
-function copyFeishuId(){
-  const id='1335446145@qq.com';
-  if(navigator.clipboard){ navigator.clipboard.writeText(id).then(()=>showToast('✅ 飞书账号已复制：'+id)); }
-  else{ prompt('请手动复制主理人飞书账号：',id); }
-}
-
-function buildPrefsFromForm(base){
-  base=base||{};
-  const lock=ME&&ME.channel_lock||'';
-  const push_email = lock==='email' ? (el('s-email')&&el('s-email').value.trim()||base.push_email||'') : '';
-  const feishu_name= lock==='feishu'? (el('s-feishu')&&el('s-feishu').value.trim()||base.feishu_name||'') : (base.feishu_name||'');
-  const email_only = lock==='email' ? !!(el('tog-email-only')&&el('tog-email-only').checked) : false;
-  return {
-    channels:{ws:true, email:lock==='email', feishu:lock==='feishu'},
-    push_email, feishu_name, email_only_custom:email_only,
-    sources:{vip_terminal:true,bloomberg:true,reuters:true},
-    keywords:ME&&ME.is_vip?kwTags:[],
-    sectors: ME&&ME.is_vip?secTags:[],
-    watchlist:base.watchlist||(ME&&ME.notification_prefs&&ME.notification_prefs.watchlist)||[],
-    sentiments:ME&&ME.is_vip?(el('s-sent')&&el('s-sent').value||'all'):'all',
-    level_min:  ME&&ME.is_vip?(el('s-level')&&el('s-level').value||'C'):'C',
-    max_per_min:parseInt((el('s-maxpm')&&el('s-maxpm').value)||'10'),
-  };
-}
-
 async function saveSettings(){
   if(!ME){openModal('login');return}
-  const p=ME.notification_prefs||{};
-  const prefs=buildPrefsFromForm(p);
-  const theme=el('tog-theme')&&el('tog-theme').checked?'light':'dark';
+  const prefs={
+    channels:{
+      vip_ws:el('nm-vip-ws').checked,vip_email:el('nm-vip-email').checked,vip_feishu:el('nm-vip-feishu').checked,
+      pub_ws:el('nm-pub-ws').checked,pub_email:el('nm-pub-email').checked,pub_feishu:el('nm-pub-feishu').checked,
+      ws:el('nm-pub-ws').checked||el('nm-vip-ws').checked,
+      email:el('nm-pub-email').checked||el('nm-vip-email').checked,
+      feishu:el('nm-pub-feishu').checked||el('nm-vip-feishu').checked
+    },
+    push_email:el('s-email').value.trim(),feishu_name:el('s-feishu').value.trim(),
+    email_only_custom:el('tog-email-only').checked,
+    keywords:kwTags,sectors:secTags,
+    level_min:el('s-level').value,sentiments:el('s-sent').value,
+    max_per_min:parseInt(el('s-maxpm').value)||10,
+    watchlist:(ME.notification_prefs||{}).watchlist||[]
+  };
   try{
-    const r=await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme})});
-    if(r.message||r.channel_lock!==undefined){
-      showFmsg('s-msg','✅ 设置已保存','ok'); showToast('设置已保存');
-      if(r.channel_lock!==undefined) ME.channel_lock=r.channel_lock;
-      localStorage.setItem('theme',theme); applyTheme(theme);
-      await checkAuth();
-    } else {
-      showFmsg('s-msg',r.error||'保存失败','err');
-    }
-  }catch(e){showFmsg('s-msg',e.message||'网络错误','err');}
+    await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
+    showFmsg('s-msg','✅ 设置已保存','ok');showToast('设置已保存');await checkAuth();
+  }catch(e){showFmsg('s-msg',e.message,'err');}
 }
 
 function addTag(e,type){
