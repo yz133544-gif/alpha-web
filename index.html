@@ -1155,7 +1155,7 @@ tr:hover td{background:var(--orange3)}
 </div>
 
 <script>
-const API='';
+const API='https://api.alphaheartbeat.com:8443';
 let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false};
 let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null;
 let PANEL_OPEN=false;
@@ -1235,7 +1235,7 @@ function connectWS(){
   if(!ME||!ME.is_vip)return;
   if(WS&&WS.readyState===WebSocket.OPEN)return;
   const p=location.protocol==='https:'?'wss:':'ws:';
-  WS=new WebSocket(`${p}//${location.host}/ws`);
+WS = new WebSocket('wss://api.alphaheartbeat.com:8443/ws');
   WS.onopen=()=>console.log('✅ WS connected');
   WS.onmessage=(e)=>{
     try{
