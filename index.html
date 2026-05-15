@@ -1794,7 +1794,7 @@ function copyShareText(){
 // ═══ ADMIN ═══
 async function adminLogin(){
   try{await api('/api/admin/login',{method:'POST',body:JSON.stringify({username:el('a-user').value,password:el('a-pass').value})});el('a-login-view').style.display='none';el('a-dash').style.display='block';loadAStats();}
-  catch(e){showFmsg('a-login-msg','密码错误','err');}
+  catch(e){showFmsg('a-login-msg', e.message, 'err');}
 }
 async function adminLogout(){
   await fetch(API+'/api/admin/logout',{method:'POST',credentials:'include'});
