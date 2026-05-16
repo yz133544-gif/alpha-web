@@ -61,6 +61,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .panel-icon{font-size:13px;line-height:1;transition:transform .25s}
 .panel-active .panel-icon{transform:rotate(90deg)}
 .panel-label{font-size:9px;letter-spacing:.3px}
+.mobile-top-settings{display:none}
 
 /* Upgrade button */
 .upgrade-btn{position:relative;overflow:hidden;border-color:rgba(255,184,0,.48);background:linear-gradient(135deg,#1d1405,#4b2b06 45%,#ff8a1c);color:#fff3c4;box-shadow:0 0 18px rgba(255,184,0,.22),inset 0 0 0 1px rgba(255,255,255,.14);animation:vipBreath 2.6s ease-in-out infinite}
@@ -91,8 +92,9 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .hero-left{min-width:0;display:flex;flex-direction:column;justify-content:center}
 .hero-eye{font-family:var(--mono);font-size:8px;letter-spacing:5px;color:var(--blue);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .hero-eye::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--blue),transparent);opacity:.3}
-.hero-h1{font-family:var(--display);font-size:clamp(20px,2.05vw,28px);font-weight:800;line-height:1.15;letter-spacing:-.5px}
+.hero-h1{font-family:var(--display);font-size:clamp(20px,1.9vw,26px);font-weight:800;line-height:1.16;letter-spacing:-.45px;color:var(--text)}
 .hero-h1 em{font-style:normal;color:var(--orange)}
+.hero-brand-inline{font-family:-apple-system,BlinkMacSystemFont,'Inter','Helvetica Neue',Arial,sans-serif;font-size:.68em;font-weight:850;letter-spacing:-.15px;white-space:nowrap;color:var(--text);vertical-align:baseline}
 .hero-desc{margin-top:6px;font-size:11px;color:var(--text3);line-height:1.7;max-width:520px}
 
 /* ═══ STATS ═══ */
@@ -119,6 +121,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 
 /* ═══ MAIN LAYOUT ═══ */
 .main-grid{max-width:1440px;margin:0 auto;padding:0 16px 80px;display:grid;grid-template-columns:1fr;gap:0}
+.mobile-feed-head{display:none}
 
 /* ═══ FILTER BAR ═══ */
 .filter-bar{position:sticky;top:47px;z-index:120;display:grid;grid-template-columns:1fr minmax(220px,320px);gap:9px 12px;margin-bottom:8px;background:linear-gradient(180deg,rgba(12,20,36,.9),rgba(8,14,26,.7));border:1px solid var(--border);border-radius:8px;padding:10px 12px;box-shadow:var(--card-glow);backdrop-filter:blur(18px)}
@@ -134,6 +137,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .search-box{background:var(--bg);border:1px solid var(--bhi);color:var(--text);padding:8px 12px;border-radius:6px;font-size:12px;font-family:var(--body);width:100%;outline:none;transition:border-color .2s}
 .search-box:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(255,107,43,.09)}
 .search-box::placeholder{color:var(--text3)}
+.mobile-action-strip{display:none}
 
 /* ═══ TRADING CARD ═══ */
 #feed{display:flex;flex-direction:column;gap:2px}
@@ -366,6 +370,54 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .set-back h2{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text)}
 .set-sec{background:var(--bg1);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;box-shadow:var(--card-glow)}
 .set-stitle{font-family:var(--mono);font-size:7px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:11px}
+.mine-wrap{max-width:760px;margin:0 auto;padding:18px 16px 96px}
+.mine-hero{position:relative;overflow:hidden;border:1px solid rgba(30,144,212,.26);border-radius:10px;padding:18px;background:linear-gradient(135deg,rgba(30,144,212,.28),rgba(8,14,26,.98) 58%,rgba(255,107,43,.12));box-shadow:0 18px 54px rgba(0,0,0,.32),inset 0 0 0 1px rgba(255,255,255,.04)}
+.mine-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);transform:translateX(-100%);animation:vipShine 6s ease-in-out infinite;pointer-events:none}
+.mine-profile{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.mine-avatar{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-size:24px;font-weight:900;box-shadow:0 10px 28px rgba(255,107,43,.28)}
+.mine-name{font-size:22px;font-weight:900;color:#eef6ff;line-height:1.1}
+.mine-plan{display:inline-flex;align-items:center;gap:5px;margin-top:7px;border:1px solid rgba(255,184,0,.24);background:rgba(255,184,0,.1);color:var(--gold);border-radius:999px;padding:4px 9px;font-size:10px;font-weight:850}
+.mine-exp{font-family:var(--mono);font-size:9px;color:rgba(225,238,252,.68);margin-top:7px}
+.mine-status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:14px;position:relative;z-index:1}
+.mine-status{border:1px solid rgba(255,255,255,.08);background:rgba(4,8,15,.36);border-radius:7px;padding:9px}
+.mine-status .k{font-family:var(--mono);font-size:7px;color:rgba(200,216,232,.48);letter-spacing:1.4px;text-transform:uppercase}
+.mine-status .v{margin-top:4px;font-size:12px;font-weight:850;color:var(--text)}
+.mine-section-title{font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--text3);text-transform:uppercase;margin:14px 2px 8px}
+.mine-list{display:grid;gap:8px}
+.mine-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:11px;border:1px solid var(--border);background:var(--bg1);border-radius:9px;padding:12px;box-shadow:var(--card-glow);cursor:pointer;transition:all .16s;text-align:left}
+.mine-item:hover{border-color:var(--bhi2);transform:translateY(-1px)}
+.mine-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(30,144,212,.1);color:var(--blue);font-size:17px}
+.mine-item.hot .mine-ico{background:rgba(255,107,43,.12);color:var(--orange)}
+.mine-item.vip .mine-ico{background:rgba(255,184,0,.12);color:var(--gold)}
+.mine-item-title{font-size:13px;font-weight:900;color:var(--text);line-height:1.25}
+.mine-item-sub{font-size:10px;color:var(--text3);line-height:1.55;margin-top:2px}
+.mine-arrow{font-size:20px;color:var(--text3)}
+.mine-api{font-family:var(--mono);font-size:9px;color:var(--blue);margin-top:2px;word-break:break-all}
+.mine-risk{margin-top:16px;border-top:1px solid var(--border);padding-top:12px;font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.7}
+.api-wrap{max-width:980px;margin:0 auto;padding:18px 16px 96px}
+.api-hero{position:relative;overflow:hidden;border:1px solid rgba(30,144,212,.24);border-radius:10px;padding:20px;background:linear-gradient(135deg,rgba(30,144,212,.16),rgba(8,14,26,.98) 54%,rgba(255,107,43,.08));box-shadow:var(--card-glow)}
+.api-kicker{font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:7px}
+.api-title{font-family:var(--display);font-size:clamp(24px,3vw,38px);font-weight:900;color:var(--text);line-height:1.05}
+.api-title em{font-style:normal;color:var(--orange)}
+.api-sub{max-width:760px;margin-top:10px;font-size:11px;color:var(--text2);line-height:1.75}
+.api-contact{display:inline-flex;align-items:center;gap:7px;margin-top:14px;border:1px solid rgba(255,184,0,.22);background:rgba(255,184,0,.08);color:var(--gold);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:10px;font-weight:850}
+.api-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.api-card{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:13px;box-shadow:var(--card-glow)}
+.api-card .n{font-size:13px;font-weight:900;color:var(--text);margin-bottom:5px}
+.api-card .d{font-size:10px;color:var(--text3);line-height:1.7}
+.api-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.api-step{border:1px solid var(--border);background:var(--bg1);border-radius:8px;padding:11px}
+.api-step b{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--orange3);color:var(--orange);font-family:var(--mono);font-size:9px;margin-bottom:8px}
+.api-step h4{font-size:11px;color:var(--text);margin-bottom:4px}
+.api-step p{font-size:9px;color:var(--text3);line-height:1.65}
+.api-spec{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,380px);gap:10px;margin-top:12px}
+.api-code{background:#050912;border:1px solid var(--border);border-radius:8px;padding:12px;overflow:auto;color:#9db2c8;font-family:var(--mono);font-size:9px;line-height:1.65;white-space:pre}
+.api-table{width:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg1)}
+.api-row{display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid var(--border)}
+.api-row:last-child{border-bottom:none}
+.api-row span{padding:8px 10px;font-size:9px;color:var(--text3)}
+.api-row strong{padding:8px 10px;font-family:var(--mono);font-size:9px;color:var(--text);border-right:1px solid var(--border);background:var(--bg3)}
+.api-note{margin-top:10px;border:1px solid rgba(255,107,43,.16);background:var(--orange3);border-radius:8px;padding:11px;font-size:10px;color:var(--text2);line-height:1.75}
 .vip-box{background:linear-gradient(135deg,rgba(255,184,0,.07),rgba(255,107,43,.03));border:1px solid rgba(255,184,0,.18);border-radius:5px;padding:11px;margin-bottom:11px}
 .vip-box-t{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:2px}
 .vip-box-s{font-size:9px;color:var(--text3)}
@@ -385,37 +437,34 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .delivery-copy{font-size:9px;color:var(--text3);line-height:1.65}
 .delivery-lock{font-family:var(--mono);font-size:8px;color:var(--gold);margin-top:6px;display:none}
 .delivery-card.locked .delivery-lock{display:block}
+.delivery-card.hidden{display:none}
+.delivery-note{display:none;margin-top:9px;border:1px solid rgba(255,184,0,.18);background:rgba(255,184,0,.06);color:var(--gold);border-radius:5px;padding:7px 9px;font-size:8px;line-height:1.65;font-family:var(--mono)}
+.delivery-note.show{display:block}
+.verify-badge{display:inline-flex;align-items:center;margin-left:6px;border-radius:999px;padding:2px 6px;font-family:var(--mono);font-size:7px;font-weight:900;letter-spacing:.5px}
+.verify-badge.ok{background:rgba(0,200,120,.1);color:var(--green);border:1px solid rgba(0,200,120,.22)}
+.verify-badge.wait{background:rgba(255,184,0,.1);color:var(--gold);border:1px solid rgba(255,184,0,.22)}
+.email-verify-panel{display:none;margin-top:10px;border:1px solid rgba(255,184,0,.2);background:linear-gradient(135deg,rgba(255,184,0,.08),rgba(255,107,43,.035));border-radius:8px;padding:10px}
+.email-verify-panel.show{display:block}
+.email-verify-title{font-size:10px;font-weight:900;color:var(--gold);margin-bottom:5px}
+.email-verify-copy{font-size:9px;color:var(--text3);line-height:1.7}
+.email-verify-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.email-verify-mini{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.6}
 .channel-form{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:11px}
 .channel-form.disabled{display:none}
+.channel-form.locked{opacity:.78}
 .feishu-owner{font-family:var(--mono);font-size:15px;color:var(--gold);font-weight:900;letter-spacing:.4px;margin:5px 0}
-.fund-wrap{max-width:1180px;margin:0 auto;padding:18px 16px 90px}
-.fund-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:12px}
-.fund-title{font-family:var(--display);font-size:22px;font-weight:850;color:var(--text)}
-.fund-sub{font-size:10px;color:var(--text3);line-height:1.7;margin-top:4px}
-.fund-tools{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.fund-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.fund-tab{border:1px solid var(--border);background:var(--bg1);color:var(--text2);border-radius:5px;padding:6px 12px;font-size:11px;cursor:pointer;font-weight:800}
-.fund-tab.on{border-color:var(--orange);color:var(--orange);background:var(--orange3)}
-.bench-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
-.bench{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:10px 12px;text-align:center}
-.bench-v{font-family:var(--mono);font-size:16px;font-weight:850}.bench-v.up{color:var(--red)}.bench-v.dn{color:var(--green)}
-.bench-n{font-size:9px;color:var(--text3);margin-top:2px}
-.fund-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,400px);gap:12px}
-.fund-list{display:flex;flex-direction:column;gap:7px}
-.fund-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--bg1);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:8px;padding:12px;cursor:pointer;transition:all .15s}
-.fund-row:hover,.fund-row.on{border-color:var(--bhi2);transform:translateY(-1px)}
-.fund-row.dn{border-left-color:var(--green)}
-.fund-name{font-size:13px;font-weight:850;color:var(--text);line-height:1.35}
-.fund-code{font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px}
-.fund-est{font-family:var(--mono);font-size:18px;font-weight:900;text-align:right}.fund-est.up{color:var(--red)}.fund-est.dn{color:var(--green)}
-.fund-meta{font-size:8px;color:var(--text3);text-align:right;margin-top:3px}
-.fund-detail{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:14px;position:sticky;top:58px;align-self:start}
-.chart-box{height:150px;border:1px solid var(--border);border-radius:7px;background:linear-gradient(180deg,rgba(30,144,212,.08),transparent);margin:10px 0;position:relative;overflow:hidden}
-.chart-line{position:absolute;inset:10px;background:linear-gradient(135deg,transparent 8%,rgba(30,144,212,.12) 8% 26%,transparent 26% 37%,rgba(30,144,212,.16) 37% 56%,transparent 56% 67%,rgba(30,144,212,.2) 67% 100%);clip-path:polygon(0 70%,12% 62%,24% 50%,36% 38%,48% 42%,60% 32%,72% 50%,84% 58%,100% 24%,100% 100%,0 100%)}
-.holding-table{width:100%;margin-top:10px}
-.holding-table td{font-family:var(--mono);font-size:10px}
-@media(max-width:900px){.pricing-grid{grid-template-columns:repeat(2,1fr)}.fund-grid{grid-template-columns:1fr}.fund-detail{position:static}.bench-row{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.pricing-grid,.delivery-grid{grid-template-columns:1fr}.fund-head{display:block}.fund-tools{margin-top:10px}.fund-wrap{padding:14px 10px 82px}.fund-title{font-size:19px}.fund-row{padding:11px 10px}.fund-est{font-size:16px}}
+.source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}
+.source-chip{display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--bg2);border-radius:5px;padding:7px 8px;font-size:9px;color:var(--text2);font-weight:800;cursor:pointer}
+.source-chip input{accent-color:var(--orange)}
+.source-chip:has(input:checked){border-color:rgba(255,107,43,.45);background:var(--orange3);color:var(--text)}
+.feishu-steps{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:5px}
+.feishu-steps li{font-size:9px;color:var(--text3);line-height:1.65}
+.feishu-steps b{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,107,43,.35);color:var(--orange);font-family:var(--mono);font-size:7px;margin-right:5px}
+.admin-mini{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.55;max-width:260px}
+.admin-push-actions{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+@media(max-width:980px){.pricing-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.pricing-grid,.delivery-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.mine-wrap,.api-wrap{padding:14px 12px 96px}.mine-hero,.api-hero{border-radius:12px;padding:16px}.mine-avatar{width:52px;height:52px;border-radius:15px}.mine-name{font-size:20px}.mine-status-grid,.api-grid,.api-flow,.api-spec{grid-template-columns:1fr}.mine-item{border-radius:11px;padding:13px}.mine-item-title{font-size:14px}.mine-item-sub{font-size:11px}.api-code{font-size:8px}.api-row{grid-template-columns:76px 1fr}}
 
 /* ═══ ADMIN ═══ */
 .admin-layout{display:grid;grid-template-columns:170px 1fr;min-height:calc(100vh - 50px)}
@@ -461,7 +510,55 @@ tr:hover td{background:var(--orange3)}
 @media(max-width:980px){.ticker-wrap{display:none}.hdr{gap:8px}.logo-txt .n{font-size:11px}.profile-meta{display:none}.hero-row{grid-template-columns:1fr;gap:10px}.hero{padding-top:12px}.macro-row{display:flex;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px}.macro-row::-webkit-scrollbar{display:none}.mcrd{min-width:142px;scroll-snap-align:start}}
 @media(max-width:760px){.filter-bar{grid-template-columns:1fr}.filter-main,.filter-assets{align-items:stretch}.search-box{width:100%;margin-left:0}.fl-label{width:100%;margin-bottom:2px}.fbtn,.asset-chip{flex:1;min-width:74px;text-align:center}}
 @media(max-width:680px){.admin-layout{grid-template-columns:1fr}.admin-nav{display:flex;border-right:none;border-bottom:1px solid var(--border);padding:5px;overflow-x:auto;white-space:nowrap}.admin-nav a{border-left:none;border-bottom:2px solid transparent;display:inline-block;padding:6px 10px}}
-@media(max-width:640px){.bottom-nav{display:block}.main-grid{padding-bottom:72px}.hdr{padding:0 10px;height:46px}.logo-txt .s{display:none}.hdr-r{gap:5px}.upgrade-btn{padding:0 8px;font-size:10px}.theme-btn{display:none}.hero-h1{font-size:22px}.sidebar{top:0;bottom:0;width:100vw;border-left:none;border-radius:14px 14px 0 0;padding-top:16px}.drawer-backdrop{inset:0}.bottom-nav{z-index:180}}
+@media(max-width:640px){
+  body{background:#050a12}
+  [data-theme="dark"] body::before{background-size:34px 34px}
+  .bottom-nav{display:block}
+  .hdr{padding:0 12px;height:54px;gap:8px;justify-content:space-between}
+  .logo-mark{width:30px;height:30px;border-radius:8px}
+  .logo-txt .n{font-size:11px;letter-spacing:1.8px;white-space:nowrap}
+  .logo-txt .s,.ticker-wrap,.profile-meta,.theme-btn,.hdr-action{display:none}
+  .hdr-r{gap:6px;margin-left:auto}
+  .upgrade-btn{height:30px;padding:0 8px;font-size:9px;border-radius:8px}
+  .hdr-r .upgrade-btn{display:inline-flex;align-items:center}
+  .mobile-top-settings{height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:rgba(8,14,26,.88);color:var(--text2);border-radius:8px;padding:0 8px;font-size:9px;font-weight:850;white-space:nowrap}
+  .profile-btn{height:32px;padding:3px;border-radius:18px;background:transparent}
+  .avatar{width:28px;height:28px;font-size:12px}
+  .hero{display:none}
+  .main-grid{padding:12px 12px 88px}
+  .mobile-feed-head{display:block;margin:0 0 10px}
+  .mobile-feed-title{font-size:19px;font-weight:900;color:var(--text);letter-spacing:-.2px}
+  .mobile-feed-sub{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.55}
+  .mobile-action-strip{display:none}
+  .mobile-action-strip::-webkit-scrollbar{display:none}
+  .mobile-action{height:34px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border:1px solid var(--border);background:var(--bg1);color:var(--text2);border-radius:8px;padding:0 13px;font-size:12px;font-weight:800;white-space:nowrap}
+  .mobile-action.hot{border-color:rgba(255,107,43,.42);color:var(--orange);background:rgba(255,107,43,.08)}
+  .filter-bar{position:relative;top:auto;display:block;margin-bottom:10px;padding:10px;border-radius:10px;background:rgba(8,14,26,.9)}
+  .filter-main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:8px}
+  .filter-main .fl-label{display:none}
+  .filter-main .fbtn{min-width:0;width:100%;padding:8px 6px;border-radius:8px;font-size:12px}
+  .filter-main .fbtn:nth-of-type(n+7){display:none}
+  .search-box{height:42px;border-radius:9px;font-size:13px;padding:0 12px}
+  .filter-assets{display:none}
+  #feed-status{padding:0 2px 8px!important}
+  #feed{gap:8px}
+  .tcard{border-left:none;border-radius:10px;padding:13px 14px;background:rgba(8,14,26,.94);box-shadow:none}
+  .tc-head{margin-bottom:8px}
+  .level-badge,.sent-badge,.src-chip{font-size:9px;border-radius:4px;padding:2px 6px}
+  .tc-time{font-size:9px}
+  .tc-title{font-size:15px;line-height:1.48;font-weight:850;color:#e6eef8;margin-bottom:7px}
+  .tc-ai{font-size:12px;line-height:1.65;-webkit-line-clamp:3}
+  .asset-tag{font-size:10px;border-radius:5px;padding:3px 7px}
+  .tc-detail{margin-top:11px;padding-top:11px}
+  .d-text{font-size:12px}
+  .bottom-nav{z-index:180;background:rgba(8,14,26,.96);backdrop-filter:blur(18px);border-top:1px solid rgba(36,69,112,.75);padding:6px 0 calc(8px + env(safe-area-inset-bottom))}
+  .bn-row{justify-content:space-around}
+  .bnav{font-size:10px;gap:4px;padding:4px 10px;color:var(--text3);letter-spacing:0;font-family:var(--body);font-weight:800}
+  .bnav.on{color:var(--orange)}
+  .bnav-i{font-size:18px}
+  .sidebar{top:0;bottom:0;width:100vw;border-left:none;border-radius:14px 14px 0 0;padding-top:16px}
+  .drawer-backdrop{inset:0}
+}
 .empty{text-align:center;padding:40px 20px;color:var(--text3)}
 .empty-i{font-size:28px;margin-bottom:8px;opacity:.2}
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg1);border-top:1px solid var(--border);z-index:150;padding:5px 0 8px}
@@ -469,6 +566,13 @@ tr:hover td{background:var(--orange3)}
 .bnav{background:none;border:none;color:var(--text3);font-size:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px 8px;border-radius:4px;transition:color .15s;font-family:var(--mono);letter-spacing:.5px}
 .bnav.on,.bnav:hover{color:var(--orange)}
 .bnav-i{font-size:16px;line-height:1}
+@media(max-width:640px){
+  .bottom-nav{display:block;z-index:180;background:rgba(8,14,26,.96);backdrop-filter:blur(18px);border-top:1px solid rgba(36,69,112,.75);padding:6px 0 calc(8px + env(safe-area-inset-bottom))}
+  .bn-row{justify-content:space-around}
+  .bnav{font-size:10px;gap:4px;padding:4px 12px;color:var(--text3);letter-spacing:0;font-family:var(--body);font-weight:800}
+  .bnav.on{color:var(--orange)}
+  .bnav-i{font-size:18px}
+}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
@@ -514,7 +618,7 @@ tr:hover td{background:var(--orange3)}
       <span class="panel-icon">☰</span>
       <span class="panel-label" id="panel-label">控制面板</span>
     </button>
-    <button class="hdr-action" onclick="showPage('fund')">基金净值</button>
+    <button class="mobile-top-settings" onclick="showPage('settings');bnSet('settings')">推送设置</button>
     <button class="hdr-action upgrade-btn" onclick="openVipModal()">👑 升级 VIP</button>
     <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
     <div class="profile-wrap">
@@ -526,7 +630,8 @@ tr:hover td{background:var(--orange3)}
         </span>
       </button>
       <div class="profile-menu" id="profile-menu">
-        <button class="pm-item" onclick="showPage('settings');closeHeaderMenus()">⚙ 通知设置</button>
+        <button class="pm-item" onclick="ME?showPage('mine'):openModal('login');closeHeaderMenus()">◎ 我的账户</button>
+        <button class="pm-item" onclick="showPage('settings');closeHeaderMenus()">⚙ 消息定制</button>
         <button class="pm-item" onclick="openVipModal();closeHeaderMenus()">👑 邀请码兑换</button>
         <button class="pm-item" onclick="showPage('admin');closeHeaderMenus()">🔑 管理后台</button>
         <div class="pm-sep"></div>
@@ -547,9 +652,9 @@ tr:hover td{background:var(--orange3)}
   <div class="hero">
     <div class="hero-row">
       <div class="hero-left">
-        <div class="hero-eye">REAL-TIME MARKET INTELLIGENCE</div>
-        <h1 class="hero-h1">Alpha Heartbeat<br><em>全球金融快讯终端</em></h1>
-        <p class="hero-desc">聚合宏观、科技股、加密资产与跨市场突发消息。VIP 用户可选择邮箱或飞书单通道推送，减少噪音，也防止多渠道转发滥用。</p>
+        <div class="hero-eye">实时推送 · 规则路由 · 机构级快讯</div>
+        <h1 class="hero-h1">全球金融<em>终端</em>快讯<br>机构级快讯 <span class="hero-brand-inline">Alpha Heartbeat</span></h1>
+        <p class="hero-desc">VIP终端全量直推 · 全局热词触发广播 · 用户关键词精准定向 · WebSocket毫秒级到达</p>
       </div>
       <div class="macro-row">
         <div class="mcrd mcrd-fng">
@@ -582,7 +687,7 @@ tr:hover td{background:var(--orange3)}
         </div>
       </div>
     </div>
-    <!-- 隐藏元素保持JS兼容，用户端不展示运营数据 -->
+    <!-- 隐藏元素保持JS兼容，运营数据不在用户前端展示 -->
     <span id="st-total" style="display:none"></span>
     <span id="st-today" style="display:none"></span>
     <span id="st-users" style="display:none"></span>
@@ -593,15 +698,24 @@ tr:hover td{background:var(--orange3)}
 
   <div class="main-grid">
     <div>
+      <div class="mobile-feed-head">
+        <div class="mobile-feed-title">Alpha Heartbeat 快讯</div>
+        <div class="mobile-feed-sub">实时市场消息、AI影响解读与自选标的提醒，优先展示你最需要看的内容。</div>
+      </div>
+      <div class="mobile-action-strip" aria-label="移动端频道">
+        <button class="mobile-action hot" onclick="setFilter('all',document.querySelector('.filter-main .fbtn'))">快讯</button>
+        <button class="mobile-action" onclick="showPage('settings');bnSet('settings')">推送设置</button>
+        <button class="mobile-action" onclick="openVipModal()">升级 VIP</button>
+      </div>
       <div class="filter-bar">
         <div class="filter-main">
           <span class="fl-label">快速筛选</span>
-          <button class="fbtn on" onclick="setFilter('all',this)">全部</button>
+          <button class="fbtn on" onclick="setFilter('all',this)">全部快讯</button>
           <button class="fbtn" onclick="setFilter('bull',this)">📈 利多</button>
           <button class="fbtn" onclick="setFilter('bear',this)">📉 利空</button>
-          <button class="fbtn vip" onclick="setFilter('vip',this)">⚡ VIP</button>
-          <button class="fbtn" onclick="setFilter('bloomberg',this)">彭博</button>
-          <button class="fbtn" onclick="setFilter('reuters',this)">路透</button>
+          <button class="fbtn vip" onclick="setFilter('vip',this)">⚡ 终端快讯</button>
+          <button class="fbtn" onclick="setFilter('reuters',this)">路透社</button>
+          <button class="fbtn" onclick="setFilter('bloomberg',this)">彭博社</button>
         </div>
         <input class="search-box" id="search" placeholder="搜索关键词、标的、事件..." oninput="debSearch()">
         <div class="filter-assets">
@@ -702,6 +816,116 @@ tr:hover td{background:var(--orange3)}
   </div>
 </div>
 
+<!-- ═══ MINE PAGE ═══ -->
+<div id="mine-page" class="page">
+  <div class="mine-wrap">
+    <div class="set-back"><button onclick="showPage('main')">←</button><h2>我的</h2></div>
+    <div class="mine-hero">
+      <div class="mine-profile">
+        <div class="mine-avatar" id="mine-avatar">A</div>
+        <div>
+          <div class="mine-name" id="mine-name">Alpha 用户</div>
+          <div class="mine-plan" id="mine-plan">普通用户</div>
+          <div class="mine-exp" id="mine-exp">登录后查看账户权益</div>
+        </div>
+      </div>
+      <div class="mine-status-grid">
+        <div class="mine-status"><div class="k">MESSAGE ROUTE</div><div class="v" id="mine-route">未设置</div></div>
+        <div class="mine-status"><div class="k">CUSTOM RULES</div><div class="v" id="mine-rules">0 条</div></div>
+        <div class="mine-status"><div class="k">WATCHLIST</div><div class="v" id="mine-watch">0 个</div></div>
+      </div>
+    </div>
+
+    <div class="mine-section-title">Account Center</div>
+    <div class="mine-list">
+      <button class="mine-item hot" onclick="showPage('settings');bnSet('settings')">
+        <span class="mine-ico">◈</span>
+        <span><span class="mine-item-title">消息定制</span><span class="mine-item-sub" id="mine-custom-sub">邮箱 / 飞书二选一，关键词、板块、资产触发推送</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
+      <button class="mine-item" onclick="showPage('main');bnSet('home');setTimeout(openAccountDrawer,80)">
+        <span class="mine-ico">♡</span>
+        <span><span class="mine-item-title">我的关注</span><span class="mine-item-sub">管理关注资产，命中后可用于邮箱定向提醒</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
+      <button class="mine-item vip" onclick="openVipModal()">
+        <span class="mine-ico">♛</span>
+        <span><span class="mine-item-title">会员服务</span><span class="mine-item-sub">升级 VIP，解锁实时快讯、邮件或飞书专属推送</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
+      <button class="mine-item" onclick="showPage('api-custom')">
+        <span class="mine-ico">◇</span>
+        <span><span class="mine-item-title">API定制服务</span><span class="mine-item-sub">Webhook 专线接入，英文原文快讯推送，人工配置客户地址</span><span class="mine-api">联系主理人微信 yz133544</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
+      <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
+        <span class="mine-ico">⚙</span>
+        <span><span class="mine-item-title">设置</span><span class="mine-item-sub">外观偏好、订阅状态、邀请码兑换与推送通道</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
+    </div>
+    <div class="mine-risk">本平台快讯及 AI 解读仅供参考，不构成任何投资建议。推送通道一旦选择将锁定，如需更换请联系主理人微信 yz133544。</div>
+  </div>
+</div>
+
+<!-- ═══ API CUSTOM PAGE ═══ -->
+<div id="api-custom-page" class="page">
+  <div class="api-wrap">
+    <div class="set-back"><button onclick="showPage('mine')">←</button><h2>API定制服务</h2></div>
+    <div class="api-hero">
+      <div class="api-kicker">PRIVATE WEBHOOK SERVICE</div>
+      <div class="api-title">Alpha Heartbeat <em>API定制服务</em></div>
+      <div class="api-sub">当前不是公开自助 API 平台，而是面向少量机构客户的专线 Webhook 推送服务。客户提供可公网访问的接收地址，我们在美国服务器脚本中配置专属路由，把 VIP 终端与宏观快讯以英文原文 JSON 直推到客户系统。</div>
+      <div class="api-contact">API定制联系主理人微信 yz133544</div>
+    </div>
+
+    <div class="api-grid">
+      <div class="api-card"><div class="n">英文原文推送</div><div class="d">适合量化、投研、风控系统直接消费，减少翻译和模型处理带来的延迟。</div></div>
+      <div class="api-card"><div class="n">Webhook 专线</div><div class="d">HTTP POST 异步推送，客户只需提供一个稳定可访问的 HTTPS 接收 URL。</div></div>
+      <div class="api-card"><div class="n">人工配置</div><div class="d">现阶段由主理人在服务器脚本中配置客户地址、推送范围和调试策略。</div></div>
+    </div>
+
+    <div class="set-sec">
+      <div class="set-stitle">接入流程</div>
+      <div class="api-flow">
+        <div class="api-step"><b>1</b><h4>确认需求</h4><p>确认推送源、是否只要 VIP 终端、是否需要 Reuters / Bloomberg 原文流。</p></div>
+        <div class="api-step"><b>2</b><h4>提供地址</h4><p>客户提供公网 HTTPS Webhook URL，并确认可接收 application/json。</p></div>
+        <div class="api-step"><b>3</b><h4>配置专线</h4><p>在美国服务器脚本中加入客户地址、路由规则、失败重试和日志标识。</p></div>
+        <div class="api-step"><b>4</b><h4>联调上线</h4><p>发送单条测试数据，确认 HTTP 200 响应后进入正式推送。</p></div>
+      </div>
+    </div>
+
+    <div class="api-spec">
+      <div class="set-sec" style="margin:0">
+        <div class="set-stitle">JSON Payload</div>
+        <pre class="api-code">{
+  "file_id": null,
+  "source": "VIP Terminal",
+  "section": "VIP Terminal",
+  "title": "U.S. seeks quick repairs to Mideast ties...",
+  "content": "U.S. seeks quick repairs to Mideast ties amid...",
+  "time": "Mon Apr 14 12:00:00 +0800 2026",
+  "category": "Global Macro",
+  "title_cn": "",
+  "content_cn": "",
+  "url": ""
+}</pre>
+      </div>
+      <div class="set-sec" style="margin:0">
+        <div class="set-stitle">交互规范</div>
+        <div class="api-table">
+          <div class="api-row"><strong>通信模式</strong><span>HTTP POST 异步主动推送</span></div>
+          <div class="api-row"><strong>数据格式</strong><span>application/json，UTF-8 编码</span></div>
+          <div class="api-row"><strong>响应要求</strong><span>成功处理返回 HTTP 200 OK</span></div>
+          <div class="api-row"><strong>失败处理</strong><span>4xx / 5xx 会进入重试或人工排查</span></div>
+          <div class="api-row"><strong>当前客户</strong><span>仅服务定制客户，暂不开放自助密钥</span></div>
+        </div>
+        <div class="api-note">字段会保持轻量稳定。英文原文客户通常只消费 source、section、title、content、time；中文字段默认可为空，避免额外模型处理造成延迟。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ SETTINGS PAGE ═══ -->
 <div id="settings-page" class="page">
 <div class="set-wrap">
@@ -737,29 +961,51 @@ tr:hover td{background:var(--orange3)}
     <div class="delivery-grid">
       <div class="delivery-card" id="delivery-email" onclick="selectDelivery('email')">
         <div class="delivery-title">邮箱推送</div>
-        <div class="delivery-copy">适合个人接收验证码、系统通知和定向金融快讯。</div>
+        <div class="delivery-copy">支持全量推送，也可以按关键词、板块、资产或股票代码定制触发。</div>
         <div class="delivery-lock">LOCKED</div>
       </div>
       <div class="delivery-card" id="delivery-feishu" onclick="selectDelivery('feishu')">
         <div class="delivery-title">飞书推送</div>
-        <div class="delivery-copy">添加主理人为飞书外部联系人，后台验证后推送。</div>
+        <div class="delivery-copy">添加主理人为飞书外部联系人，拉群后全量推送，不开放筛选。</div>
         <div class="delivery-lock">LOCKED</div>
       </div>
     </div>
+    <div class="delivery-note" id="delivery-lock-note"></div>
     <input type="hidden" id="delivery-mode">
     <div class="channel-form" id="email-form">
-      <div class="flabel">邮箱推送地址</div>
+      <div class="flabel">邮箱推送地址 <span id="email-verify-badge"></span></div>
       <input class="finput" id="s-email" placeholder="请输入接收推送的邮箱" type="email">
       <div style="font-size:8px;color:var(--text3);margin-top:6px;font-family:var(--mono)">选择邮箱后，飞书入口将关闭。</div>
+      <div class="email-verify-panel" id="email-verify-panel">
+        <div class="email-verify-title" id="email-verify-title">快讯邮箱待激活</div>
+        <div class="email-verify-copy" id="email-verify-copy">我们会向该邮箱发送一封确认邮件。点击邮件中的按钮后，快讯推送才会正式开启。</div>
+        <div class="email-verify-actions">
+          <button class="btn btn-sec" id="email-resend-btn" onclick="resendPushEmailActivation()" style="font-size:9px;padding:5px 9px">重新发送激活邮件</button>
+          <span class="email-verify-mini">建议回复确认邮件“收到”并将发件人加入联系人，降低拦截概率。</span>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:10px">
+        <div class="flabel">信源范围</div>
+        <div class="source-grid">
+          <label class="source-chip"><input type="checkbox" id="src-vip"> VIP终端</label>
+          <label class="source-chip"><input type="checkbox" id="src-reuters"> 路透社</label>
+          <label class="source-chip"><input type="checkbox" id="src-bloomberg"> 彭博社</label>
+        </div>
+      </div>
       <div class="tgl-row" style="margin-top:6px">
-      <div class="tgl-info"><div class="tl">仅自定义关键词命中才发邮件</div><div class="ts">其他快讯只在网页弹窗，不发邮件</div></div>
+      <div class="tgl-info"><div class="tl">仅定制规则命中才发邮件</div><div class="ts">关键词、板块、关注资产或股票代码命中才发；关闭则按所选信源全量推送</div></div>
       <label class="tgl"><input type="checkbox" id="tog-email-only"><span class="sldr"></span></label>
       </div>
     </div>
     <div class="channel-form disabled" id="feishu-form">
       <div class="flabel">飞书外部联系人</div>
       <div class="feishu-owner">1335446145@qq.com</div>
-      <div style="font-size:9px;color:var(--text3);line-height:1.7">请在飞书搜索上方账号添加主理人为外部联系人。选择飞书后，邮箱推送入口将关闭；管理员验证后开始推送。</div>
+      <div style="font-size:9px;color:var(--text3);line-height:1.7">飞书通道为全量推送。选择飞书后，邮箱入口关闭；管理员验证并拉群后开始推送。</div>
+      <ul class="feishu-steps">
+        <li><b>1</b>打开飞书 App，进入「联系人 / 外部联系人」。</li>
+        <li><b>2</b>搜索飞书账号 <strong style="color:var(--gold);font-family:var(--mono)">1335446145@qq.com</strong>。</li>
+        <li><b>3</b>添加主理人，并备注您的注册邮箱或用户名，等待拉入快讯群。</li>
+      </ul>
       <input class="finput" id="s-feishu" placeholder="您的飞书昵称或备注，便于管理员核验" style="margin-top:8px">
     </div>
   </div>
@@ -805,7 +1051,7 @@ tr:hover td{background:var(--orange3)}
         <option value="50">50条/分钟（不限）</option>
       </select>
     </div>
-    <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为VIP专属功能</div>
+    <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为VIP邮箱推送专属功能</div>
   </div>
 
   <div class="set-sec">
@@ -819,35 +1065,6 @@ tr:hover td{background:var(--orange3)}
   <button class="btn-full btn-orange" onclick="saveSettings()">保存设置</button>
   <div class="fmsg" id="s-msg" style="margin-top:8px"></div>
 </div>
-</div>
-
-<!-- ═══ FUND PAGE ═══ -->
-<div id="fund-page" class="page">
-  <div class="fund-wrap">
-    <div class="fund-head">
-      <div>
-        <div class="fund-title">基金净值查看</div>
-        <div class="fund-sub">盘前、盘中、夜盘估值统一看板。当前支持后端推送实时估值，长桥证券或自研行情脚本可定时写入 `/api/funds/push`。</div>
-      </div>
-      <div class="fund-tools">
-        <input class="search-box" id="fund-search" placeholder="搜索基金名称 / 代码" oninput="loadFunds()" style="width:220px">
-        <button class="btn btn-sec" onclick="loadFunds()">刷新</button>
-      </div>
-    </div>
-    <div class="fund-tabs">
-      <button class="fund-tab on" onclick="setFundCat('all',this)">全部</button>
-      <button class="fund-tab" onclick="setFundCat('海外基',this)">海外基</button>
-      <button class="fund-tab" onclick="setFundCat('热门基',this)">热门基</button>
-    </div>
-    <div class="bench-row" id="bench-row"></div>
-    <div class="fund-grid">
-      <div class="fund-list" id="fund-list"></div>
-      <div class="fund-detail" id="fund-detail">
-        <div style="font-size:13px;font-weight:850;color:var(--text)">选择一只基金查看详情</div>
-        <div class="fund-sub">包含实时估值、阶段收益与持仓贡献。实际生产环境建议由 Worker 每 30-60 秒推送估值。</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- ═══ ADMIN PAGE ═══ -->
@@ -892,6 +1109,20 @@ tr:hover td{background:var(--orange3)}
             </div>
           </div>
           <div class="a-grid" id="a-stats-grid"></div>
+          <div class="tbl-wrap" style="margin-top:14px">
+            <div class="tbl-head">
+              <h3>系统体检</h3>
+              <button class="btn btn-sec" style="font-size:9px" onclick="loadSystemHealth()">重新检测</button>
+            </div>
+            <div style="padding:12px">
+              <div class="a-grid" id="sys-health-grid"></div>
+              <div id="sys-warnings" style="display:none;margin-top:8px;border:1px solid rgba(255,184,0,.2);background:rgba(255,184,0,.06);color:var(--gold);border-radius:6px;padding:8px 10px;font-size:9px;line-height:1.7"></div>
+            </div>
+          </div>
+          <div class="tbl-wrap" style="margin-top:14px">
+            <div class="tbl-head"><h3>最近后台操作</h3></div>
+            <div class="tbl-scroll"><table><thead><tr><th>时间</th><th>动作</th><th>详情</th></tr></thead><tbody id="admin-log-tbody"></tbody></table></div>
+          </div>
         </div>
         <!-- MONITOR -->
         <div id="at-monitor" style="display:none">
@@ -926,7 +1157,7 @@ tr:hover td{background:var(--orange3)}
                 <input class="finput" id="u-q" placeholder="搜索用户名/邮箱" style="width:150px;padding:4px 8px;font-size:10px" oninput="loadUsers()">
               </div>
             </div>
-            <div class="tbl-scroll"><table><thead><tr><th>用户名</th><th>邮箱</th><th>计划</th><th>VIP到期</th><th>推送渠道</th><th>飞书</th><th>注册时间</th><th>操作</th></tr></thead><tbody id="u-tbody"></tbody></table></div>
+            <div class="tbl-scroll"><table><thead><tr><th>用户名</th><th>邮箱</th><th>计划</th><th>VIP到期</th><th>推送设置</th><th>注册时间</th><th>操作</th></tr></thead><tbody id="u-tbody"></tbody></table></div>
             <div style="padding:7px 10px;display:flex;gap:5px;justify-content:flex-end" id="u-pager"></div>
           </div>
         </div>
@@ -975,7 +1206,11 @@ tr:hover td{background:var(--orange3)}
             <div class="tbl-head"><h3>批量测试邮件</h3></div>
             <div style="padding:12px">
               <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.6">向指定邮箱发送一封测试邮件，验证邮件系统是否正常工作。</p>
-              <div style="display:flex;gap:8px">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <select class="finput" id="test-email-kind" style="width:150px">
+                  <option value="transactional">注册/找回通道</option>
+                  <option value="news">快讯发信通道</option>
+                </select>
                 <input class="finput" id="test-email" placeholder="测试邮箱地址" type="email" style="flex:1">
                 <button class="btn btn-pri" onclick="sendTestEmail()">发送测试</button>
               </div>
@@ -1055,6 +1290,7 @@ tr:hover td{background:var(--orange3)}
     <p style="font-size:10px;color:var(--text3);margin-bottom:12px;line-height:1.6">输入注册邮箱获取30分钟有效的重置链接</p>
     <div class="fg"><div class="flabel">注册邮箱</div><input class="finput" id="fp-email" placeholder="请输入注册邮箱"></div>
     <button class="btn-full btn-orange" onclick="doForgot()">发送重置链接</button>
+    <button class="btn-full btn-sec" style="margin-top:7px" onclick="doResendVerify()">重发注册验证邮件</button>
     <div class="fmsg" id="fp-msg"></div>
   </div>
   <div id="form-reset" style="display:none">
@@ -1085,7 +1321,7 @@ tr:hover td{background:var(--orange3)}
   <div class="modal-sub">网页支付完成后自动开通对应天数；支付功能上线前，邀请码兑换继续保留给现有客户和其他购买渠道。</div>
   <div class="vip-hero">
     <div style="font-size:20px;font-weight:900;color:var(--gold);margin-bottom:4px">👑 VIP 实时情报席位</div>
-    <div style="font-size:10px;color:var(--text3);line-height:1.7">VIP 用户享受实时快讯、基金估值看板和邮箱/飞书单通道定向推送。</div>
+    <div style="font-size:10px;color:var(--text3);line-height:1.7">VIP 用户享受机构级实时快讯、终端信源和邮箱/飞书单通道定向推送。</div>
   </div>
   <div class="vip-benefits">
     <div class="vip-benefit"><strong>9.9元 / 10天</strong>&nbsp;<span>低成本体验实时席位。</span></div>
@@ -1121,23 +1357,22 @@ tr:hover td{background:var(--orange3)}
 
 <div class="bottom-nav">
   <div class="bn-row">
-    <button class="bnav on" id="bn-home" onclick="showPage('main');bnSet('home')"><div class="bnav-i">🏠</div>首页</button>
-    <button class="bnav" id="bn-fund" onclick="showPage('fund');bnSet('fund')"><div class="bnav-i">📈</div>基金</button>
-    <button class="bnav" id="bn-settings" onclick="showPage('settings');bnSet('settings')"><div class="bnav-i">⚙</div>推送</button>
-    <button class="bnav" id="bn-admin" onclick="showPage('admin');bnSet('admin')"><div class="bnav-i">🔑</div>后台</button>
+    <button class="bnav on" id="bn-home" onclick="showPage('main');bnSet('home')"><div class="bnav-i">▤</div>快讯</button>
+    <button class="bnav" id="bn-settings" onclick="showPage('settings');bnSet('settings')"><div class="bnav-i">◈</div>推送</button>
+    <button class="bnav" id="bn-mine" onclick="ME?showPage('mine'):openModal('login');bnSet('mine')"><div class="bnav-i">◎</div>我的</button>
   </div>
 </div>
 
 <script>
 const API = 'https://api.alphaheartbeat.com:8443';
 let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false};
-let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null,FUND_CAT='all',FUNDS=[],SELECTED_FUND=null;
+let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null;
 let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
 
 document.addEventListener('DOMContentLoaded',()=>{
-  loadTheme();checkAuth();loadStats();loadFeed(true);loadMacro();loadFunds();
-  setInterval(loadStats,30000);setInterval(loadMacro,120000);setInterval(loadFunds,60000);
+  loadTheme();checkAuth();loadStats();loadFeed(true);loadMacro();
+  setInterval(loadStats,30000);setInterval(loadMacro,120000);
   setInterval(()=>{if(ST.page===1&&!document.hidden)loadFeed(true,true);},60000);
   const h=location.hash;
   if(h.includes('reset')){const p=new URLSearchParams(h.replace('#reset?',''));resetP={token:p.get('token'),email:p.get('email')};if(resetP.token)openModal('reset');}
@@ -1279,6 +1514,7 @@ function setLoggedIn(u){
   } else {
     el('wl-card').style.display='none';
   }
+  if(el('mine-page')&&el('mine-page').classList.contains('active'))renderMinePage();
 }
 function setGuest(){
   ME=null;
@@ -1286,6 +1522,28 @@ function setGuest(){
   el('hdr-status').className='profile-status';setText('hdr-avatar','A');
   el('pm-login').style.display='flex';el('pm-logout').style.display='none';
   el('sb-guest').style.display='block';el('sb-user').style.display='none';
+}
+function renderMinePage(){
+  if(!ME){openModal('login');showPage('main');return;}
+  const p=ME.notification_prefs||{};
+  const wl=p.watchlist||[];
+  const kws=Array.isArray(p.keywords)?p.keywords:[];
+  const secs=Array.isArray(p.sectors)?p.sectors:[];
+  const mode=p.delivery_mode || ((p.channels||{}).email?'email':(p.channels||{}).feishu?'feishu':'');
+  const route=mode==='email'?'邮箱推送':(mode==='feishu'?'飞书推送':'未设置');
+  const src=p.sources||{};
+  const srcText=['vip_terminal','reuters','bloomberg'].filter(k=>src[k]!==false).map(k=>({vip_terminal:'VIP终端',reuters:'路透',bloomberg:'彭博'}[k])).join(' / ')||'全部信源';
+  setText('mine-avatar',(ME.username||'A')[0].toUpperCase());
+  setText('mine-name',ME.username||'Alpha 用户');
+  setText('mine-plan',ME.is_vip?'⚡ VIP 会员':'普通用户');
+  setText('mine-exp',ME.is_vip?('到期：'+(ME.vip_expire||'—')):'升级后解锁实时快讯与专属推送');
+  setText('mine-route',route+(p.delivery_locked?' · 已锁定':''));
+  setText('mine-rules',(kws.length+secs.length)+' 条');
+  setText('mine-watch',wl.length+' 个');
+  const customSub=mode==='email'
+    ? `${p.email_only_custom?'定制命中':'全量'} · ${srcText}${kws.length||secs.length?' · '+[...kws,...secs.map(s=>'板块:'+s)].slice(0,3).join('、'):''}`
+    : (mode==='feishu'?'飞书全量推送 · 更换通道请联系主理人':'选择邮箱或飞书，配置专属快讯通道');
+  setText('mine-custom-sub',customSub);
 }
 async function doLogin(){
   const id=el('l-id').value.trim(),pw=el('l-pw').value;
@@ -1303,6 +1561,11 @@ async function doRegister(){
 async function doForgot(){
   const email=el('fp-email').value.trim();if(!email){showFmsg('fp-msg','请输入邮箱','err');return}
   try{const d=await api('/api/forgot-password',{method:'POST',body:JSON.stringify({email})});showFmsg('fp-msg',d.message,'ok');}
+  catch(e){showFmsg('fp-msg',e.message,'err');}
+}
+async function doResendVerify(){
+  const email=el('fp-email').value.trim();if(!email){showFmsg('fp-msg','请输入邮箱','err');return}
+  try{const d=await api('/api/resend-verify',{method:'POST',body:JSON.stringify({email})});showFmsg('fp-msg',d.message,'ok');}
   catch(e){showFmsg('fp-msg',e.message,'err');}
 }
 async function doReset(){
@@ -1353,6 +1616,16 @@ function closeSidebarDrawer(){
   if(btn)btn.classList.remove('panel-active');
   if(lbl)lbl.textContent='控制面板';
 }
+function openAccountDrawer(){
+  PANEL_OPEN=true;
+  const drawer=el('account-drawer'),backdrop=el('drawer-backdrop'),btn=el('panel-toggle-btn'),lbl=el('panel-label');
+  if(drawer)drawer.classList.add('open');
+  if(backdrop)backdrop.classList.add('open');
+  document.body.classList.add('drawer-open');
+  if(btn)btn.classList.add('panel-active');
+  if(lbl)lbl.textContent='收起面板';
+  closeHeaderMenus();
+}
 function toggleUserMenu(e){e.stopPropagation();el('profile-menu').classList.toggle('open');}
 function closeHeaderMenus(){el('profile-menu')&&el('profile-menu').classList.remove('open');}
 function openVipModal(){closeHeaderMenus();el('vip-overlay').classList.add('open');}
@@ -1397,10 +1670,13 @@ function showSettings(){
   const ch=p.channels||{};
   const mode=p.delivery_mode || (ch.email?'email':ch.feishu?'feishu':'');
   el('delivery-mode').value=mode;
-  renderDelivery(mode,!!p.delivery_locked);
   el('s-email').value=p.push_email||'';
   el('s-feishu').value=p.feishu_name||ME.feishu_name||'';
   el('tog-email-only').checked=!!p.email_only_custom;
+  const sources=p.sources||{};
+  el('src-vip').checked=sources.vip_terminal!==false;
+  el('src-reuters').checked=sources.reuters!==false;
+  el('src-bloomberg').checked=sources.bloomberg!==false;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
   el('s-maxpm').value=String(p.max_per_min||10);
@@ -1411,6 +1687,8 @@ function showSettings(){
   secTags=Array.isArray(p.sectors)?p.sectors:(p.sectors||'').split(',').map(s=>s.trim()).filter(Boolean);
   renderTags('kw-area','kw-inp',kwTags,'kw');
   renderTags('sec-area','sec-inp',secTags,'sec');
+  renderDelivery(mode,!!p.delivery_locked);
+  renderEmailVerification(p,mode);
 }
 function selectDelivery(mode){
   const p=(ME&&ME.notification_prefs)||{};
@@ -1423,44 +1701,123 @@ function selectDelivery(mode){
   renderDelivery(mode,!!p.delivery_locked);
 }
 function renderDelivery(mode,locked=false){
+  const p=(ME&&ME.notification_prefs)||{};
+  const cooldownUntil=Number(p.rules_cooldown_until||0)*1000;
+  const cooldownActive=mode==='email'&&cooldownUntil>Date.now();
+  const cooldownText=cooldownActive?new Date(cooldownUntil).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
   ['email','feishu'].forEach(m=>{
     const card=el('delivery-'+m);
     if(!card)return;
     card.classList.toggle('on',mode===m);
     card.classList.toggle('locked',locked);
+    card.classList.toggle('hidden',locked&&mode&&mode!==m);
   });
   el('email-form').classList.toggle('disabled',mode!=='email');
   el('feishu-form').classList.toggle('disabled',mode!=='feishu');
-  if(el('s-email'))el('s-email').disabled=locked;
-  if(el('s-feishu'))el('s-feishu').disabled=locked;
-  if(el('tog-email-only'))el('tog-email-only').disabled=locked;
+  el('email-form').classList.toggle('locked',locked&&mode==='email');
+  el('feishu-form').classList.toggle('locked',locked&&mode==='feishu');
+  const note=el('delivery-lock-note');
+  if(note){
+    if(mode){
+      const label=mode==='email'?'邮箱推送':'飞书推送';
+      note.textContent=(locked?'通道已锁定':'保存后将锁定')+`：${label}。${mode==='email'?'信源/关键词规则可按冷却期调整；':''}如必须更换通道，请联系主理人微信 yz133544。`;
+      note.classList.add('show');
+    }else{
+      note.textContent='';
+      note.classList.remove('show');
+    }
+  }
+  const filterDisabled=!ME||!ME.is_vip||mode==='feishu'||!mode;
+  ['s-email','s-feishu'].forEach(id=>{if(el(id))el(id).disabled=locked;});
+  ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive;});
+  if(el('filter-notice')){
+    if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为VIP邮箱推送专属功能';}
+    else if(mode==='feishu'){el('filter-notice').style.display='block';el('filter-notice').textContent='飞书通道为全量推送，筛选规则仅邮箱推送可用。';}
+    else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱推送后启用关键词、板块和信源筛选。';}
+    else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。紧急修改请联系主理人。`;}
+    else{el('filter-notice').style.display='none';}
+  }
+}
+function renderEmailVerification(p={},mode=''){
+  const badge=el('email-verify-badge');
+  const panel=el('email-verify-panel');
+  const title=el('email-verify-title');
+  const copy=el('email-verify-copy');
+  const btn=el('email-resend-btn');
+  if(!badge||!panel)return;
+  const email=p.push_email||'';
+  const pending=mode==='email'&&email&&p.push_email_verified===false;
+  const verified=mode==='email'&&email&&p.push_email_verified!==false;
+  if(pending){
+    badge.innerHTML='<span class="verify-badge wait">待激活</span>';
+    panel.classList.add('show');
+    if(title)title.textContent='快讯邮箱待激活';
+    if(copy)copy.textContent=`激活邮件已发送至 ${email}。请点击邮件里的确认按钮；为降低拦截概率，建议直接回复那封邮件“收到”。`;
+    if(btn)btn.style.display='inline-flex';
+  }else if(verified){
+    badge.innerHTML='<span class="verify-badge ok">已激活</span>';
+    panel.classList.add('show');
+    if(title)title.textContent='快讯邮箱已激活';
+    if(copy)copy.textContent=`${email} 已完成确认，后续符合规则的快讯会通过自建发信通道送达。`;
+    if(btn)btn.style.display='none';
+  }else{
+    badge.innerHTML='';
+    panel.classList.remove('show');
+  }
 }
 async function saveSettings(){
   if(!ME){openModal('login');return}
   const mode=el('delivery-mode').value;
+  if(!mode){showFmsg('s-msg','请选择邮箱或飞书推送通道','err');return;}
+  const isFeishu=mode==='feishu';
   const prefs={
     channels:{ws:!!ME.is_vip,email:mode==='email',feishu:mode==='feishu'},
     delivery_mode:mode,
-    push_email:el('s-email').value.trim(),feishu_name:el('s-feishu').value.trim(),
-    email_only_custom:el('tog-email-only').checked,
+    push_email:isFeishu?'':el('s-email').value.trim(),feishu_name:isFeishu?el('s-feishu').value.trim():'',
+    email_only_custom:isFeishu?false:el('tog-email-only').checked,
+    sources:isFeishu?{vip_terminal:true,reuters:true,bloomberg:true}:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked},
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
     max_per_min:parseInt(el('s-maxpm').value)||10,
     watchlist:(ME.notification_prefs||{}).watchlist||[]
   };
   try{
-    await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
-    showFmsg('s-msg','✅ 设置已保存','ok');showToast('设置已保存');await checkAuth();
+    const d=await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
+    await checkAuth();
+    const cur=(ME&&ME.notification_prefs)||{};
+    if(mode==='email'&&cur.push_email&&cur.push_email_verified===false){
+      showFmsg('s-msg',d.push_activation_sent?'✅ 激活邮件已发送，请前往邮箱点击确认并回复“收到”。':'设置已保存，但激活邮件发送失败，请点击重新发送。',d.push_activation_sent?'ok':'err');
+      showToast(d.push_activation_sent?'请前往邮箱激活通道':'激活邮件发送失败');
+      renderEmailVerification(cur,mode);
+    }else{
+      showFmsg('s-msg','✅ 设置已保存','ok');showToast('设置已保存');
+    }
   }catch(e){showFmsg('s-msg',e.message,'err');}
 }
 
+async function resendPushEmailActivation(){
+  try{
+    const d=await api('/api/me/push-email/resend',{method:'POST',body:JSON.stringify({})});
+    showFmsg('s-msg',d.message||'激活邮件已发送','ok');
+    showToast('激活邮件已发送');
+    await checkAuth();
+  }catch(e){
+    showFmsg('s-msg',e.message,'err');
+  }
+}
+
+function rulesCooldownActive(){
+  const p=(ME&&ME.notification_prefs)||{};
+  return Number(p.rules_cooldown_until||0)*1000>Date.now();
+}
 function addTag(e,type){
   if(e.key!=='Enter'&&e.key!==',')return;e.preventDefault();
+  if(rulesCooldownActive()){showToast('消息定制冷却中，暂不可修改');return;}
   const inp=el(type+'-inp');const val=inp.value.replace(/,/g,'').trim();if(!val)return;
   const arr=type==='kw'?kwTags:secTags;if(!arr.includes(val))arr.push(val);
   inp.value='';renderTags(type+'-area',type+'-inp',arr,type);
 }
-function removeTag(type,idx){(type==='kw'?kwTags:secTags).splice(idx,1);renderTags(type+'-area',type+'-inp',type==='kw'?kwTags:secTags,type);}
+function removeTag(type,idx){if(rulesCooldownActive()){showToast('消息定制冷却中，暂不可修改');return;}(type==='kw'?kwTags:secTags).splice(idx,1);renderTags(type+'-area',type+'-inp',type==='kw'?kwTags:secTags,type);}
 function renderTags(aId,iId,arr,type){
   const area=el(aId),inp=area.querySelector('input');area.innerHTML='';
   arr.forEach((t,i)=>{const d=document.createElement('div');d.className='tag';d.innerHTML=`${esc(t)}<span class="tag-x" onclick="removeTag('${type}',${i})">×</span>`;area.appendChild(d);});
@@ -1483,56 +1840,6 @@ async function createOrder(planKey){
     const d=await api('/api/subscription/create-order',{method:'POST',body:JSON.stringify({plan_key:planKey})});
     showFmsg('pay-msg',`${d.plan.label} 订单已创建：${d.order_no}。支付宝网页支付开通后这里会直接跳转支付；当前可继续使用邀请码兑换。`,'ok');
   }catch(e){showFmsg('pay-msg',e.message,'err');}
-}
-
-function setFundCat(cat,btn){
-  FUND_CAT=cat;
-  document.querySelectorAll('.fund-tab').forEach(b=>b.classList.remove('on'));
-  btn&&btn.classList.add('on');
-  loadFunds();
-}
-async function loadFunds(){
-  try{
-    const q=el('fund-search')?el('fund-search').value.trim():'';
-    const d=await api(`/api/funds?category=${encodeURIComponent(FUND_CAT)}&q=${encodeURIComponent(q)}`);
-    FUNDS=d.items||[];
-    renderBench(d.benchmarks||{});
-    renderFunds();
-  }catch(e){}
-}
-function renderBench(b){
-  const row=el('bench-row');if(!row)return;
-  row.innerHTML=Object.entries(b).map(([k,v])=>`<div class="bench"><div class="bench-v ${v>=0?'up':'dn'}">${v>=0?'':'-'}${Math.abs(v).toFixed(2)}%</div><div class="bench-n">${esc(k)}</div></div>`).join('');
-}
-function renderFunds(){
-  const list=el('fund-list');if(!list)return;
-  if(!FUNDS.length){list.innerHTML='<div class="empty"><div class="empty-i">∅</div>暂无基金数据</div>';return;}
-  if(!SELECTED_FUND||!FUNDS.find(f=>f.code===SELECTED_FUND.code))SELECTED_FUND=FUNDS[0];
-  list.innerHTML=FUNDS.map(f=>`<div class="fund-row ${f.estimate<0?'dn':''} ${SELECTED_FUND&&SELECTED_FUND.code===f.code?'on':''}" onclick="selectFund('${esc(f.code)}')">
-    <div><div class="fund-name">${esc(f.name)}</div><div class="fund-code">${esc(f.code)} · ${esc(f.category||'')}</div></div>
-    <div><div class="fund-est ${f.estimate>=0?'up':'dn'}">${f.estimate>=0?'':'-'}${Math.abs(f.estimate||0).toFixed(2)}%</div><div class="fund-meta">估值 ${Number(f.nav||0).toFixed(4)}</div></div>
-  </div>`).join('');
-  renderFundDetail(SELECTED_FUND);
-}
-function selectFund(code){
-  SELECTED_FUND=FUNDS.find(f=>f.code===code)||FUNDS[0];
-  renderFunds();
-}
-function renderFundDetail(f){
-  const box=el('fund-detail');if(!box||!f)return;
-  const holdings=(f.holdings||[]).map(h=>`<tr><td>${esc(h[0])}</td><td style="text-align:right">${Number(h[1]||0).toFixed(2)}%</td><td style="text-align:right;color:${Number(h[2]||0)>=0?'var(--red)':'var(--green)'}">${Number(h[2]||0)>=0?'':'-'}${Math.abs(Number(h[2]||0)).toFixed(2)}%</td></tr>`).join('');
-  box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
-    <div><div style="font-size:15px;font-weight:900;color:var(--text)">${esc(f.name)}</div><div class="fund-code">${esc(f.code)} · ${esc(f.category||'')} · ${esc(f.source||'')}</div></div>
-    <div class="fund-est ${f.estimate>=0?'up':'dn'}">${f.estimate>=0?'':'-'}${Math.abs(f.estimate||0).toFixed(2)}%</div>
-  </div>
-  <div class="chart-box"><div class="chart-line"></div></div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
-    <div class="bench"><div class="bench-v ${f.day_change>=0?'up':'dn'}">${Number(f.day_change||0).toFixed(2)}%</div><div class="bench-n">日内</div></div>
-    <div class="bench"><div class="bench-v ${f.month_change>=0?'up':'dn'}">${Number(f.month_change||0).toFixed(2)}%</div><div class="bench-n">近1月</div></div>
-    <div class="bench"><div class="bench-v ${f.year_change>=0?'up':'dn'}">${Number(f.year_change||0).toFixed(2)}%</div><div class="bench-n">近1年</div></div>
-  </div>
-  <table class="holding-table"><thead><tr><th>持仓</th><th style="text-align:right">占比</th><th style="text-align:right">涨跌幅</th></tr></thead><tbody>${holdings}</tbody></table>
-  <div class="fund-sub" style="margin-top:10px">更新：${esc(f.updated_str||'')}。估值仅供参考，不构成投资建议。</div>`;
 }
 
 async function loadFeed(reset=false,silent=false){
@@ -1821,7 +2128,56 @@ async function loadAStats(){
     }).join('');
     const redis=d.redis_ok?'✅ 正常':'❌ 离线';
     el('a-stats-grid').innerHTML+=`<div class="a-stat"><div class="a-n" style="font-size:10px;color:${d.redis_ok?'var(--green)':'var(--red)'}">${redis}</div><div class="a-l">Redis队列</div></div>`;
+    loadSystemHealth();
   }catch(e){}
+}
+function sysCard(label, ok, value, hint=''){
+  const color=ok?'var(--green)':'var(--red)';
+  return `<div class="a-stat">
+    <div class="a-n" style="font-size:11px;color:${color}">${ok?'正常':'注意'}</div>
+    <div class="a-l">${esc(label)}</div>
+    <div style="font-family:var(--mono);font-size:8px;color:var(--text2);line-height:1.55;margin-top:5px;word-break:break-all">${esc(value||'—')}</div>
+    ${hint?`<div style="font-size:8px;color:var(--text3);line-height:1.5;margin-top:3px">${esc(hint)}</div>`:''}
+  </div>`;
+}
+async function loadSystemHealth(){
+  try{
+    const cfg=await api('/api/admin/config');
+    const mail=cfg.mail_status||{};
+    const tx=mail.transactional||{};
+    const news=mail.news||{};
+    const db=cfg.db||{};
+    const cors=(cfg.cors_origins||[]).join(' / ');
+    const cards=[
+      ['API地址', !!cfg.public_api_url, cfg.public_api_url, cfg.app_version||''],
+      ['数据库', !!db.ok, `${db.size_mb||0} MB`, db.file||''],
+      ['Redis/队列', !!cfg.redis_ok, `高优 ${cfg.queue_high||0} · 普通 ${cfg.queue_normal||0}`, `WS在线 ${cfg.ws_online||0}`],
+      ['事务邮件', !!tx.ready, `${tx.provider||''} · ${tx.from||''}`, '注册验证 / 找回密码'],
+      ['快讯邮件', !!news.ready, `${news.provider||''} · ${news.from||''}`, 'VIP推送 / 邮箱激活'],
+      ['Cookie', !!cfg.cookie_domain && cfg.session_secure, `${cfg.cookie_domain||'未设置'} · ${cfg.session_samesite||''}`, cfg.session_secure?'Secure 已开启':'Secure 未开启'],
+      ['CORS', cors.length>0 && !cors.includes('*'), cors, '前端域名白名单'],
+      ['接口限流', !!cfg.rate_limit_enabled, cfg.rate_limit_enabled?'已开启':'已关闭', '保护注册/登录/找回密码'],
+      ['定制冷却', true, `${cfg.delivery_rule_cooldown_hours||24} 小时`, '用户自助修改消息定制的间隔'],
+    ];
+    el('sys-health-grid').innerHTML=cards.map(c=>sysCard(...c)).join('');
+    const warnings=cfg.security_warnings||[];
+    const warnBox=el('sys-warnings');
+    if(warnings.length){
+      warnBox.style.display='block';
+      warnBox.innerHTML='<strong>需要处理：</strong><br>'+warnings.map(w=>'· '+esc(w)).join('<br>');
+    }else{
+      warnBox.style.display='none';
+      warnBox.innerHTML='';
+    }
+    const log=await api('/api/admin/admin-log');
+    el('admin-log-tbody').innerHTML=(log.items||[]).slice(0,8).map(r=>`<tr>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${esc(r.ts_str||'')}</td>
+      <td style="font-family:var(--mono);font-size:9px;color:var(--orange)">${esc(r.action||'')}</td>
+      <td style="font-size:9px;color:var(--text2)">${esc(r.detail||'')}</td>
+    </tr>`).join('') || '<tr><td colspan="3" style="color:var(--text3);font-size:9px">暂无后台操作记录</td></tr>';
+  }catch(e){
+    const g=el('sys-health-grid');if(g)g.innerHTML=`<div class="a-stat"><div class="a-n err">失败</div><div class="a-l">${esc(e.message||'系统体检加载失败')}</div></div>`;
+  }
 }
 async function loadMonitor(){
   try{
@@ -1844,13 +2200,27 @@ async function loadUsers(){
     if(plan)params.set('plan',plan);
     const d=await api(`/api/admin/users?${params}`);
     setText('u-total','· '+d.total+' 位用户');
-    el('u-tbody').innerHTML=d.items.map(u=>`<tr>
+    el('u-tbody').innerHTML=d.items.map(u=>{
+      const src=u.sources||{};
+      const srcText=['vip_terminal','reuters','bloomberg'].filter(k=>src[k]!==false).map(k=>({vip_terminal:'VIP终端',reuters:'路透',bloomberg:'彭博'}[k])).join(' / ')||'未选信源';
+      const kw=[...(u.keywords||[]),...(u.sectors||[]).map(s=>'板块:'+s)].slice(0,4).join('、')||'未设关键词';
+      const mode=u.delivery_mode==='email'
+        ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${u.push_email_verified===false?'待激活':'已激活'}`
+        : (u.delivery_mode==='feishu'?`飞书 · ${esc(u.feishu_name||'待备注')} ${u.feishu_verified?'✅':'待验证'}`:'未选择');
+      return `<tr>
       <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong></td>
       <td style="color:var(--text2);font-size:9px">${esc(u.email)}</td>
       <td><span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
-      <td style="font-size:9px">${[u.channels&&u.channels.ws?'网页':'',(u.channels&&(u.channels.email||u.channels.pub_email))?'邮件':''].filter(Boolean).join(' ')||'—'}</td>
-      <td style="font-size:9px">${u.feishu_name?`<span>${esc(u.feishu_name)}</span> ${u.feishu_verified?'✅':`<button onclick="verifyFs(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">验证</button>`}`:'—'}</td>
+      <td>
+        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${u.email_only_custom?'定制命中':'全量'} · ${srcText}<br>${esc(kw)}</div>
+        <div class="admin-push-actions">
+          <button onclick="adminSetEmail(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设邮箱</button>
+          <button onclick="adminSetFeishu(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设飞书</button>
+          ${u.delivery_mode==='feishu'&&!u.feishu_verified?`<button onclick="verifyFs(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">验证</button>`:''}
+          <button onclick="resetDelivery(${u.id})" style="background:rgba(255,184,0,.07);border:1px solid rgba(255,184,0,.18);color:var(--gold);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重置</button>
+        </div>
+      </td>
       <td style="font-family:var(--mono);font-size:8px;color:var(--text3)">${u.created_str||''}</td>
       <td style="display:flex;gap:3px;flex-wrap:wrap;align-items:center">
         <select onchange="setUPlan(${u.id},this.value)" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:2px 4px;border-radius:2px;font-size:8px;font-family:var(--mono)">
@@ -1861,20 +2231,56 @@ async function loadUsers(){
         <button onclick="addVipD(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">续期</button>
         <button onclick="delUser(${u.id})" style="background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.13);color:var(--red);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">删除</button>
       </td>
-    </tr>`).join('');
+    </tr>`;
+    }).join('');
   }catch(e){}
 }
 async function setUPlan(uid,plan){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({plan})});showToast('✅ 已更新');}catch(e){}}
 async function addVipD(uid){const inp=el('ud-'+uid);const days=parseInt(inp&&inp.value)||0;if(!days)return;try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({vip_days:days})});showToast(`✅ +${days}天VIP`);loadUsers();}catch(e){}}
 async function verifyFs(uid){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({feishu_verified:1})});showToast('✅ 飞书已验证');loadUsers();}catch(e){}}
+async function adminSetEmail(uid){
+  const email=prompt('输入用户接收推送的邮箱');
+  if(!email)return;
+  const kw=prompt('关键词/股票/资产，多个用逗号分隔。留空则按所选信源全量推送','');
+  const custom=!!(kw&&kw.trim());
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({
+      delivery_mode:'email',
+      push_email:email.trim(),
+      keywords:(kw||'').split(/[,，]/).map(s=>s.trim()).filter(Boolean),
+      email_only_custom:custom,
+      sources:{vip_terminal:true,reuters:true,bloomberg:true},
+      delivery_locked:true
+    })});
+    showToast('✅ 邮箱推送已设置');loadUsers();
+  }catch(e){showToast(e.message||'设置失败');}
+}
+async function adminSetFeishu(uid){
+  const name=prompt('输入用户飞书昵称/备注。飞书通道为全量推送');
+  if(name===null)return;
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({
+      delivery_mode:'feishu',
+      feishu_name:(name||'').trim(),
+      feishu_verified:1,
+      sources:{vip_terminal:true,reuters:true,bloomberg:true},
+      delivery_locked:true
+    })});
+    showToast('✅ 飞书推送已设置');loadUsers();
+  }catch(e){showToast(e.message||'设置失败');}
+}
+async function resetDelivery(uid){
+  if(!confirm('确定重置该用户推送通道？重置后用户可重新选择邮箱或飞书。'))return;
+  try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({reset_delivery:1})});showToast('✅ 推送通道已重置');loadUsers();}catch(e){showToast(e.message||'重置失败');}
+}
 async function delUser(uid){if(!confirm('确定删除此用户？所有数据不可恢复！'))return;try{await api(`/api/admin/users/${uid}`,{method:'DELETE'});loadUsers();}catch(e){}}
 
 // 导出用户CSV
 async function exportUsersCsv(){
   try{
     const d=await api('/api/admin/users?page=1&q=');
-    const headers=['用户名','邮箱','计划','VIP到期','飞书验证','注册时间'];
-    const rows=d.items.map(u=>[u.username,u.email,u.is_vip_active?'VIP':'免费',u.expire_str||'',u.feishu_verified?'是':'否',u.created_str||'']);
+    const headers=['用户名','邮箱','计划','VIP到期','推送通道','接收邮箱','飞书','锁定','注册时间'];
+    const rows=d.items.map(u=>[u.username,u.email,u.is_vip_active?'VIP':'免费',u.expire_str||'',u.delivery_mode||'',u.push_email||'',u.feishu_name||'',u.delivery_locked?'是':'否',u.created_str||'']);
     const csv=[headers,...rows].map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
     const a=document.createElement('a');
     a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
@@ -1930,9 +2336,10 @@ async function doBroadcast(){
 // 测试邮件
 async function sendTestEmail(){
   const email=el('test-email').value.trim();
+  const kind=(el('test-email-kind')||{value:'transactional'}).value;
   if(!email){showFmsg('test-email-msg','请输入邮箱','err');return}
   try{
-    const d=await api('/api/admin/test-email',{method:'POST',body:JSON.stringify({email})});
+    const d=await api('/api/admin/test-email',{method:'POST',body:JSON.stringify({email,kind})});
     showFmsg('test-email-msg',d.message||'测试邮件已发送','ok');
   }catch(e){showFmsg('test-email-msg',e.message,'err');}
 }
@@ -1981,11 +2388,13 @@ async function loadBehavior(){
 function showPage(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   if(p==='main')el('main-page').classList.add('active');
-  else if(p==='fund'){el('fund-page').classList.add('active');loadFunds();}
+  else if(p==='mine'){if(!ME){el('main-page').classList.add('active');openModal('login');}else{el('mine-page').classList.add('active');renderMinePage();}}
+  else if(p==='api-custom')el('api-custom-page').classList.add('active');
   else if(p==='settings'){el('settings-page').classList.add('active');showSettings();}
   else if(p==='admin')el('admin-page').classList.add('active');
+  else el('main-page').classList.add('active');
   window.scrollTo(0,0);
-  bnSet(p==='main'?'home':p==='fund'?'fund':p==='settings'?'settings':'admin');
+  bnSet(p==='settings'?'settings':(p==='mine'||p==='api-custom')?'mine':p==='admin'?'admin':'home');
 }
 function bnSet(t){document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('on'));el('bn-'+t)&&el('bn-'+t).classList.add('on');}
 
@@ -2014,7 +2423,7 @@ async function api(url,opts={}){
 }
 function el(id){return document.getElementById(id)}
 function setText(id,v){const e=el(id);if(e)e.textContent=v;}
-function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function esc(s){if(s===undefined||s===null)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function hlNum(t){return t.replace(/(\d+(\.\d+)?%)/g,'<span class="num">$1</span>').replace(/(\$[\d,.]+(\.\d+)?[BMKbmk]?)/g,'<span class="num">$1</span>')}
 function showFmsg(id,txt,type){const e=el(id);if(!e)return;e.textContent=txt;e.className=`fmsg ${type}`}
 function showToast(msg){const t=el('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
