@@ -64,7 +64,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .mobile-top-settings{display:none}
 
 /* Upgrade button */
-.upgrade-btn{position:relative;overflow:hidden;border-color:rgba(255,184,0,.48);background:linear-gradient(135deg,#1d1405,#4b2b06 45%,#ff8a1c);color:#fff3c4;box-shadow:0 0 18px rgba(255,184,0,.22),inset 0 0 0 1px rgba(255,255,255,.14);animation:vipBreath 2.6s ease-in-out infinite}
+.upgrade-btn{position:relative;overflow:hidden;border-color:rgba(255,184,0,.48);background:linear-gradient(135deg,#1d1405,#4b2b06 45%,#ff8a1c);color:#fff3c4;box-shadow:0 0 18px rgba(255,184,0,.22),inset 0 0 0 1px rgba(255,255,255,.14);animation:vipBreath 2.6s ease-in-out infinite;text-shadow:0 1px 2px rgba(0,0,0,.45)}
 .upgrade-btn::after{content:'';position:absolute;top:-40%;bottom:-40%;left:-55%;width:42%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.46),transparent);transform:rotate(18deg);animation:vipShine 3.8s ease-in-out infinite}
 @keyframes vipBreath{0%,100%{box-shadow:0 0 14px rgba(255,184,0,.18),inset 0 0 0 1px rgba(255,255,255,.12)}50%{box-shadow:0 0 26px rgba(255,184,0,.42),inset 0 0 0 1px rgba(255,255,255,.2)}}
 @keyframes vipShine{0%{left:-55%}45%,100%{left:130%}}
@@ -95,6 +95,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .hero-h1{font-family:var(--display);font-size:clamp(20px,1.9vw,26px);font-weight:800;line-height:1.16;letter-spacing:-.45px;color:var(--text)}
 .hero-h1 em{font-style:normal;color:var(--orange)}
 .hero-brand-inline{font-family:-apple-system,BlinkMacSystemFont,'Inter','Helvetica Neue',Arial,sans-serif;font-size:.68em;font-weight:850;letter-spacing:-.15px;white-space:nowrap;color:var(--text);vertical-align:baseline}
+.hero-cn-brand{display:inline-flex;align-items:center;margin-left:8px;font-family:var(--display);font-size:.72em;font-weight:900;letter-spacing:.05em;color:var(--orange);vertical-align:middle;text-shadow:0 0 18px rgba(255,107,43,.18);white-space:nowrap}
 .hero-desc{margin-top:6px;font-size:11px;color:var(--text3);line-height:1.7;max-width:520px}
 
 /* ═══ STATS ═══ */
@@ -122,6 +123,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 /* ═══ MAIN LAYOUT ═══ */
 .main-grid{max-width:1440px;margin:0 auto;padding:0 16px 80px;display:grid;grid-template-columns:1fr;gap:0}
 .mobile-feed-head{display:none}
+.mobile-compliance{display:none}
 
 /* ═══ FILTER BAR ═══ */
 .filter-bar{position:sticky;top:47px;z-index:120;display:grid;grid-template-columns:1fr minmax(220px,320px);gap:9px 12px;margin-bottom:8px;background:linear-gradient(180deg,rgba(12,20,36,.9),rgba(8,14,26,.7));border:1px solid var(--border);border-radius:8px;padding:10px 12px;box-shadow:var(--card-glow);backdrop-filter:blur(18px)}
@@ -484,6 +486,7 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .email-verify-mini{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.6}
 .compliance-strip{margin:8px 0 12px;border:1px solid rgba(119,143,169,.16);background:linear-gradient(135deg,rgba(255,255,255,.024),rgba(255,107,43,.018));border-radius:6px;padding:8px 10px;color:var(--text3);font-size:8px;line-height:1.7;font-family:var(--mono)}
 .compliance-strip b{color:var(--orange);font-weight:900;letter-spacing:.8px}
+.hero .compliance-strip{margin:10px 0 0;max-width:680px;background:rgba(255,255,255,.018)}
 .channel-form{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:11px}
 .channel-form.disabled{display:none}
 .channel-form.locked{opacity:.78}
@@ -562,7 +565,9 @@ tr:hover td{background:var(--orange3)}
   .hero{display:none}
   .main-grid{padding:12px 12px 88px}
   .mobile-feed-head{display:block;margin:0 0 10px}
+  .mobile-compliance{display:block;margin:0 0 10px}
   .mobile-feed-title{font-size:19px;font-weight:900;color:var(--text);letter-spacing:-.2px}
+  .mobile-feed-title .cn-brand{font-size:.7em;color:var(--orange);margin-left:5px;font-family:var(--display);letter-spacing:.08em;white-space:nowrap}
   .mobile-feed-sub{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.55}
   .mobile-action-strip{display:none}
   .mobile-action-strip::-webkit-scrollbar{display:none}
@@ -616,6 +621,8 @@ tr:hover td{background:var(--orange3)}
 #api-custom-page .set-sec{background:rgba(7,11,18,.92);border-color:rgba(255,255,255,.1);box-shadow:none}
 #api-custom-page .set-stitle{color:var(--orange);letter-spacing:4px}
 [data-theme="light"] .profile-menu{background:rgba(255,255,255,.98);border-color:#d8e2ee;box-shadow:0 14px 40px rgba(26,42,58,.18)}
+[data-theme="light"] .upgrade-btn{background:linear-gradient(135deg,#fff6d7 0%,#ffc247 42%,#ff7a1a 100%);color:#442400;border-color:#d49a18;text-shadow:0 1px 0 rgba(255,255,255,.45);box-shadow:0 0 0 1px rgba(255,184,0,.28),0 0 18px rgba(255,184,0,.28),inset 0 1px 0 rgba(255,255,255,.55)}
+[data-theme="light"] .upgrade-btn::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent)}
 [data-theme="light"] .sidebar{background:rgba(255,255,255,.98);border-left-color:#d8e2ee;box-shadow:-18px 0 48px rgba(26,42,58,.14)}
 [data-theme="light"] .filter-bar{background:rgba(255,255,255,.86)}
 [data-theme="light"] .tcard{background:#fff}
@@ -735,8 +742,9 @@ tr:hover td{background:var(--orange3)}
     <div class="hero-row">
       <div class="hero-left">
         <div class="hero-eye">实时推送 · 规则路由 · 机构级快讯</div>
-        <h1 class="hero-h1">全球金融<em>终端</em>快讯<br>机构级快讯 <span class="hero-brand-inline">Alpha Heartbeat</span></h1>
+        <h1 class="hero-h1">全球金融<em>终端</em>快讯<br>机构级快讯 <span class="hero-brand-inline">Alpha Heartbeat</span><span class="hero-cn-brand">心跳数据</span></h1>
         <p class="hero-desc">VIP终端全量直推 · 全局热词触发广播 · 用户关键词精准定向 · WebSocket毫秒级到达</p>
+        <div class="compliance-strip"><b>RISK NOTICE</b> 本系统提供资讯聚合、技术路由与自动化推送支持，仅客观加速公开信息送达；不提供投资咨询、荐股、收益承诺或交易指令。市场有风险，交易需谨慎。</div>
       </div>
       <div class="macro-row">
         <div class="mcrd mcrd-fng">
@@ -781,9 +789,10 @@ tr:hover td{background:var(--orange3)}
   <div class="main-grid">
     <div>
       <div class="mobile-feed-head">
-        <div class="mobile-feed-title">Alpha Heartbeat 快讯</div>
+        <div class="mobile-feed-title">Alpha Heartbeat 快讯 <span class="cn-brand">心跳数据</span></div>
         <div class="mobile-feed-sub">实时市场消息、AI影响解读与自选标的提醒，优先展示你最需要看的内容。</div>
       </div>
+      <div class="compliance-strip mobile-compliance"><b>RISK NOTICE</b> 本系统仅客观加速公开资讯送达，不提供投资咨询、荐股、收益承诺或交易指令。</div>
       <div class="mobile-action-strip" aria-label="移动端频道">
         <button class="mobile-action hot" onclick="setFilter('all',document.querySelector('.filter-main .fbtn'))">快讯</button>
         <button class="mobile-action" onclick="showPage('settings');bnSet('settings')">推送设置</button>
@@ -816,7 +825,6 @@ tr:hover td{background:var(--orange3)}
         </div>
       </div>
       <div id="feed-status" style="font-family:var(--mono);font-size:9px;color:var(--text3);padding:0 2px 6px;display:none"></div>
-      <div class="compliance-strip"><b>RISK NOTICE</b> 本系统提供资讯聚合、技术路由与自动化推送支持，仅客观加速公开信息送达；不提供投资咨询、荐股、收益承诺或交易指令。市场有风险，交易需谨慎。</div>
       <div id="feed"></div>
       <div class="load-wrap" id="load-wrap" style="display:none">
         <button class="btn-load" onclick="loadMore()">加载更多</button>
@@ -1579,7 +1587,7 @@ function showWSToast(n,reason){
   const isS=lvl==='S';
   const badge=bull?'<span style="color:var(--red);font-size:9px;font-weight:700">📈 利多</span>':bear?'<span style="color:var(--green);font-size:9px;font-weight:700">📉 利空</span>':'<span style="color:var(--text3);font-size:9px;font-weight:700">📊 中性</span>';
   const title=n.title_cn||n.translation||n.title_en||'';
-  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'VIP'}[n.source]||n.source||'';
+  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'终端','Benzinga':'BZ'}[n.source]||n.source||'';
   const reasonMap={global_hit:'全局热词',vip_terminal:'VIP终端',matched_keyword:'关键词命中',matched_sector:'板块命中',watchlist:'特别关注'};
   const reasonBadge=reason?`<span style="font-size:8px;color:var(--orange)">触发：${reasonMap[reason]||reason}</span>`:'';
 
@@ -2053,8 +2061,10 @@ function buildCard(n,i){
   const score=n.importance_score||50;
   const scoreColor=score>=90?'var(--red)':score>=70?'var(--orange)':score>=50?'var(--blue)':'var(--text3)';
   const sentBadge=bull?'<span class="sent-badge s-bull">📈 利多</span>':bear?'<span class="sent-badge s-bear">📉 利空</span>':'<span class="sent-badge s-neut">● 中性</span>';
-  const vipBadge=n.is_vip?'<span class="sent-badge s-vip">⚡ VIP</span>':'';
-  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'VIP'}[n.source]||n.source||'';
+  const isVipSource=n.source==='VIP终端'||n.is_vip;
+  const vipBadge=isVipSource?'<span class="sent-badge s-vip">⚡ VIP</span>':'';
+  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'终端','Benzinga':'BZ'}[n.source]||n.source||'';
+  const srcChip=src&&!isVipSource?`<span class="src-chip">${src}</span>`:'';
   const title=n.title_cn||n.translation||n.title_en||'—';
   const assets=Array.isArray(n.asset_tags)?n.asset_tags:(typeof n.asset_tags==='string'?parseAssets(n.asset_tags):[]);
   const wl=(ME&&ME.notification_prefs&&ME.notification_prefs.watchlist)||[];
@@ -2066,7 +2076,7 @@ function buildCard(n,i){
       <div class="tc-meta">
         <span class="level-badge l-${lvl.toLowerCase()}">${lvl}</span>
         ${sentBadge}${vipBadge}
-        <span class="src-chip">${src}</span>
+        ${srcChip}
         ${n.global_hit?'<span style="font-size:9px;color:var(--red);font-weight:700">🔥 全局热词</span>':''}
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
@@ -2080,7 +2090,7 @@ function buildCard(n,i){
     ${n.ai_logic?`<div class="tc-ai">${esc(n.ai_logic)}</div>`:''}
     ${assetHtml}
     <div class="tc-detail">
-      ${n.translation&&n.translation!==title?`<div class="dbox"><div class="d-label">中文译文</div><div class="d-text">${esc(n.translation)}</div></div>`:''}
+      ${n.translation&&n.translation!==title?`<div class="dbox"><div class="d-label">英文原文</div><div class="d-text">${esc(n.translation)}</div></div>`:''}
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
       ${n.title_en?`<div class="dbox"><div class="d-label">原文标题</div><div class="d-en">${esc(n.title_en)}</div></div>`:''}
       <div class="tc-foot">
