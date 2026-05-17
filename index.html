@@ -868,9 +868,9 @@ tr:hover td{background:var(--orange3)}
       <div class="scard">
         <div class="s-title">订阅方案</div>
         <div class="plan-list">
-          <div class="plan-item"><div><div class="p-name">体验席位</div><div class="p-desc">10天实时快讯</div></div><span style="color:var(--orange);font-size:9px;font-family:var(--mono)">¥9.9</span></div>
-          <div class="plan-item"><div><div class="p-name">月付会员</div><div class="p-desc">30天 · 邮箱/飞书二选一</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥39</span></div>
-          <div class="plan-item vp"><div><div class="p-name" style="color:var(--gold)">年度会员</div><div class="p-desc">365天 · 优先队列</div></div><span style="color:var(--gold);font-size:9px;font-family:var(--mono);font-weight:600">¥199</span></div>
+          <div class="plan-item"><div><div class="p-name">体验席位</div><div class="p-desc">10天验证信息差效率</div></div><span style="color:var(--orange);font-size:9px;font-family:var(--mono)">¥9.9</span></div>
+          <div class="plan-item"><div><div class="p-name">月付会员</div><div class="p-desc">30天秒级快讯 · 邮箱/飞书二选一</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥39</span></div>
+          <div class="plan-item vp"><div><div class="p-name" style="color:var(--gold)">年度会员</div><div class="p-desc">全年低延迟队列 · 长期信息优势</div></div><span style="color:var(--gold);font-size:9px;font-family:var(--mono);font-weight:600">¥199</span></div>
         </div>
         <p style="font-size:8px;color:var(--text3);margin-top:8px;line-height:1.6;font-family:var(--mono)">网页支付开通前，邀请码兑换继续保留。</p>
       </div>
@@ -1036,10 +1036,10 @@ tr:hover td{background:var(--orange3)}
       <div class="vip-box-s" id="vip-s">兑换邀请码升级VIP，解锁实时推送权限</div>
     </div>
     <div class="pricing-grid">
-      <div class="price-card"><div class="price-name">体验席位</div><div class="price-num">¥9.9</div><div class="price-desc">10天实时快讯，适合先体验。</div><button class="btn btn-sec" onclick="createOrder('trial10')">选择套餐</button></div>
-      <div class="price-card hot"><div class="price-name">月付会员</div><div class="price-num">¥39</div><div class="price-desc">30天 VIP，邮箱/飞书二选一。</div><button class="btn btn-pri" onclick="createOrder('monthly')">选择套餐</button></div>
-      <div class="price-card"><div class="price-name">半年会员</div><div class="price-num">¥128</div><div class="price-desc">180天会员，适合稳定使用。</div><button class="btn btn-sec" onclick="createOrder('halfyear')">选择套餐</button></div>
-      <div class="price-card"><div class="price-name">年度会员</div><div class="price-num">¥199</div><div class="price-desc">365天会员，优先队列。</div><button class="btn btn-sec" onclick="createOrder('yearly')">选择套餐</button></div>
+      <div class="price-card"><div class="price-name">体验席位</div><div class="price-num">¥9.9</div><div class="price-desc">10天验证信息差：快讯先到，判断先动。</div><button class="btn btn-sec" onclick="createOrder('trial10')">选择套餐</button></div>
+      <div class="price-card hot"><div class="price-name">月付会员</div><div class="price-num">¥39</div><div class="price-desc">AI 秒级判断 🔴利多 / 🟢利空，省去长句阅读成本。</div><button class="btn btn-pri" onclick="createOrder('monthly')">选择套餐</button></div>
+      <div class="price-card"><div class="price-name">半年会员</div><div class="price-num">¥128</div><div class="price-desc">覆盖连续行情周期，减少信息滞后和漏看成本。</div><button class="btn btn-sec" onclick="createOrder('halfyear')">选择套餐</button></div>
+      <div class="price-card"><div class="price-name">年度会员</div><div class="price-num">¥199</div><div class="price-desc">长期低延迟队列，比大众快 1 秒也是优势。</div><button class="btn btn-sec" onclick="createOrder('yearly')">选择套餐</button></div>
     </div>
     <div class="fmsg" id="pay-msg"></div>
     <div class="redeem-card">
@@ -1152,7 +1152,7 @@ tr:hover td{background:var(--orange3)}
         <option value="50" selected>50条/分钟（近似无限制）</option>
         <option value="3">最高3条/分钟（智能防刷屏）</option>
         <option value="1">最高1条/分钟（极简摘要）</option>
-        <option value="-5">每5分钟1封</option>
+        <option value="-5">每5分钟1封（推荐）</option>
         <option value="-30">每30分钟1封</option>
         <option value="-60">每1小时1封（禅定模式）</option>
       </select>
@@ -1451,9 +1451,9 @@ tr:hover td{background:var(--orange3)}
     <div style="font-size:10px;color:var(--text3);line-height:1.7">VIP 用户享受机构级实时快讯、终端信源和邮箱/飞书单通道定向推送。</div>
   </div>
   <div class="vip-benefits">
-    <div class="vip-benefit"><strong>9.9元 / 10天</strong>&nbsp;<span>低成本体验实时席位。</span></div>
-    <div class="vip-benefit"><strong>39元 / 月</strong>&nbsp;<span>月付会员，适合持续跟踪。</span></div>
-    <div class="vip-benefit"><strong>128元 / 半年 · 199元 / 年</strong>&nbsp;<span>长期使用更划算。</span></div>
+    <div class="vip-benefit"><strong>秒级直达</strong>&nbsp;<span>把资讯滞后压缩到更低，先看到就是风控和机会。</span></div>
+    <div class="vip-benefit"><strong>AI 判断</strong>&nbsp;<span>直接给出 🔴利多 / 🟢利空，降低人脑读长句的时间成本。</span></div>
+    <div class="vip-benefit"><strong>信息差控制</strong>&nbsp;<span>解决信息不对称、信息滞后和关键快讯漏看的问题。</span></div>
   </div>
   <div style="font-size:11px;color:var(--text2);line-height:1.7">请前往“订阅与推送”页面选择套餐或输入邀请码。</div>
   <div class="wechat-box">
@@ -1808,9 +1808,11 @@ function showSettings(){
   el('s-feishu').value=p.feishu_name||ME.feishu_name||'';
   el('tog-email-only').checked=!!p.email_only_custom;
   const sources=p.sources||{};
-  el('src-vip').checked=sources.vip_terminal!==false;
-  el('src-reuters').checked=sources.reuters!==false;
-  el('src-bloomberg').checked=sources.bloomberg!==false;
+  const hasSourcePrefs=!!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'));
+  const emailFirstDefault=mode==='email'&&!hasSourcePrefs;
+  el('src-vip').checked=emailFirstDefault?true:sources.vip_terminal!==false;
+  el('src-reuters').checked=emailFirstDefault?false:sources.reuters!==false;
+  el('src-bloomberg').checked=emailFirstDefault?false:sources.bloomberg!==false;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
   el('s-maxpm').value=String(p.max_per_min||50);
@@ -1833,6 +1835,11 @@ function selectDelivery(mode){
   }
   if(!ME||!ME.is_vip){showToast('请先升级 VIP 后选择推送通道');return;}
   el('delivery-mode').value=mode;
+  if(mode==='email'&&!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'))){
+    el('src-vip').checked=true;
+    el('src-reuters').checked=false;
+    el('src-bloomberg').checked=false;
+  }
   renderDelivery(mode,!!p.delivery_locked);
 }
 function renderDelivery(mode,locked=false){
@@ -1892,9 +1899,16 @@ function renderEmailVerification(p={},mode=''){
   const btn=el('email-resend-btn');
   if(!badge||!panel)return;
   const email=p.push_email||'';
+  const unsubscribed=mode==='email'&&email&&p.email_unsubscribed;
   const pending=mode==='email'&&email&&p.push_email_verified===false;
   const verified=mode==='email'&&email&&p.push_email_verified!==false;
-  if(pending){
+  if(unsubscribed){
+    badge.innerHTML='<span class="verify-badge wait">已退订</span>';
+    panel.classList.add('show');
+    if(title)title.textContent='快讯邮箱已退订';
+    if(copy)copy.textContent=`${email} 已停止接收快讯邮件。如需恢复，请联系后台重新发送激活邮件并完成确认。`;
+    if(btn)btn.style.display='inline-flex';
+  }else if(pending){
     badge.innerHTML='<span class="verify-badge wait">待激活</span>';
     panel.classList.add('show');
     if(title)title.textContent='快讯邮箱待激活';
@@ -1921,7 +1935,7 @@ async function saveSettings(){
     delivery_mode:mode,
     push_email:isFeishu?'':el('s-email').value.trim(),feishu_name:isFeishu?el('s-feishu').value.trim():'',
     email_only_custom:isFeishu?false:el('tog-email-only').checked,
-    sources:isFeishu?{vip_terminal:true,reuters:true,bloomberg:true}:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked},
+    sources:isFeishu?{vip_terminal:true,reuters:true,bloomberg:true,benzinga:true}:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false},
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
     max_per_min:parseInt(el('s-maxpm').value)||50,
@@ -2066,6 +2080,7 @@ function buildCard(n,i){
   const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'终端','Benzinga':'BZ'}[n.source]||n.source||'';
   const srcChip=src&&!isVipSource?`<span class="src-chip">${src}</span>`:'';
   const title=n.title_cn||n.translation||n.title_en||'—';
+  const englishOriginal=(n.source==='VIP终端'||n.is_vip) ? (n.title_en||'') : (n.translation||n.title_en||'');
   const assets=Array.isArray(n.asset_tags)?n.asset_tags:(typeof n.asset_tags==='string'?parseAssets(n.asset_tags):[]);
   const wl=(ME&&ME.notification_prefs&&ME.notification_prefs.watchlist)||[];
   const assetHtml=assets.length?`<div class="tc-assets">${assets.map(a=>`<span class="asset-tag${wl.includes(a)?' watching':''}" onclick="assetAction(event,'${esc(a)}',this)">${assetLabel(a)}</span>`).join('')}</div>`:'';
@@ -2090,9 +2105,8 @@ function buildCard(n,i){
     ${n.ai_logic?`<div class="tc-ai">${esc(n.ai_logic)}</div>`:''}
     ${assetHtml}
     <div class="tc-detail">
-      ${n.translation&&n.translation!==title?`<div class="dbox"><div class="d-label">英文原文</div><div class="d-text">${esc(n.translation)}</div></div>`:''}
+      ${englishOriginal&&englishOriginal!==title?`<div class="dbox"><div class="d-label">英文原文</div><div class="d-text">${esc(englishOriginal)}</div></div>`:''}
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
-      ${n.title_en?`<div class="dbox"><div class="d-label">原文标题</div><div class="d-en">${esc(n.title_en)}</div></div>`:''}
       <div class="tc-foot">
         <div class="tc-targets">影响板块：<span>${esc(n.targets||'全球市场')}</span></div>
         <button class="share-btn" onclick="openShareCard(event,${n._idx??i})">生成分享卡</button>
@@ -2421,19 +2435,22 @@ async function loadUsers(){
       const kw=[...(u.keywords||[]),...(u.sectors||[]).map(s=>'板块:'+s)].slice(0,4).join('、')||'未设关键词';
       const hasRules=(u.keywords||[]).length||(u.sectors||[]).length||(u.watchlist||[]).length;
       const modeLabel=u.email_only_custom?(hasRules?'定制命中':'未设规则 · 自动全量'):'全量';
+      const emailStatus=u.email_unsubscribed?'已退订':(u.push_email_verified===false?'待激活':'已激活');
       const mode=u.delivery_mode==='email'
-        ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${u.push_email_verified===false?'待激活':'已激活'}`
+        ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${emailStatus}`
         : (u.delivery_mode==='feishu'?`飞书 · ${esc(u.feishu_name||'待备注')} ${u.feishu_verified?'✅':'待验证'}`:'未选择');
+      const unsubLine=u.email_unsubscribed?`<br><span style="color:var(--red)">用户已退订${u.email_unsubscribed_str?' · '+esc(u.email_unsubscribed_str):''}</span>`:'';
       return `<tr>
       <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong></td>
       <td style="color:var(--text2);font-size:9px">${esc(u.email)}</td>
       <td><span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
       <td>
-        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}</div>
+        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}${unsubLine}</div>
         <div class="admin-push-actions">
           <button onclick="adminSetEmail(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设邮箱</button>
           <button onclick="adminSetFeishu(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设飞书</button>
+          ${u.delivery_mode==='email'&&u.push_email?`<button onclick="adminResendActivation(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重发激活</button>`:''}
           ${u.delivery_mode==='feishu'&&!u.feishu_verified?`<button onclick="verifyFs(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">验证</button>`:''}
           <button onclick="resetDelivery(${u.id})" style="background:rgba(255,184,0,.07);border:1px solid rgba(255,184,0,.18);color:var(--gold);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重置</button>
         </div>
@@ -2455,6 +2472,14 @@ async function loadUsers(){
 async function setUPlan(uid,plan){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({plan})});showToast('✅ 已更新');}catch(e){}}
 async function addVipD(uid){const inp=el('ud-'+uid);const days=parseInt(inp&&inp.value)||0;if(!days)return;try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({vip_days:days})});showToast(`✅ +${days}天VIP`);loadUsers();}catch(e){}}
 async function verifyFs(uid){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({feishu_verified:1})});showToast('✅ 飞书已验证');loadUsers();}catch(e){}}
+async function adminResendActivation(uid){
+  if(!confirm('确定给该用户重新发送快讯邮箱激活邮件？这会清除退订状态，但仍需用户点击邮件确认后才会恢复推送。'))return;
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({resend_push_activation:1})});
+    showToast('✅ 激活邮件已重发');
+    loadUsers();
+  }catch(e){showToast(e.message||'发送失败');}
+}
 async function adminSetEmail(uid){
   const email=prompt('输入用户接收推送的邮箱');
   if(!email)return;
@@ -2466,7 +2491,7 @@ async function adminSetEmail(uid){
       push_email:email.trim(),
       keywords:(kw||'').split(/[,，]/).map(s=>s.trim()).filter(Boolean),
       email_only_custom:custom,
-      sources:{vip_terminal:true,reuters:true,bloomberg:true},
+      sources:{vip_terminal:true,reuters:false,bloomberg:false,benzinga:false},
       delivery_locked:true
     })});
     showToast('✅ 邮箱推送已设置');loadUsers();
@@ -2480,7 +2505,7 @@ async function adminSetFeishu(uid){
       delivery_mode:'feishu',
       feishu_name:(name||'').trim(),
       feishu_verified:1,
-      sources:{vip_terminal:true,reuters:true,bloomberg:true},
+      sources:{vip_terminal:true,reuters:true,bloomberg:true,benzinga:true},
       delivery_locked:true
     })});
     showToast('✅ 飞书推送已设置');loadUsers();
