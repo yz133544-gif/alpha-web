@@ -296,6 +296,16 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .mtab{flex:1;padding:6px;text-align:center;font-size:10px;font-weight:600;cursor:pointer;background:transparent;border:none;color:var(--text3);transition:all .15s;font-family:var(--mono);letter-spacing:.5px}
 .mtab.on{background:var(--orange);color:#fff}
 .forgot-link{font-size:9px;color:var(--blue);cursor:pointer;text-align:right;display:block;margin-top:3px;font-family:var(--mono)}.forgot-link:hover{color:var(--cyan)}
+.activation-modal{max-width:430px;border-color:rgba(0,200,120,.2);background:linear-gradient(180deg,var(--bg1),var(--bg3))}
+.activation-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,200,120,.12);border:1px solid rgba(0,200,120,.28);color:var(--green);font-size:22px;margin-bottom:12px}
+.activation-title{font-size:16px;font-weight:900;color:var(--text);line-height:1.35;margin-bottom:7px}
+.activation-copy{font-size:11px;color:var(--text2);line-height:1.8;margin-bottom:12px}
+.activation-mail{font-family:var(--mono);color:var(--gold);word-break:break-all}
+.activation-list{display:grid;gap:8px;margin:14px 0}
+.activation-step{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;border:1px solid var(--border);background:rgba(255,255,255,.018);border-radius:6px;padding:9px}
+.activation-step b{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--orange3);color:var(--orange);font-family:var(--mono);font-size:9px}
+.activation-step span{font-size:10px;color:var(--text2);line-height:1.65}
+.activation-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 
 /* VIP modal */
 .upgrade-modal{max-width:440px}
@@ -316,6 +326,8 @@ input:checked+.sldr:before{transform:translateX(16px)}
 /* Share modal */
 .share-modal{max-width:520px}
 .share-preview{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;background:#0a0a0a}
+.share-preview img{display:block;width:100%;height:auto;background:#050505}
+.share-hint{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.65;margin:-6px 0 10px}
 .sp-inner{padding:20px;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
 .sp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sp-brand{display:flex;align-items:center;gap:10px}
@@ -394,30 +406,45 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .mine-arrow{font-size:20px;color:var(--text3)}
 .mine-api{font-family:var(--mono);font-size:9px;color:var(--blue);margin-top:2px;word-break:break-all}
 .mine-risk{margin-top:16px;border-top:1px solid var(--border);padding-top:12px;font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.7}
-.api-wrap{max-width:980px;margin:0 auto;padding:18px 16px 96px}
-.api-hero{position:relative;overflow:hidden;border:1px solid rgba(30,144,212,.24);border-radius:10px;padding:20px;background:linear-gradient(135deg,rgba(30,144,212,.16),rgba(8,14,26,.98) 54%,rgba(255,107,43,.08));box-shadow:var(--card-glow)}
-.api-kicker{font-family:var(--mono);font-size:8px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:7px}
-.api-title{font-family:var(--display);font-size:clamp(24px,3vw,38px);font-weight:900;color:var(--text);line-height:1.05}
+.api-wrap{max-width:1060px;margin:0 auto;padding:18px 16px 96px}
+.api-wrap .set-back h2{font-family:var(--mono);letter-spacing:1px;text-transform:uppercase}
+.api-hero{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:24px;background:#030508;box-shadow:0 0 0 1px rgba(255,107,43,.08) inset}
+.api-hero::before{content:'01001100 10110101 0101 110010 001011 1010 01100101';position:absolute;inset:-20% -8% auto auto;width:62%;height:140%;font-family:var(--mono);font-size:18px;line-height:1.9;letter-spacing:8px;color:rgba(255,255,255,.035);transform:rotate(-14deg);pointer-events:none}
+.api-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 82% 18%,rgba(255,107,43,.2),transparent 28%),linear-gradient(120deg,transparent 0 42%,rgba(255,255,255,.04) 42% 43%,transparent 43% 100%);pointer-events:none}
+.api-kicker{position:relative;z-index:1;font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:9px}
+.api-title{position:relative;z-index:1;font-family:var(--body);font-size:38px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:0;max-width:760px}
 .api-title em{font-style:normal;color:var(--orange)}
-.api-sub{max-width:760px;margin-top:10px;font-size:11px;color:var(--text2);line-height:1.75}
-.api-contact{display:inline-flex;align-items:center;gap:7px;margin-top:14px;border:1px solid rgba(255,184,0,.22);background:rgba(255,184,0,.08);color:var(--gold);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:10px;font-weight:850}
+.api-sub{position:relative;z-index:1;max-width:760px;margin-top:12px;font-size:12px;color:rgba(231,239,248,.72);line-height:1.85}
+.api-contact{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;margin-top:16px;border:1px solid rgba(255,107,43,.42);background:rgba(255,107,43,.08);color:#ffb088;border-radius:4px;padding:9px 12px;font-family:var(--mono);font-size:10px;font-weight:850;box-shadow:0 0 18px rgba(255,107,43,.12)}
 .api-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
-.api-card{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:13px;box-shadow:var(--card-glow)}
-.api-card .n{font-size:13px;font-weight:900;color:var(--text);margin-bottom:5px}
-.api-card .d{font-size:10px;color:var(--text3);line-height:1.7}
-.api-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
-.api-step{border:1px solid var(--border);background:var(--bg1);border-radius:8px;padding:11px}
-.api-step b{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--orange3);color:var(--orange);font-family:var(--mono);font-size:9px;margin-bottom:8px}
-.api-step h4{font-size:11px;color:var(--text);margin-bottom:4px}
-.api-step p{font-size:9px;color:var(--text3);line-height:1.65}
-.api-spec{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,380px);gap:10px;margin-top:12px}
-.api-code{background:#050912;border:1px solid var(--border);border-radius:8px;padding:12px;overflow:auto;color:#9db2c8;font-family:var(--mono);font-size:9px;line-height:1.65;white-space:pre}
-.api-table{width:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg1)}
-.api-row{display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid var(--border)}
+.api-card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px;box-shadow:none}
+.api-card .n{font-family:var(--mono);font-size:12px;font-weight:900;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.api-card .d{font-size:10px;color:var(--text3);line-height:1.72}
+.api-flow{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0;padding-top:10px}
+.api-flow::before{content:'';position:absolute;top:38px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,rgba(255,107,43,.18),rgba(30,144,212,.18));opacity:.75}
+.api-flow::after{content:'';position:absolute;top:37px;left:8%;width:22%;height:3px;background:linear-gradient(90deg,transparent,var(--orange),var(--cyan),transparent);filter:blur(.2px);opacity:0;transform:translateX(0)}
+.api-flow:hover::after{opacity:1;animation:apiFlow 1.6s linear infinite}
+@keyframes apiFlow{0%{transform:translateX(0)}100%{transform:translateX(310%)}}
+.api-step{position:relative;z-index:1;border:1px solid var(--border);background:linear-gradient(180deg,var(--bg1),var(--bg3));border-radius:4px;padding:12px;transition:all .18s}
+.api-step:hover{border-color:rgba(255,107,43,.5);box-shadow:0 0 0 1px rgba(255,107,43,.12),0 0 24px rgba(255,107,43,.1)}
+.api-step b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#050912;border:1px solid rgba(255,107,43,.45);color:var(--orange);font-family:var(--mono);font-size:9px;margin-bottom:9px;box-shadow:0 0 14px rgba(255,107,43,.16)}
+.api-step h4{font-size:11px;color:var(--text);margin-bottom:5px;letter-spacing:0}
+.api-step p{font-size:9px;color:var(--text3);line-height:1.68}
+.api-spec{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);gap:10px;margin-top:12px}
+.api-terminal{overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:6px;background:#05070b;box-shadow:0 0 0 1px rgba(255,107,43,.08) inset}
+.api-codebar{height:34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);background:#0b0f16;padding:0 10px}
+.api-dots{display:flex;gap:6px}.api-dot{width:9px;height:9px;border-radius:50%;display:block}.api-dot.red{background:#ff5f56}.api-dot.yellow{background:#ffbd2e}.api-dot.green{background:#27c93f}
+.api-file{font-family:var(--mono);font-size:9px;color:rgba(232,240,248,.48);letter-spacing:1px;text-transform:uppercase}
+.api-copy{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(232,240,248,.78);border-radius:4px;padding:4px 7px;font-family:var(--mono);font-size:9px;cursor:pointer}
+.api-copy:hover{border-color:rgba(255,107,43,.55);color:var(--orange)}
+.api-code{margin:0;padding:13px 14px;overflow:auto;color:#b8c7d9;font-family:var(--mono);font-size:10px;line-height:1.72;white-space:pre;background:transparent;border:0;border-radius:0}
+.tok-k{color:#7cc7ff}.tok-s{color:#ffb86c}.tok-n{color:#9be678}.tok-p{color:#7b8798}
+.api-table{width:100%;border:1px solid rgba(255,255,255,.1);border-radius:6px;overflow:hidden;background:rgba(255,255,255,.035);backdrop-filter:blur(16px)}
+.api-row{display:grid;grid-template-columns:106px 1fr;border-bottom:1px solid rgba(255,255,255,.08)}
 .api-row:last-child{border-bottom:none}
-.api-row span{padding:8px 10px;font-size:9px;color:var(--text3)}
-.api-row strong{padding:8px 10px;font-family:var(--mono);font-size:9px;color:var(--text);border-right:1px solid var(--border);background:var(--bg3)}
-.api-note{margin-top:10px;border:1px solid rgba(255,107,43,.16);background:var(--orange3);border-radius:8px;padding:11px;font-size:10px;color:var(--text2);line-height:1.75}
+.api-row span{padding:9px 11px;font-size:10px;color:var(--text2);line-height:1.55}
+.api-row strong{padding:9px 11px;font-family:var(--mono);font-size:8px;color:var(--text);border-right:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);letter-spacing:1px;text-transform:uppercase}
+.api-note{margin-top:10px;border:1px solid rgba(255,107,43,.22);background:rgba(255,107,43,.075);border-radius:4px;padding:11px;font-size:10px;color:var(--text2);line-height:1.75}
 .vip-box{background:linear-gradient(135deg,rgba(255,184,0,.07),rgba(255,107,43,.03));border:1px solid rgba(255,184,0,.18);border-radius:5px;padding:11px;margin-bottom:11px}
 .vip-box-t{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:2px}
 .vip-box-s{font-size:9px;color:var(--text3)}
@@ -440,6 +467,12 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .delivery-card.hidden{display:none}
 .delivery-note{display:none;margin-top:9px;border:1px solid rgba(255,184,0,.18);background:rgba(255,184,0,.06);color:var(--gold);border-radius:5px;padding:7px 9px;font-size:8px;line-height:1.65;font-family:var(--mono)}
 .delivery-note.show{display:block}
+.rule-mode-card{margin-top:10px;border:1px solid var(--border);background:var(--bg3);border-radius:7px;padding:10px 12px}
+.rule-mode-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rule-mode-title{font-size:12px;font-weight:900;color:var(--text)}
+.rule-mode-copy{font-size:9px;color:var(--text3);line-height:1.7;margin-top:3px}
+.rule-mode-badge{display:inline-flex;align-items:center;border:1px solid rgba(0,200,120,.22);background:rgba(0,200,120,.07);color:var(--green);border-radius:999px;padding:3px 8px;font-family:var(--mono);font-size:8px;font-weight:900;margin-top:7px}
+.rule-mode-card.custom .rule-mode-badge{border-color:rgba(255,107,43,.3);background:rgba(255,107,43,.08);color:var(--orange)}
 .verify-badge{display:inline-flex;align-items:center;margin-left:6px;border-radius:999px;padding:2px 6px;font-family:var(--mono);font-size:7px;font-weight:900;letter-spacing:.5px}
 .verify-badge.ok{background:rgba(0,200,120,.1);color:var(--green);border:1px solid rgba(0,200,120,.22)}
 .verify-badge.wait{background:rgba(255,184,0,.1);color:var(--gold);border:1px solid rgba(255,184,0,.22)}
@@ -449,6 +482,8 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .email-verify-copy{font-size:9px;color:var(--text3);line-height:1.7}
 .email-verify-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px}
 .email-verify-mini{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.6}
+.compliance-strip{margin:8px 0 12px;border:1px solid rgba(119,143,169,.16);background:linear-gradient(135deg,rgba(255,255,255,.024),rgba(255,107,43,.018));border-radius:6px;padding:8px 10px;color:var(--text3);font-size:8px;line-height:1.7;font-family:var(--mono)}
+.compliance-strip b{color:var(--orange);font-weight:900;letter-spacing:.8px}
 .channel-form{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:11px}
 .channel-form.disabled{display:none}
 .channel-form.locked{opacity:.78}
@@ -572,6 +607,53 @@ tr:hover td{background:var(--orange3)}
   .bnav{font-size:10px;gap:4px;padding:4px 12px;color:var(--text3);letter-spacing:0;font-family:var(--body);font-weight:800}
   .bnav.on{color:var(--orange)}
   .bnav-i{font-size:18px}
+}
+.stat,.mcrd{border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 0 0 1px rgba(0,0,0,.03)}
+.level-badge,.sent-badge,.src-chip,.asset-tag{background:transparent!important}
+#api-custom-page{background:#030508;min-height:calc(100vh - 46px)}
+#api-custom-page .set-back h2{color:#fff}
+#api-custom-page .set-back button{color:rgba(232,240,248,.62)}
+#api-custom-page .set-sec{background:rgba(7,11,18,.92);border-color:rgba(255,255,255,.1);box-shadow:none}
+#api-custom-page .set-stitle{color:var(--orange);letter-spacing:4px}
+[data-theme="light"] .profile-menu{background:rgba(255,255,255,.98);border-color:#d8e2ee;box-shadow:0 14px 40px rgba(26,42,58,.18)}
+[data-theme="light"] .sidebar{background:rgba(255,255,255,.98);border-left-color:#d8e2ee;box-shadow:-18px 0 48px rgba(26,42,58,.14)}
+[data-theme="light"] .filter-bar{background:rgba(255,255,255,.86)}
+[data-theme="light"] .tcard{background:#fff}
+[data-theme="light"] .tc-title{color:#16283b}
+[data-theme="light"] .bottom-nav{background:rgba(255,255,255,.96);border-top-color:#d8e2ee}
+[data-theme="light"] .mobile-top-settings{background:#fff;color:#4a6080}
+[data-theme="light"] .mine-hero{background:linear-gradient(135deg,rgba(30,144,212,.12),#fff 54%,rgba(255,107,43,.08));box-shadow:0 16px 44px rgba(26,42,58,.1),inset 0 0 0 1px rgba(255,255,255,.68)}
+[data-theme="light"] .mine-name{color:#172b40}
+[data-theme="light"] .mine-exp{color:#6b7f95}
+[data-theme="light"] .mine-status{background:rgba(255,255,255,.72);border-color:#dbe5f0}
+[data-theme="light"] .mine-status .k{color:#8a9bae}
+[data-theme="light"] .mine-status .v{color:#172b40}
+@media(max-width:640px){
+  [data-theme="light"] body{background:#eef2f7}
+  [data-theme="light"] header{background:rgba(255,255,255,.96)}
+  [data-theme="light"] .filter-bar{background:rgba(255,255,255,.92)}
+  [data-theme="light"] .search-box{background:#fff}
+  [data-theme="light"] .tcard{background:#fff;border-color:#cfdae7}
+  [data-theme="light"] .bottom-nav{background:rgba(255,255,255,.97);border-top-color:#d8e2ee}
+  .main-grid{padding:10px 10px 88px}
+  #feed{gap:6px}
+  .filter-bar{padding:9px;margin-bottom:8px}
+  .tcard{border-left:2px solid var(--bhi)!important;border-radius:8px;padding:10px 11px}
+  .tcard.bull{border-left-color:var(--red)!important}.tcard.bear{border-left-color:var(--green)!important}.tcard.neut{border-left-color:var(--bhi)!important}
+  .tc-head{margin-bottom:6px;gap:6px}
+  .tc-meta{gap:4px}
+  .level-badge,.sent-badge,.src-chip{font-size:8px;border-radius:3px;padding:1px 5px}
+  .tc-title{font-size:14px;line-height:1.42;margin-bottom:5px}
+  .tc-ai{font-size:11px;line-height:1.5;-webkit-line-clamp:2}
+  .score-bar-wrap{width:30px}
+  .share-btn{padding:2px 6px}
+  .api-title{font-size:27px}
+  .api-hero{padding:18px;border-radius:4px}
+  .api-flow{display:block;padding-left:14px}
+  .api-flow::before{top:18px;bottom:18px;left:24px;right:auto;width:1px;height:auto}
+  .api-flow::after{display:none}
+  .api-step{margin-bottom:8px}
+  .api-codebar{height:32px}
 }
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -734,6 +816,7 @@ tr:hover td{background:var(--orange3)}
         </div>
       </div>
       <div id="feed-status" style="font-family:var(--mono);font-size:9px;color:var(--text3);padding:0 2px 6px;display:none"></div>
+      <div class="compliance-strip"><b>RISK NOTICE</b> 本系统提供资讯聚合、技术路由与自动化推送支持，仅客观加速公开信息送达；不提供投资咨询、荐股、收益承诺或交易指令。市场有风险，交易需谨慎。</div>
       <div id="feed"></div>
       <div class="load-wrap" id="load-wrap" style="display:none">
         <button class="btn-load" onclick="loadMore()">加载更多</button>
@@ -753,7 +836,7 @@ tr:hover td{background:var(--orange3)}
       <div id="sb-guest" class="scard">
         <div class="s-title">访问权限</div>
         <div class="guest-panel">
-          <p>免费账号查看 <strong>24小时前</strong> 内容。VIP 可解锁实时快讯，并在邮箱或飞书中选择一个专属推送通道。</p>
+          <p>免费账号可查看 <strong>24小时前至3天内</strong> 的历史快讯。VIP 可解锁实时快讯，并查看服务器缓存期内全部内容。</p>
           <button class="btn-full btn-orange" onclick="openModal('register');closeSidebarDrawer()" style="margin-bottom:6px">注册账号</button>
           <button class="btn-full btn-outline" onclick="openModal('login');closeSidebarDrawer()">登录</button>
         </div>
@@ -769,7 +852,7 @@ tr:hover td{background:var(--orange3)}
               <div class="up-exp" id="sb-exp"></div>
             </div>
           </div>
-          <div class="delay-note" id="sb-delay" style="display:none">⏳ 免费版 · 内容延迟24小时</div>
+          <div class="delay-note" id="sb-delay" style="display:none">⏳ 免费版 · 可看24小时前至3天内快讯</div>
           <button class="btn-full btn-orange" onclick="showPage('settings');closeSidebarDrawer()">订阅与推送</button>
         </div>
       </div>
@@ -855,7 +938,7 @@ tr:hover td{background:var(--orange3)}
       </button>
       <button class="mine-item" onclick="showPage('api-custom')">
         <span class="mine-ico">◇</span>
-        <span><span class="mine-item-title">API定制服务</span><span class="mine-item-sub">Webhook 专线接入，英文原文快讯推送，人工配置客户地址</span><span class="mine-api">联系主理人微信 yz133544</span></span>
+        <span><span class="mine-item-title">API定制服务</span><span class="mine-item-sub">Webhook 专线接入，英文原文快讯推送，机构客户人工配置</span></span>
         <span class="mine-arrow">›</span>
       </button>
       <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
@@ -864,7 +947,7 @@ tr:hover td{background:var(--orange3)}
         <span class="mine-arrow">›</span>
       </button>
     </div>
-    <div class="mine-risk">本平台快讯及 AI 解读仅供参考，不构成任何投资建议。推送通道一旦选择将锁定，如需更换请联系主理人微信 yz133544。</div>
+    <div class="mine-risk">本平台提供系统技术与自动化资讯推送支持，仅用于客观加速公开信息送达；不构成任何投资咨询、荐股服务、收益承诺或交易指令。市场有风险，交易需谨慎。</div>
   </div>
 </div>
 
@@ -873,43 +956,50 @@ tr:hover td{background:var(--orange3)}
   <div class="api-wrap">
     <div class="set-back"><button onclick="showPage('mine')">←</button><h2>API定制服务</h2></div>
     <div class="api-hero">
-      <div class="api-kicker">PRIVATE WEBHOOK SERVICE</div>
-      <div class="api-title">Alpha Heartbeat <em>API定制服务</em></div>
-      <div class="api-sub">当前不是公开自助 API 平台，而是面向少量机构客户的专线 Webhook 推送服务。客户提供可公网访问的接收地址，我们在美国服务器脚本中配置专属路由，把 VIP 终端与宏观快讯以英文原文 JSON 直推到客户系统。</div>
-      <div class="api-contact">API定制联系主理人微信 yz133544</div>
+      <div class="api-kicker">PRIVATE MARKET DATA ROUTER</div>
+      <div class="api-title">Institutional API for <em>Real-Time Macro Signals</em></div>
+      <div class="api-sub">不是公开自助 API，而是面向高净值机构、量化团队与开发者的私有 Webhook 专线。客户提供可公网访问的 HTTPS 接收端，我们在美国服务器配置独立路由，把 VIP 终端、Reuters / Bloomberg 原文流与宏观快讯以低延迟 JSON 推送到客户系统。</div>
+      <div class="api-contact">定制接入入口 · 机构接入需人工审核 · 仅限合规用途</div>
     </div>
 
     <div class="api-grid">
-      <div class="api-card"><div class="n">英文原文推送</div><div class="d">适合量化、投研、风控系统直接消费，减少翻译和模型处理带来的延迟。</div></div>
-      <div class="api-card"><div class="n">Webhook 专线</div><div class="d">HTTP POST 异步推送，客户只需提供一个稳定可访问的 HTTPS 接收 URL。</div></div>
-      <div class="api-card"><div class="n">人工配置</div><div class="d">现阶段由主理人在服务器脚本中配置客户地址、推送范围和调试策略。</div></div>
+      <div class="api-card"><div class="n">Raw English Feed</div><div class="d">适合量化、投研、风控系统直接消费，减少翻译和模型处理带来的额外延迟。</div></div>
+      <div class="api-card"><div class="n">Dedicated Webhook</div><div class="d">HTTP POST 异步推送，支持客户自有网关、队列、数据湖或交易研究系统接入。</div></div>
+      <div class="api-card"><div class="n">Private Routing</div><div class="d">按客户级别配置推送范围、失败重试、日志标识与续费后开关策略。</div></div>
     </div>
 
     <div class="set-sec">
       <div class="set-stitle">接入流程</div>
       <div class="api-flow">
-        <div class="api-step"><b>1</b><h4>确认需求</h4><p>确认推送源、是否只要 VIP 终端、是否需要 Reuters / Bloomberg 原文流。</p></div>
-        <div class="api-step"><b>2</b><h4>提供地址</h4><p>客户提供公网 HTTPS Webhook URL，并确认可接收 application/json。</p></div>
-        <div class="api-step"><b>3</b><h4>配置专线</h4><p>在美国服务器脚本中加入客户地址、路由规则、失败重试和日志标识。</p></div>
-        <div class="api-step"><b>4</b><h4>联调上线</h4><p>发送单条测试数据，确认 HTTP 200 响应后进入正式推送。</p></div>
+        <div class="api-step"><b>01</b><h4>Define Stream</h4><p>确认是否接入 VIP 终端、Reuters / Bloomberg 原文流、宏观摘要或定制字段。</p></div>
+        <div class="api-step"><b>02</b><h4>Expose Endpoint</h4><p>客户提供稳定的 HTTPS Webhook URL，并确认可接收 application/json。</p></div>
+        <div class="api-step"><b>03</b><h4>Wire Router</h4><p>在美国服务器配置客户路由、失败重试、日志标识和节点隔离。</p></div>
+        <div class="api-step"><b>04</b><h4>Go Live</h4><p>发送测试 payload，确认 HTTP 200 后进入正式低延迟推送。</p></div>
       </div>
     </div>
 
     <div class="api-spec">
       <div class="set-sec" style="margin:0">
         <div class="set-stitle">JSON Payload</div>
-        <pre class="api-code">{
-  "file_id": null,
-  "source": "VIP Terminal",
-  "section": "VIP Terminal",
-  "title": "U.S. seeks quick repairs to Mideast ties...",
-  "content": "U.S. seeks quick repairs to Mideast ties amid...",
-  "time": "Mon Apr 14 12:00:00 +0800 2026",
-  "category": "Global Macro",
-  "title_cn": "",
-  "content_cn": "",
-  "url": ""
-}</pre>
+        <div class="api-terminal">
+          <div class="api-codebar">
+            <div class="api-dots"><span class="api-dot red"></span><span class="api-dot yellow"></span><span class="api-dot green"></span></div>
+            <div class="api-file">payload.json</div>
+            <button class="api-copy" onclick="copyApiPayload(event)">复制</button>
+          </div>
+          <pre class="api-code" id="api-payload-code"><span class="tok-p">{</span>
+  <span class="tok-k">"file_id"</span>: <span class="tok-n">null</span>,
+  <span class="tok-k">"source"</span>: <span class="tok-s">"VIP_Terminal"</span>,
+  <span class="tok-k">"section"</span>: <span class="tok-s">"VIP Terminal"</span>,
+  <span class="tok-k">"title"</span>: <span class="tok-s">"U.S. seeks quick repairs to Mideast ties..."</span>,
+  <span class="tok-k">"content"</span>: <span class="tok-s">"U.S. seeks quick repairs to Mideast ties amid..."</span>,
+  <span class="tok-k">"time"</span>: <span class="tok-s">"Mon Apr 14 12:00:00 +0800 2026"</span>,
+  <span class="tok-k">"category"</span>: <span class="tok-s">"Global Macro"</span>,
+  <span class="tok-k">"title_cn"</span>: <span class="tok-s">""</span>,
+  <span class="tok-k">"content_cn"</span>: <span class="tok-s">""</span>,
+  <span class="tok-k">"url"</span>: <span class="tok-s">""</span>
+<span class="tok-p">}</span></pre>
+        </div>
       </div>
       <div class="set-sec" style="margin:0">
         <div class="set-stitle">交互规范</div>
@@ -957,7 +1047,7 @@ tr:hover td{background:var(--orange3)}
 
   <div class="set-sec">
     <div class="set-stitle">推送通道</div>
-    <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.7;font-family:var(--mono)">VIP 用户只能在邮箱和飞书中选择一个通道。首次保存后锁定，防止多渠道转发滥用；网页内实时弹窗会随 VIP 自动开启。</p>
+    <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.7;font-family:var(--mono)">VIP 用户可在邮箱和飞书中选择一个专属接收通道。系统仅负责资讯路由、到达确认和自动化分发，不提供投资建议、交易指令或收益承诺。</p>
     <div class="delivery-grid">
       <div class="delivery-card" id="delivery-email" onclick="selectDelivery('email')">
         <div class="delivery-title">邮箱推送</div>
@@ -975,13 +1065,13 @@ tr:hover td{background:var(--orange3)}
     <div class="channel-form" id="email-form">
       <div class="flabel">邮箱推送地址 <span id="email-verify-badge"></span></div>
       <input class="finput" id="s-email" placeholder="请输入接收推送的邮箱" type="email">
-      <div style="font-size:8px;color:var(--text3);margin-top:6px;font-family:var(--mono)">选择邮箱后，飞书入口将关闭。</div>
+      <div style="font-size:8px;color:var(--text3);margin-top:6px;font-family:var(--mono);line-height:1.7">推荐使用 QQ 邮箱。收到激活邮件后，请点击确认按钮、回复“收到”，并把发件人加入联系人；如被识别为广告，请点右下角“更多”→“这不是广告”。选择邮箱后，飞书入口将关闭。</div>
       <div class="email-verify-panel" id="email-verify-panel">
         <div class="email-verify-title" id="email-verify-title">快讯邮箱待激活</div>
         <div class="email-verify-copy" id="email-verify-copy">我们会向该邮箱发送一封确认邮件。点击邮件中的按钮后，快讯推送才会正式开启。</div>
         <div class="email-verify-actions">
           <button class="btn btn-sec" id="email-resend-btn" onclick="resendPushEmailActivation()" style="font-size:9px;padding:5px 9px">重新发送激活邮件</button>
-          <span class="email-verify-mini">建议回复确认邮件“收到”并将发件人加入联系人，降低拦截概率。</span>
+          <span class="email-verify-mini">QQ邮箱建议：回复“收到”并加入联系人；右下角更多 → 这不是广告。</span>
         </div>
       </div>
       <div class="fg" style="margin-top:10px">
@@ -992,9 +1082,15 @@ tr:hover td{background:var(--orange3)}
           <label class="source-chip"><input type="checkbox" id="src-bloomberg"> 彭博社</label>
         </div>
       </div>
-      <div class="tgl-row" style="margin-top:6px">
-      <div class="tgl-info"><div class="tl">仅定制规则命中才发邮件</div><div class="ts">关键词、板块、关注资产或股票代码命中才发；关闭则按所选信源全量推送</div></div>
-      <label class="tgl"><input type="checkbox" id="tog-email-only"><span class="sldr"></span></label>
+      <div class="rule-mode-card" id="rule-mode-card">
+        <div class="rule-mode-top">
+          <div>
+            <div class="rule-mode-title">邮件发送模式</div>
+            <div class="rule-mode-copy" id="rule-mode-copy">默认按所选信源全量推送；关键词和板块仍会用于高优先级识别。</div>
+          </div>
+          <label class="tgl"><input type="checkbox" id="tog-email-only" onchange="renderRuleModeHint()"><span class="sldr"></span></label>
+        </div>
+        <div class="rule-mode-badge" id="rule-mode-badge">默认全量推送</div>
       </div>
     </div>
     <div class="channel-form disabled" id="feishu-form">
@@ -1013,13 +1109,13 @@ tr:hover td{background:var(--orange3)}
   <div class="set-sec">
     <div class="set-stitle">关键词规则 <span id="filter-lock" style="color:var(--orange);font-size:7px"></span></div>
     <div class="fg">
-      <div class="flabel">关键词 <span style="color:var(--text3)">(回车添加，命中任意一个即触发定向推送)</span></div>
+      <div class="flabel">关键词 <span style="color:var(--text3)">(回车添加；默认全量推送时用于优先标记，开启“仅规则命中”后只按这里发)</span></div>
       <div class="tag-area" id="kw-area" onclick="el('kw-inp').focus()">
         <input class="tag-input" id="kw-inp" placeholder="美联储, 黄金, CPI, 比特币..." onkeydown="addTag(event,'kw')">
       </div>
     </div>
     <div class="fg">
-      <div class="flabel">板块筛选</div>
+      <div class="flabel">板块筛选 <span style="color:var(--text3)">(和关键词一样，可作为定向规则)</span></div>
       <div class="tag-area" id="sec-area" onclick="el('sec-inp').focus()">
         <input class="tag-input" id="sec-inp" placeholder="科技, 能源, 金融, 黄金..." onkeydown="addTag(event,'sec')">
       </div>
@@ -1043,12 +1139,14 @@ tr:hover td{background:var(--orange3)}
       </select>
     </div>
     <div class="fg">
-      <div class="flabel">每分钟最多推送数量（超出自动聚合）</div>
+      <div class="flabel">邮件频率策略（超出自动聚合）</div>
       <select class="finput" id="s-maxpm">
-        <option value="5">5条/分钟</option>
-        <option value="10" selected>10条/分钟</option>
-        <option value="20">20条/分钟</option>
-        <option value="50">50条/分钟（不限）</option>
+        <option value="50" selected>50条/分钟（近似无限制）</option>
+        <option value="3">最高3条/分钟（智能防刷屏）</option>
+        <option value="1">最高1条/分钟（极简摘要）</option>
+        <option value="-5">每5分钟1封</option>
+        <option value="-30">每30分钟1封</option>
+        <option value="-60">每1小时1封（禅定模式）</option>
       </select>
     </div>
     <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为VIP邮箱推送专属功能</div>
@@ -1302,6 +1400,27 @@ tr:hover td{background:var(--orange3)}
 </div>
 </div>
 
+<!-- EMAIL ACTIVATION MODAL -->
+<div class="overlay" id="activation-overlay" onclick="if(event.target===this)closeActivationModal()">
+<div class="modal activation-modal">
+  <button class="modal-close" onclick="closeActivationModal()">✕</button>
+  <div class="activation-icon">✓</div>
+  <div class="activation-title">激活邮件已发送</div>
+  <div class="activation-copy">
+    我们已向 <span class="activation-mail" id="activation-email">您的邮箱</span> 发送快讯通道确认邮件。请完成下面几步，确保后续快讯稳定送达。
+  </div>
+  <div class="activation-list">
+    <div class="activation-step"><b>1</b><span>前往邮箱，点击邮件里的 <strong style="color:var(--text)">确认并激活快讯通道</strong> 按钮。</span></div>
+    <div class="activation-step"><b>2</b><span>直接回复那封邮件：<strong style="color:var(--green)">收到</strong>，让邮箱系统识别这是你认可的发件人。</span></div>
+    <div class="activation-step"><b>3</b><span>把发件人加入通讯录 / 白名单；QQ 邮箱如提示广告，请点右下角 <strong style="color:var(--orange)">更多 → 这不是广告</strong>。</span></div>
+  </div>
+  <div class="activation-actions">
+    <button class="btn-full btn-outline" onclick="closeActivationModal()">我知道了</button>
+    <button class="btn-full btn-orange" onclick="closeActivationModal()">去邮箱确认</button>
+  </div>
+</div>
+</div>
+
 <!-- QR MODAL -->
 <div class="overlay" id="qr-overlay" onclick="if(event.target===this)this.classList.remove('open')">
 <div class="modal" style="text-align:center;max-width:280px">
@@ -1344,8 +1463,9 @@ tr:hover td{background:var(--orange3)}
   <div class="modal-title">快讯分享卡片</div>
   <div class="modal-sub">一键生成适合微信、朋友圈、社群转发的品牌快讯图。</div>
   <div class="share-preview" id="share-preview"></div>
+  <div class="share-hint">移动端如未自动保存，可点“保存/分享图片”后长按图片保存；卡片仅在本机浏览器生成，不占用服务器存储。</div>
   <div class="share-actions">
-    <button class="btn-full btn-orange" onclick="downloadShareCard()">📥 下载图片</button>
+    <button class="btn-full btn-orange" onclick="downloadShareCard()">保存/分享图片</button>
     <button class="btn-full btn-outline" onclick="copyShareText()">📋 复制文案</button>
   </div>
   <div class="fmsg" id="share-msg"></div>
@@ -1366,7 +1486,7 @@ tr:hover td{background:var(--orange3)}
 <script>
 const API = 'https://api.alphaheartbeat.com:8443';
 let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false};
-let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null;
+let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null,SHARE_URL='',SHARE_BLOB=null;
 let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
 
@@ -1538,11 +1658,12 @@ function renderMinePage(){
   setText('mine-plan',ME.is_vip?'⚡ VIP 会员':'普通用户');
   setText('mine-exp',ME.is_vip?('到期：'+(ME.vip_expire||'—')):'升级后解锁实时快讯与专属推送');
   setText('mine-route',route+(p.delivery_locked?' · 已锁定':''));
-  setText('mine-rules',(kws.length+secs.length)+' 条');
+  setText('mine-rules',(kws.length+secs.length+wl.length)+' 条');
   setText('mine-watch',wl.length+' 个');
+  const hasRules=kws.length||secs.length||wl.length;
   const customSub=mode==='email'
-    ? `${p.email_only_custom?'定制命中':'全量'} · ${srcText}${kws.length||secs.length?' · '+[...kws,...secs.map(s=>'板块:'+s)].slice(0,3).join('、'):''}`
-    : (mode==='feishu'?'飞书全量推送 · 更换通道请联系主理人':'选择邮箱或飞书，配置专属快讯通道');
+    ? `${p.email_only_custom?(hasRules?'定制命中':'未设规则 · 自动全量'):'全量'} · ${srcText}${kws.length||secs.length?' · '+[...kws,...secs.map(s=>'板块:'+s)].slice(0,3).join('、'):''}`
+    : (mode==='feishu'?'飞书全量推送 · 专属通道已启用':'选择邮箱或飞书，配置专属快讯通道');
   setText('mine-custom-sub',customSub);
 }
 async function doLogin(){
@@ -1631,6 +1752,11 @@ function closeHeaderMenus(){el('profile-menu')&&el('profile-menu').classList.rem
 function openVipModal(){closeHeaderMenus();el('vip-overlay').classList.add('open');}
 function closeVipModal(){el('vip-overlay').classList.remove('open');}
 function copyWechat(){navigator.clipboard&&navigator.clipboard.writeText('alphaheartbeat.com').then(()=>{showFmsg('vip-msg','网址已复制：alphaheartbeat.com','ok');showToast('已复制网址');}).catch(()=>showFmsg('vip-msg','请手动访问 alphaheartbeat.com','err'));}
+function openActivationModal(email){
+  if(el('activation-email'))el('activation-email').textContent=email||'您的邮箱';
+  el('activation-overlay').classList.add('open');
+}
+function closeActivationModal(){el('activation-overlay').classList.remove('open');}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.profile-wrap'))closeHeaderMenus();
 });
@@ -1679,7 +1805,7 @@ function showSettings(){
   el('src-bloomberg').checked=sources.bloomberg!==false;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
-  el('s-maxpm').value=String(p.max_per_min||10);
+  el('s-maxpm').value=String(p.max_per_min||50);
   el('tog-theme').checked=localStorage.getItem('theme')!=='light';
   if(ME.is_vip){el('vip-t').textContent='⚡ VIP会员';el('vip-s').textContent='到期：'+(ME.vip_expire||'—');el('filter-notice').style.display='none';el('filter-lock').textContent='';}
   else{el('vip-t').textContent='免费版';el('vip-s').textContent='升级VIP解锁实时推送';el('filter-notice').style.display='block';el('filter-lock').textContent='(VIP专属)';}
@@ -1687,6 +1813,7 @@ function showSettings(){
   secTags=Array.isArray(p.sectors)?p.sectors:(p.sectors||'').split(',').map(s=>s.trim()).filter(Boolean);
   renderTags('kw-area','kw-inp',kwTags,'kw');
   renderTags('sec-area','sec-inp',secTags,'sec');
+  renderRuleModeHint();
   renderDelivery(mode,!!p.delivery_locked);
   renderEmailVerification(p,mode);
 }
@@ -1720,7 +1847,7 @@ function renderDelivery(mode,locked=false){
   if(note){
     if(mode){
       const label=mode==='email'?'邮箱推送':'飞书推送';
-      note.textContent=(locked?'通道已锁定':'保存后将锁定')+`：${label}。${mode==='email'?'信源/关键词规则可按冷却期调整；':''}如必须更换通道，请联系主理人微信 yz133544。`;
+      note.textContent=(locked?'当前接收通道':'即将启用通道')+`：${label}。${mode==='email'?'信源、关键词与频率规则可在系统允许周期内调整；':''}为保障账号安全与反滥用风控，通道切换需经过系统校验。`;
       note.classList.add('show');
     }else{
       note.textContent='';
@@ -1734,9 +1861,20 @@ function renderDelivery(mode,locked=false){
     if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为VIP邮箱推送专属功能';}
     else if(mode==='feishu'){el('filter-notice').style.display='block';el('filter-notice').textContent='飞书通道为全量推送，筛选规则仅邮箱推送可用。';}
     else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱推送后启用关键词、板块和信源筛选。';}
-    else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。紧急修改请联系主理人。`;}
+    else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。系统通过冷却期降低误操作和高频改规则风险。`;}
     else{el('filter-notice').style.display='none';}
   }
+}
+function renderRuleModeHint(){
+  const checked=!!(el('tog-email-only')&&el('tog-email-only').checked);
+  const card=el('rule-mode-card'),badge=el('rule-mode-badge'),copy=el('rule-mode-copy');
+  const wl=((ME&&ME.notification_prefs&&ME.notification_prefs.watchlist)||[]);
+  const hasRules=kwTags.length||secTags.length||wl.length;
+  if(card)card.classList.toggle('custom',checked);
+  if(badge)badge.textContent=checked?(hasRules?'仅规则命中才发':'未设规则 · 自动全量'):'默认全量推送';
+  if(copy)copy.textContent=checked
+    ? (hasRules?'只在关键词、板块、关注资产或股票代码命中时发送邮件；适合不想被全量快讯打扰。':'你已开启仅规则命中，但还没有设置关键词/板块/关注资产。为避免漏收，系统会暂时按所选信源全量推送。')
+    : '按所选信源全量发送邮件；关键词和板块仍会用于高优先级识别与命中说明。';
 }
 function renderEmailVerification(p={},mode=''){
   const badge=el('email-verify-badge');
@@ -1752,7 +1890,7 @@ function renderEmailVerification(p={},mode=''){
     badge.innerHTML='<span class="verify-badge wait">待激活</span>';
     panel.classList.add('show');
     if(title)title.textContent='快讯邮箱待激活';
-    if(copy)copy.textContent=`激活邮件已发送至 ${email}。请点击邮件里的确认按钮；为降低拦截概率，建议直接回复那封邮件“收到”。`;
+    if(copy)copy.textContent=`激活邮件已发送至 ${email}。请点击邮件里的确认按钮；推荐回复“收到”并加入联系人。QQ邮箱如提示广告，请点右下角更多 → 这不是广告。`;
     if(btn)btn.style.display='inline-flex';
   }else if(verified){
     badge.innerHTML='<span class="verify-badge ok">已激活</span>';
@@ -1778,7 +1916,7 @@ async function saveSettings(){
     sources:isFeishu?{vip_terminal:true,reuters:true,bloomberg:true}:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked},
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
-    max_per_min:parseInt(el('s-maxpm').value)||10,
+    max_per_min:parseInt(el('s-maxpm').value)||50,
     watchlist:(ME.notification_prefs||{}).watchlist||[]
   };
   try{
@@ -1786,9 +1924,14 @@ async function saveSettings(){
     await checkAuth();
     const cur=(ME&&ME.notification_prefs)||{};
     if(mode==='email'&&cur.push_email&&cur.push_email_verified===false){
-      showFmsg('s-msg',d.push_activation_sent?'✅ 激活邮件已发送，请前往邮箱点击确认并回复“收到”。':'设置已保存，但激活邮件发送失败，请点击重新发送。',d.push_activation_sent?'ok':'err');
-      showToast(d.push_activation_sent?'请前往邮箱激活通道':'激活邮件发送失败');
       renderEmailVerification(cur,mode);
+      if(d.push_activation_sent){
+        showFmsg('s-msg','✅ 激活邮件已发送，请前往邮箱点击确认并回复“收到”。','ok');
+        openActivationModal(cur.push_email);
+      }else{
+        showFmsg('s-msg','设置已保存，但激活邮件发送失败，请点击重新发送。','err');
+        showToast('激活邮件发送失败');
+      }
     }else{
       showFmsg('s-msg','✅ 设置已保存','ok');showToast('设置已保存');
     }
@@ -1799,8 +1942,9 @@ async function resendPushEmailActivation(){
   try{
     const d=await api('/api/me/push-email/resend',{method:'POST',body:JSON.stringify({})});
     showFmsg('s-msg',d.message||'激活邮件已发送','ok');
-    showToast('激活邮件已发送');
     await checkAuth();
+    const cur=(ME&&ME.notification_prefs)||{};
+    openActivationModal(cur.push_email);
   }catch(e){
     showFmsg('s-msg',e.message,'err');
   }
@@ -1815,9 +1959,9 @@ function addTag(e,type){
   if(rulesCooldownActive()){showToast('消息定制冷却中，暂不可修改');return;}
   const inp=el(type+'-inp');const val=inp.value.replace(/,/g,'').trim();if(!val)return;
   const arr=type==='kw'?kwTags:secTags;if(!arr.includes(val))arr.push(val);
-  inp.value='';renderTags(type+'-area',type+'-inp',arr,type);
+  inp.value='';renderTags(type+'-area',type+'-inp',arr,type);renderRuleModeHint();
 }
-function removeTag(type,idx){if(rulesCooldownActive()){showToast('消息定制冷却中，暂不可修改');return;}(type==='kw'?kwTags:secTags).splice(idx,1);renderTags(type+'-area',type+'-inp',type==='kw'?kwTags:secTags,type);}
+function removeTag(type,idx){if(rulesCooldownActive()){showToast('消息定制冷却中，暂不可修改');return;}(type==='kw'?kwTags:secTags).splice(idx,1);renderTags(type+'-area',type+'-inp',type==='kw'?kwTags:secTags,type);renderRuleModeHint();}
 function renderTags(aId,iId,arr,type){
   const area=el(aId),inp=area.querySelector('input');area.innerHTML='';
   arr.forEach((t,i)=>{const d=document.createElement('div');d.className='tag';d.innerHTML=`${esc(t)}<span class="tag-x" onclick="removeTag('${type}',${i})">×</span>`;area.appendChild(d);});
@@ -1915,7 +2059,7 @@ function buildCard(n,i){
   const assets=Array.isArray(n.asset_tags)?n.asset_tags:(typeof n.asset_tags==='string'?parseAssets(n.asset_tags):[]);
   const wl=(ME&&ME.notification_prefs&&ME.notification_prefs.watchlist)||[];
   const assetHtml=assets.length?`<div class="tc-assets">${assets.map(a=>`<span class="asset-tag${wl.includes(a)?' watching':''}" onclick="assetAction(event,'${esc(a)}',this)">${assetLabel(a)}</span>`).join('')}</div>`:'';
-  const readCount=n.push_count?`<span class="card-read-count">推送${n.push_count}人</span>`:'';
+  const readCount='';
 
   return `<div class="tcard ${cls}" data-id="${n.id||''}" style="animation:fadeIn .25s ${Math.min(i,6)*.04}s both" onclick="toggleCard(this)">
     <div class="tc-head">
@@ -2037,51 +2181,112 @@ async function clearWatchlist(){
 function openShareCard(e,idx){
   e.stopPropagation();
   SHARE_NEWS=ST.items[idx];if(!SHARE_NEWS)return;
-  const n=SHARE_NEWS,s=n.sentiment||'中性';
-  const color=s.includes('利多')?'#ff3d5a':s.includes('利空')?'#00e676':'#8aa0b8';
-  const title=n.title_cn||n.translation||n.title_en||'全球金融快讯';
-  const assets=parseAssets(n.asset_tags).map(assetLabel).join(' / ')||'全球市场';
-  el('share-preview').innerHTML=`<div class="sp-inner">
-    <div class="sp-head"><div class="sp-brand"><div style="width:30px;height:30px;background:linear-gradient(135deg,#ff6b2b,#e05520);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 20h4l1.5-4h7L17 20h4L12 2zm-2.5 11L12 7l2.5 6h-5z" fill="white"/></svg></div><div><div class="sp-brand-name">ALPHA HEARTBEAT</div><div class="sp-brand-sub">全球金融快讯终端</div></div></div><div class="sp-time">${esc(n.time_str||nowStr())}</div></div>
-    <div class="sp-signal" style="color:${color}"><span class="sp-pill" style="background:${color}22;color:${color}">${esc(s)}</span><span class="sp-source">${esc(n.source||'Alpha News')}</span></div>
-    <div class="sp-title">${esc(title)}</div>
-    <div class="sp-ai"><strong style="color:#ffb800">AI影响解读</strong><br>${esc((n.ai_logic||n.translation||'订阅 Alpha Heartbeat，实时接收机构级金融快讯与市场影响解读。').slice(0,120))}</div>
-    <div class="sp-assets"><div class="sp-asset-label">FOCUS ASSETS</div><div class="sp-asset-val">${esc(assets)}</div></div>
-    <div class="sp-foot"><div><div class="sp-site">AlphaHeartbeat.com</div><div style="font-size:8px;color:#626b78;margin-top:4px">全球金融快讯终端</div></div><div style="display:flex;align-items:flex-end"><div class="sp-risk">仅供参考<br>不构成投资建议</div></div></div>
-  </div>`;
+  renderShareCardImage(SHARE_NEWS);
   el('share-overlay').classList.add('open');
 }
-function closeShareCard(){el('share-overlay').classList.remove('open');}
+function closeShareCard(){
+  el('share-overlay').classList.remove('open');
+  if(SHARE_URL&&SHARE_URL.startsWith('blob:'))URL.revokeObjectURL(SHARE_URL);
+  SHARE_URL='';SHARE_BLOB=null;
+}
 function nowStr(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
-function downloadShareCard(){
-  if(!SHARE_NEWS){showFmsg('share-msg','没有快讯数据','err');return}
-  const n=SHARE_NEWS;
+
+function renderShareCardImage(n){
+  drawShareCanvas(n);
+  const c=el('share-canvas');
+  el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
+  if(SHARE_URL){URL.revokeObjectURL(SHARE_URL);SHARE_URL='';}
+  SHARE_BLOB=null;
+  if(c.toBlob){
+    c.toBlob(blob=>{
+      if(!blob){fallbackShareImage(c);return}
+      SHARE_BLOB=blob;
+      SHARE_URL=URL.createObjectURL(blob);
+      el('share-preview').innerHTML=`<img src="${SHARE_URL}" alt="Alpha Heartbeat 快讯分享卡">`;
+      showFmsg('share-msg','分享卡已生成，可保存或直接转发','ok');
+    },'image/png',.92);
+  }else{
+    fallbackShareImage(c);
+  }
+}
+function fallbackShareImage(c){
+  SHARE_URL=c.toDataURL('image/png');
+  el('share-preview').innerHTML=`<img src="${SHARE_URL}" alt="Alpha Heartbeat 快讯分享卡">`;
+  showFmsg('share-msg','分享卡已生成，可长按保存','ok');
+}
+
+function drawShareCanvas(n){
   const c=el('share-canvas'),ctx=c.getContext('2d'),W=c.width,H=c.height;
   const s=n.sentiment||'中性',bull=s.includes('利多'),bear=s.includes('利空');
-  const color=bull?'#ff3d5a':bear?'#00e676':'#8aa0b8';
-  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a1a1a');g.addColorStop(1,'#050505');
+  const color=bull?'#ff3d5a':bear?'#00e676':'#ffb800';
+  const icon=n.source==='VIP终端'?'⚡':(bull?'📈':bear?'📉':'●');
+  const signal=n.source==='VIP终端'?'终端快讯':(bull?'利多信号':bear?'利空信号':'中性信息');
+  const sourceMap={'VIP终端':'VIP TERMINAL','Reuters':'REUTERS','Bloomberg':'BLOOMBERG','Benzinga':'BENZINGA'};
+  const source=sourceMap[n.source]||String(n.source||'ALPHA NEWS').toUpperCase();
+  const title=n.title_cn||n.translation||n.title_en||'全球金融快讯';
+  const ai=n.ai_logic||n.translation||'Alpha Heartbeat 正在追踪全球市场资讯与潜在影响。';
+  const assets=parseAssets(n.asset_tags).map(assetLabel).join(' / ')||(n.targets||'全球市场');
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#151923');g.addColorStop(.45,'#090d16');g.addColorStop(1,'#030406');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  const rg=ctx.createRadialGradient(W*.78,H*.12,20,W*.78,H*.12,460);rg.addColorStop(0,'rgba(255,107,43,.34)');rg.addColorStop(1,'rgba(255,107,43,0)');
+  const rg=ctx.createRadialGradient(W*.82,H*.08,30,W*.82,H*.08,520);rg.addColorStop(0,'rgba(255,107,43,.28)');rg.addColorStop(1,'rgba(255,107,43,0)');
   ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='#ff6b2b';roundRect(ctx,70,74,92,92,18,true,false);
-  ctx.fillStyle='#fff';ctx.font='900 70px Arial';ctx.fillText('A',92,143);
-  ctx.fillStyle='#fff';ctx.font='900 42px Arial';ctx.fillText('ALPHA HEARTBEAT',188,112);
-  ctx.fillStyle='#8c96a3';ctx.font='24px Arial';ctx.fillText('全球金融快讯终端 · AlphaHeartbeat.com',190,150);
-  ctx.fillStyle='#707987';ctx.font='26px monospace';ctx.textAlign='right';ctx.fillText(n.time_str||nowStr(),W-70,128);ctx.textAlign='left';
-  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.beginPath();ctx.moveTo(70,205);ctx.lineTo(W-70,205);ctx.stroke();
-  ctx.strokeStyle=color;ctx.fillStyle=color+'22';roundRect(ctx,70,252,210,64,32,true,true);ctx.fillStyle=color;ctx.font='800 30px Arial';ctx.fillText(s,105,294);
-  ctx.fillStyle='#7b8494';ctx.font='26px monospace';ctx.fillText(n.source||'Alpha News',310,294);
-  ctx.fillStyle='#fff';ctx.font='900 58px Arial';let y=wrapCanvasText(ctx,n.title_cn||n.translation||n.title_en||'全球金融快讯',70,405,W-140,78,6);
-  ctx.fillStyle='#141414';roundRect(ctx,70,y+50,W-140,310,16,true,false);ctx.strokeStyle='#292929';roundRect(ctx,70,y+50,W-140,310,16,false,true);
-  ctx.fillStyle='#ffb800';ctx.font='800 32px Arial';ctx.fillText('AI影响解读',105,y+105);
-  ctx.fillStyle='#c8d0da';ctx.font='34px Arial';wrapCanvasText(ctx,n.ai_logic||n.translation||'订阅 Alpha Heartbeat，实时接收机构级金融快讯与市场影响解读。',105,y+162,W-210,54,4);
-  ctx.fillStyle='#6f7785';ctx.font='24px monospace';ctx.fillText('FOCUS ASSETS',70,H-310);
-  ctx.fillStyle='#00d6ff';ctx.font='800 44px monospace';wrapCanvasText(ctx,parseAssets(n.asset_tags).map(assetLabel).join(' / ')||'全球市场',70,H-250,W-140,56,2);
-  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.beginPath();ctx.moveTo(70,H-170);ctx.lineTo(W-70,H-170);ctx.stroke();
-  ctx.fillStyle='#ff7a1a';ctx.font='900 38px monospace';ctx.fillText('AlphaHeartbeat.com',70,H-105);
-  ctx.fillStyle='#626b78';ctx.font='24px Arial';ctx.fillText('AlphaHeartbeat.com · 仅供参考，不构成投资建议',70,H-62);
-  const a=document.createElement('a');a.download='AlphaHeartbeat-快讯分享卡.png';a.href=c.toDataURL('image/png');a.click();
-  showFmsg('share-msg','图片已生成，可直接分享','ok');
+  ctx.strokeStyle='rgba(255,255,255,.055)';ctx.lineWidth=1;
+  for(let x=70;x<W;x+=92){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=80;y<H;y+=92){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.fillStyle='rgba(255,107,43,.92)';roundRect(ctx,74,78,88,88,18,true,false);
+  ctx.fillStyle='#fff';ctx.font='900 64px Arial';ctx.fillText('A',97,143);
+  ctx.fillStyle='#f4f7fb';ctx.font='900 43px Arial';ctx.fillText('ALPHA HEARTBEAT',190,112);
+  ctx.fillStyle='#7c8798';ctx.font='24px monospace';ctx.fillText('GLOBAL NEWS SIGNAL TERMINAL',192,150);
+  ctx.textAlign='right';ctx.fillStyle='#b7c0cf';ctx.font='28px monospace';ctx.fillText(n.time_str||nowStr(),W-74,112);
+  ctx.fillStyle='#667085';ctx.font='20px monospace';ctx.fillText('BJ',W-74,145);ctx.textAlign='left';
+  ctx.strokeStyle='rgba(255,255,255,.13)';ctx.beginPath();ctx.moveTo(74,215);ctx.lineTo(W-74,215);ctx.stroke();
+
+  ctx.fillStyle=color+'22';ctx.strokeStyle=color;ctx.lineWidth=2;roundRect(ctx,74,260,250,66,12,true,true);
+  ctx.fillStyle=color;ctx.font='900 31px Arial';ctx.fillText(`${icon} ${signal}`,100,303);
+  ctx.fillStyle='#8b94a5';ctx.font='26px monospace';ctx.fillText(source,352,302);
+  ctx.fillStyle='#f8fafc';ctx.font='900 58px Arial';
+  let y=wrapCanvasText(ctx,title,74,420,W-148,78,6);
+
+  const boxY=Math.min(y+42,980);
+  ctx.fillStyle='rgba(9,14,25,.92)';roundRect(ctx,74,boxY,W-148,330,18,true,false);
+  ctx.strokeStyle='rgba(142,161,192,.24)';ctx.lineWidth=2;roundRect(ctx,74,boxY,W-148,330,18,false,true);
+  ctx.fillStyle='#ffcf5a';ctx.font='900 30px monospace';ctx.fillText('AI IMPACT',112,boxY+70);
+  ctx.fillStyle='#c7d1df';ctx.font='34px Arial';wrapCanvasText(ctx,ai,112,boxY+130,W-224,54,4);
+
+  ctx.fillStyle='#6f7c91';ctx.font='24px monospace';ctx.fillText('FOCUS ASSETS',74,H-330);
+  ctx.fillStyle='#27d7ff';ctx.font='900 40px monospace';wrapCanvasText(ctx,assets,H>0?74:74,H-270,W-148,56,2);
+  ctx.strokeStyle='rgba(255,255,255,.13)';ctx.beginPath();ctx.moveTo(74,H-178);ctx.lineTo(W-74,H-178);ctx.stroke();
+  ctx.fillStyle='#ff7a1a';ctx.font='900 38px monospace';ctx.fillText('alphaheartbeat.com',74,H-115);
+  ctx.fillStyle='#7c8798';ctx.font='24px monospace';ctx.fillText('news@heartbeat-news.top',74,H-74);
+  ctx.textAlign='right';ctx.fillStyle='#646f7f';ctx.font='23px Arial';ctx.fillText('仅供参考，不构成投资建议',W-74,H-115);
+  ctx.fillText('市场有风险，交易需谨慎',W-74,H-74);ctx.textAlign='left';
+}
+
+async function downloadShareCard(){
+  if(!SHARE_NEWS){showFmsg('share-msg','没有快讯数据','err');return}
+  try{
+    if(!SHARE_BLOB && !SHARE_URL)renderShareCardImage(SHARE_NEWS);
+    const file=SHARE_BLOB?new File([SHARE_BLOB],'AlphaHeartbeat-快讯分享卡.png',{type:'image/png'}):null;
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:'Alpha Heartbeat 快讯分享卡',text:'Alpha Heartbeat · alphaheartbeat.com'});
+      showFmsg('share-msg','已打开系统分享面板','ok');
+      return;
+    }
+    const href=SHARE_URL||el('share-canvas').toDataURL('image/png');
+    const a=document.createElement('a');
+    a.download='AlphaHeartbeat-快讯分享卡.png';
+    a.href=href;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>{try{window.open(href,'_blank')}catch(e){}},250);
+    showFmsg('share-msg','图片已生成。若未自动保存，请长按预览图保存。','ok');
+  }catch(e){
+    const href=SHARE_URL||el('share-canvas').toDataURL('image/png');
+    try{window.open(href,'_blank')}catch(_){}
+    showFmsg('share-msg','已生成图片，请长按预览图保存','ok');
+  }
 }
 function wrapCanvasText(ctx,text,x,y,maxWidth,lineHeight,maxLines){
   const chars=String(text||'').split('');let line='',lines=[];
@@ -2204,6 +2409,8 @@ async function loadUsers(){
       const src=u.sources||{};
       const srcText=['vip_terminal','reuters','bloomberg'].filter(k=>src[k]!==false).map(k=>({vip_terminal:'VIP终端',reuters:'路透',bloomberg:'彭博'}[k])).join(' / ')||'未选信源';
       const kw=[...(u.keywords||[]),...(u.sectors||[]).map(s=>'板块:'+s)].slice(0,4).join('、')||'未设关键词';
+      const hasRules=(u.keywords||[]).length||(u.sectors||[]).length||(u.watchlist||[]).length;
+      const modeLabel=u.email_only_custom?(hasRules?'定制命中':'未设规则 · 自动全量'):'全量';
       const mode=u.delivery_mode==='email'
         ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${u.push_email_verified===false?'待激活':'已激活'}`
         : (u.delivery_mode==='feishu'?`飞书 · ${esc(u.feishu_name||'待备注')} ${u.feishu_verified?'✅':'待验证'}`:'未选择');
@@ -2213,7 +2420,7 @@ async function loadUsers(){
       <td><span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
       <td>
-        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${u.email_only_custom?'定制命中':'全量'} · ${srcText}<br>${esc(kw)}</div>
+        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}</div>
         <div class="admin-push-actions">
           <button onclick="adminSetEmail(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设邮箱</button>
           <button onclick="adminSetFeishu(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设飞书</button>
@@ -2428,6 +2635,12 @@ function hlNum(t){return t.replace(/(\d+(\.\d+)?%)/g,'<span class="num">$1</span
 function showFmsg(id,txt,type){const e=el(id);if(!e)return;e.textContent=txt;e.className=`fmsg ${type}`}
 function showToast(msg){const t=el('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 function copyText(t){navigator.clipboard&&navigator.clipboard.writeText(t).then(()=>showToast('✅ 已复制：'+t.slice(0,20))).catch(()=>showToast('复制失败'));}
+function copyApiPayload(e){
+  e&&e.stopPropagation();
+  const code=el('api-payload-code');
+  if(!code)return;
+  copyText(code.innerText.trim());
+}
 function animNum(id,target){
   const e=el(id);if(!e)return;
   const start=parseInt(e.textContent)||0;const diff=(target||0)-start;if(!diff)return;
