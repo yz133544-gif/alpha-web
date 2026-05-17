@@ -1809,7 +1809,7 @@ function showSettings(){
   el('tog-email-only').checked=!!p.email_only_custom;
   const sources=p.sources||{};
   const hasSourcePrefs=!!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'));
-  const emailFirstDefault=mode==='email'&&!hasSourcePrefs;
+  const emailFirstDefault=mode==='email'&&(!hasSourcePrefs||(!p.delivery_locked&&!p.push_email));
   el('src-vip').checked=emailFirstDefault?true:sources.vip_terminal!==false;
   el('src-reuters').checked=emailFirstDefault?false:sources.reuters!==false;
   el('src-bloomberg').checked=emailFirstDefault?false:sources.bloomberg!==false;
@@ -1835,7 +1835,7 @@ function selectDelivery(mode){
   }
   if(!ME||!ME.is_vip){showToast('请先升级 VIP 后选择推送通道');return;}
   el('delivery-mode').value=mode;
-  if(mode==='email'&&!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'))){
+  if(mode==='email'&&!p.delivery_locked){
     el('src-vip').checked=true;
     el('src-reuters').checked=false;
     el('src-bloomberg').checked=false;
@@ -2463,13 +2463,29 @@ async function loadUsers(){
         </select>
         <input id="ud-${u.id}" type="number" placeholder="+天" style="width:38px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:2px 3px;border-radius:2px;font-size:8px;font-family:var(--mono)" min="1">
         <button onclick="addVipD(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">续期</button>
+        ${u.is_vip_active?`<button onclick="cancelVip(${u.id})" style="background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.18);color:var(--red);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">取消VIP</button>`:''}
         <button onclick="delUser(${u.id})" style="background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.13);color:var(--red);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">删除</button>
       </td>
     </tr>`;
     }).join('');
   }catch(e){}
 }
-async function setUPlan(uid,plan){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({plan})});showToast('✅ 已更新');}catch(e){}}
+async function setUPlan(uid,plan){
+  if(plan==='free'){await cancelVip(uid);return;}
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({plan})});
+    showToast('✅ 已更新');
+    loadUsers();
+  }catch(e){showToast(e.message||'更新失败');loadUsers();}
+}
+async function cancelVip(uid){
+  if(!confirm('确定取消该用户 VIP 吗？系统会立即停止网页实时推送、邮箱推送、飞书推送，并清空未发送的聚合邮件。')){loadUsers();return;}
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({cancel_vip:1})});
+    showToast('✅ 已取消VIP并停止推送');
+    loadUsers();
+  }catch(e){showToast(e.message||'取消失败');loadUsers();}
+}
 async function addVipD(uid){const inp=el('ud-'+uid);const days=parseInt(inp&&inp.value)||0;if(!days)return;try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({vip_days:days})});showToast(`✅ +${days}天VIP`);loadUsers();}catch(e){}}
 async function verifyFs(uid){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({feishu_verified:1})});showToast('✅ 飞书已验证');loadUsers();}catch(e){}}
 async function adminResendActivation(uid){
@@ -2597,7 +2613,7 @@ async function loadPushLog(){
       <td style="font-family:var(--mono);font-size:8px">${r.channel}</td>
       <td style="font-family:var(--mono);font-size:8px">${r.priority}</td>
       <td style="color:${r.status==='ok'?'var(--green)':'var(--red)'};font-family:var(--mono);font-size:8px">${r.status}</td>
-      <td style="font-size:8px;color:var(--text3)">${r.reason||''}</td>
+      <td title="${esc(r.reason||'')}" style="font-size:8px;color:var(--text3);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.reason||'')}</td>
       <td style="font-family:var(--mono);font-size:8px">${r.latency_ms}ms</td>
     </tr>`).join('');
   }catch(e){}
