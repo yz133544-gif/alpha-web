@@ -124,6 +124,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .main-grid{max-width:1440px;margin:0 auto;padding:0 16px 80px;display:grid;grid-template-columns:1fr;gap:0}
 .mobile-feed-head{display:none}
 .mobile-compliance{display:none}
+.mobile-macro-strip{display:none}
 
 /* ═══ FILTER BAR ═══ */
 .filter-bar{position:sticky;top:47px;z-index:120;display:grid;grid-template-columns:1fr minmax(220px,320px);gap:9px 12px;margin-bottom:8px;background:linear-gradient(180deg,rgba(12,20,36,.9),rgba(8,14,26,.7));border:1px solid var(--border);border-radius:8px;padding:10px 12px;box-shadow:var(--card-glow);backdrop-filter:blur(18px)}
@@ -487,6 +488,11 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .compliance-strip{margin:8px 0 12px;border:1px solid rgba(119,143,169,.16);background:linear-gradient(135deg,rgba(255,255,255,.024),rgba(255,107,43,.018));border-radius:6px;padding:8px 10px;color:var(--text3);font-size:8px;line-height:1.7;font-family:var(--mono)}
 .compliance-strip b{color:var(--orange);font-weight:900;letter-spacing:.8px}
 .hero .compliance-strip{margin:10px 0 0;max-width:680px;background:rgba(255,255,255,.018)}
+.free-access-notice{display:none;margin:0 0 10px;border:1px solid rgba(255,107,43,.22);background:linear-gradient(135deg,rgba(255,107,43,.09),rgba(15,23,42,.56));border-radius:8px;padding:10px 12px;color:var(--text2);font-size:10px;line-height:1.75}
+.free-access-notice.show{display:block}
+.free-access-notice b{color:var(--orange);font-family:var(--mono);font-size:8px;letter-spacing:1.2px;margin-right:6px}
+.free-access-notice a{color:var(--orange);font-weight:800;text-decoration:none;cursor:pointer}
+[data-theme="light"] .free-access-notice{background:#fff7ed;border-color:#fed7aa;color:#475569}
 .channel-form{margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:11px}
 .channel-form.disabled{display:none}
 .channel-form.locked{opacity:.78}
@@ -569,6 +575,21 @@ tr:hover td{background:var(--orange3)}
   .mobile-feed-title{font-size:19px;font-weight:900;color:var(--text);letter-spacing:-.2px}
   .mobile-feed-title .cn-brand{font-size:.7em;color:var(--orange);margin-left:5px;font-family:var(--display);letter-spacing:.08em;white-space:nowrap}
   .mobile-feed-sub{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.55}
+  .mobile-macro-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0 0 10px}
+  .mobile-macro-item{min-width:0;background:rgba(8,14,26,.92);border:1px solid var(--border);border-radius:8px;padding:7px 6px;position:relative;overflow:hidden}
+  .mobile-macro-item::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange))}
+  .mobile-macro-label{font-family:var(--mono);font-size:7px;letter-spacing:.7px;color:var(--text3);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mobile-macro-label.zh{font-family:var(--body);letter-spacing:.5px}
+  .mobile-macro-value{font-family:var(--mono);font-size:12px;font-weight:900;color:var(--text);margin-top:4px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mobile-macro-main{display:flex;align-items:center;gap:4px;min-width:0;margin-top:3px}
+  .mobile-macro-main .mobile-macro-value{margin-top:0;flex:1;min-width:0}
+  .mobile-macro-icon{font-size:11px;line-height:1;flex:0 0 auto}
+  .mobile-macro-sub{font-size:7px;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mobile-macro-fng .mobile-macro-label{margin-bottom:2px}
+  .mobile-gauge-row{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:end;gap:5px}
+  .mobile-gauge-svg{width:34px;height:20px;display:block;margin-bottom:1px}
+  .mobile-macro-fng .mobile-macro-value{margin-top:0;font-size:12px}
+  .mobile-macro-fng .mobile-macro-sub{margin-top:2px}
   .mobile-action-strip{display:none}
   .mobile-action-strip::-webkit-scrollbar{display:none}
   .mobile-action{height:34px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;border:1px solid var(--border);background:var(--bg1);color:var(--text2);border-radius:8px;padding:0 13px;font-size:12px;font-weight:800;white-space:nowrap}
@@ -640,6 +661,7 @@ tr:hover td{background:var(--orange3)}
   [data-theme="light"] header{background:rgba(255,255,255,.96)}
   [data-theme="light"] .filter-bar{background:rgba(255,255,255,.92)}
   [data-theme="light"] .search-box{background:#fff}
+  [data-theme="light"] .mobile-macro-item{background:#fff;border-color:#d8e2ee}
   [data-theme="light"] .tcard{background:#fff;border-color:#cfdae7}
   [data-theme="light"] .bottom-nav{background:rgba(255,255,255,.97);border-top-color:#d8e2ee}
   .main-grid{padding:10px 10px 88px}
@@ -762,18 +784,21 @@ tr:hover td{background:var(--orange3)}
           <div class="m-icon" id="vix-icon">⚪</div>
           <div class="m-num" id="vix-v">—</div>
           <div class="m-sub" id="vix-s">波动率</div>
+          <div class="m-upd" id="vix-upd"></div>
         </div>
         <div class="mcrd">
           <div class="m-label">比特币</div>
           <div class="m-icon">₿</div>
           <div class="m-num" id="btc-v">—</div>
           <div class="m-sub">风险锚点</div>
+          <div class="m-upd" id="btc-upd"></div>
         </div>
         <div class="mcrd">
           <div class="m-label">黄金</div>
           <div class="m-icon">🥇</div>
           <div class="m-num" id="gold-v">—</div>
           <div class="m-sub">避险锚点</div>
+          <div class="m-upd" id="gold-upd"></div>
         </div>
       </div>
     </div>
@@ -792,7 +817,40 @@ tr:hover td{background:var(--orange3)}
         <div class="mobile-feed-title">Alpha Heartbeat 快讯 <span class="cn-brand">心跳数据</span></div>
         <div class="mobile-feed-sub">实时市场消息、AI影响解读与自选标的提醒，优先展示你最需要看的内容。</div>
       </div>
+      <div class="mobile-macro-strip" aria-label="宏观指标">
+        <div class="mobile-macro-item mobile-macro-fng">
+          <div class="mobile-macro-label">CNN</div>
+          <div class="mobile-gauge-row">
+            <svg class="mobile-gauge-svg" viewBox="0 0 70 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#0f1e35" stroke-width="7" stroke-linecap="round"/>
+              <path id="m-fng-arc" d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="47"/>
+            </svg>
+            <div>
+              <div class="mobile-macro-value" id="m-fng-v">—</div>
+              <div class="mobile-macro-sub" id="m-fng-s">恐惧贪婪</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-macro-item">
+          <div class="mobile-macro-label">VIX</div>
+          <div class="mobile-macro-main"><span class="mobile-macro-icon" id="m-vix-icon">⚪</span><div class="mobile-macro-value" id="m-vix-v">—</div></div>
+          <div class="mobile-macro-sub" id="m-vix-s">波动率</div>
+        </div>
+        <div class="mobile-macro-item">
+          <div class="mobile-macro-label">BTC</div>
+          <div class="mobile-macro-main"><span class="mobile-macro-icon">₿</span><div class="mobile-macro-value" id="m-btc-v">—</div></div>
+          <div class="mobile-macro-sub">风险锚点</div>
+        </div>
+        <div class="mobile-macro-item">
+          <div class="mobile-macro-label zh">黄金</div>
+          <div class="mobile-macro-main"><span class="mobile-macro-icon">🥇</span><div class="mobile-macro-value" id="m-gold-v">—</div></div>
+          <div class="mobile-macro-sub">避险锚点</div>
+        </div>
+      </div>
       <div class="compliance-strip mobile-compliance"><b>RISK NOTICE</b> 本系统仅客观加速公开资讯送达，不提供投资咨询、荐股、收益承诺或交易指令。</div>
+      <div class="free-access-notice" id="free-access-notice">
+        <b>ACCESS DELAY</b> 免费版仅开放 24 小时后的公开快讯回看；如需查看实时终端快讯、AI 解读与专属推送，请先登录并升级 <a onclick="openVipModal()">VIP 会员</a>。
+      </div>
       <div class="mobile-action-strip" aria-label="移动端频道">
         <button class="mobile-action hot" onclick="setFilter('all',document.querySelector('.filter-main .fbtn'))">快讯</button>
         <button class="mobile-action" onclick="showPage('settings');bnSet('settings')">推送设置</button>
@@ -1388,7 +1446,8 @@ tr:hover td{background:var(--orange3)}
       <div id="r-conf-t" style="font-size:8px;margin-top:2px;font-family:var(--mono)"></div>
     </div>
     <div class="fg"><div class="flabel">邀请码 <span style="color:var(--text3)">(无邀请码默认免费版)</span></div><input class="finput" id="r-inv" placeholder="输入专属邀请码" style="text-transform:uppercase;font-family:var(--mono)"></div>
-    <button class="btn-full btn-orange" onclick="doRegister()">注册账号</button>
+    <button class="btn-full btn-orange" id="r-submit" onclick="doRegister()">注册账号</button>
+    <button class="btn-full btn-sec" id="r-resend-btn" onclick="doRegisterResendVerify()" style="display:none;margin-top:7px">60秒后可重发验证邮件</button>
     <div class="fmsg" id="r-msg"></div>
     <div class="fnote">注册即同意服务条款。本快讯仅供参考，投资有风险，请谨慎决策。</div>
   </div>
@@ -1493,7 +1552,7 @@ tr:hover td{background:var(--orange3)}
 
 <script>
 const API = 'https://api.alphaheartbeat.com:8443';
-let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false};
+let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false,lastAppendCount:0,access:null};
 let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null,SHARE_URL='',SHARE_BLOB=null;
 let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
@@ -1543,7 +1602,9 @@ function updateGauge(v){
   const total=94.2;arc.setAttribute('stroke-dashoffset',(total*(1-v/100)).toFixed(1));
   let c='#22c55e';if(v>25)c='#84cc16';if(v>45)c='#f59e0b';if(v>65)c='#f97316';if(v>80)c='#ff3d5a';
   arc.setAttribute('stroke',c);
+  if(el('m-fng-arc')){el('m-fng-arc').setAttribute('stroke-dashoffset',(total*(1-v/100)).toFixed(1));el('m-fng-arc').setAttribute('stroke',c);}
   if(el('fng-v')){el('fng-v').textContent=v;el('fng-v').style.color=c;}
+  if(el('m-fng-v')){el('m-fng-v').textContent=v;el('m-fng-v').style.color=c;}
 }
 async function loadMacro(){
   try{
@@ -1552,10 +1613,18 @@ async function loadMacro(){
     setText('fng-s',d.fng_state||'');setText('vix-v',d.vix_value||'N/A');
     setText('vix-s',d.vix_status||'');setText('btc-v',d.btc_price||'N/A');
     setText('gold-v',d.gold_price||'N/A');
+    setText('m-fng-s',d.fng_state||'恐惧贪婪');
+    setText('m-vix-v',d.vix_value||'N/A');setText('m-vix-s',d.vix_status||'波动率');
+    setText('m-btc-v',d.btc_price||'N/A');setText('m-gold-v',d.gold_price||'N/A');
     const vix=parseFloat(d.vix_value)||0;
     let icon='⚪';if(vix<15)icon='🟢';else if(vix<20)icon='🟡';else if(vix<30)icon='🟠';else icon='🔴';
     setText('vix-icon',icon);
-    if(d.updated_at){const bj=new Date(d.updated_at*1000+8*3600000);setText('m-upd','更新 '+bj.toISOString().slice(5,16).replace('T',' '));}
+    setText('m-vix-icon',icon);
+    if(d.updated_at){
+      const bj=new Date(d.updated_at*1000+8*3600000);
+      const upd='更新 '+bj.toISOString().slice(5,16).replace('T',' ');
+      ['m-upd','vix-upd','btc-upd','gold-upd'].forEach(id=>setText(id,upd));
+    }
   }catch(e){}
 }
 
@@ -1622,6 +1691,10 @@ async function checkAuth(){
   try{ME=await api('/api/me');setLoggedIn(ME);connectWS();}
   catch(e){setGuest();}
 }
+function updateFreeAccessNotice(){
+  const n=el('free-access-notice');
+  if(n)n.classList.toggle('show',!ME||!ME.is_vip);
+}
 function setLoggedIn(u){
   ME=u;
   setText('hdr-name',u.username);
@@ -1643,6 +1716,7 @@ function setLoggedIn(u){
     el('wl-card').style.display='none';
   }
   if(el('mine-page')&&el('mine-page').classList.contains('active'))renderMinePage();
+  updateFreeAccessNotice();
 }
 function setGuest(){
   ME=null;
@@ -1650,6 +1724,7 @@ function setGuest(){
   el('hdr-status').className='profile-status';setText('hdr-avatar','A');
   el('pm-login').style.display='flex';el('pm-logout').style.display='none';
   el('sb-guest').style.display='block';el('sb-user').style.display='none';
+  updateFreeAccessNotice();
 }
 function renderMinePage(){
   if(!ME){openModal('login');showPage('main');return;}
@@ -1680,11 +1755,37 @@ async function doLogin(){
   try{await api('/api/login',{method:'POST',body:JSON.stringify({username:id,password:pw})});closeModal();await checkAuth();showToast('✅ 登录成功');loadFeed(true);}
   catch(e){showFmsg('l-msg',e.message,'err');}
 }
+let registerResendTimer=null;
+function startRegisterResendCooldown(seconds=60){
+  const btn=el('r-resend-btn');
+  if(!btn)return;
+  btn.style.display='block';
+  if(registerResendTimer)clearInterval(registerResendTimer);
+  let left=seconds;
+  btn.disabled=true;
+  btn.textContent=`${left}秒后可重发验证邮件`;
+  registerResendTimer=setInterval(()=>{
+    left-=1;
+    if(left<=0){
+      clearInterval(registerResendTimer);
+      registerResendTimer=null;
+      btn.disabled=false;
+      btn.textContent='重新发送验证邮件';
+      return;
+    }
+    btn.textContent=`${left}秒后可重发验证邮件`;
+  },1000);
+}
 async function doRegister(){
   const name=el('r-name').value.trim(),email=el('r-email').value.trim(),pw=el('r-pw').value,pw2=el('r-pw2').value,inv=el('r-inv').value.trim().toUpperCase();
   if(!name||!email||!pw||!pw2){showFmsg('r-msg','请填写完整','err');return}
   if(pw!==pw2){showFmsg('r-msg','两次密码不一致','err');return}
-  try{const d=await api('/api/register',{method:'POST',body:JSON.stringify({username:name,email,password:pw,confirm:pw2,invite_code:inv})});showFmsg('r-msg',d.message,'ok');showToast('📧 验证邮件已发送');}
+  try{const d=await api('/api/register',{method:'POST',body:JSON.stringify({username:name,email,password:pw,confirm:pw2,invite_code:inv})});showFmsg('r-msg',d.message,'ok');showToast('📧 验证邮件已发送');startRegisterResendCooldown(60);}
+  catch(e){showFmsg('r-msg',e.message,'err');}
+}
+async function doRegisterResendVerify(){
+  const email=el('r-email').value.trim();if(!email){showFmsg('r-msg','请输入注册邮箱','err');return}
+  try{const d=await api('/api/resend-verify',{method:'POST',body:JSON.stringify({email})});showFmsg('r-msg',d.message,'ok');showToast('验证邮件已重新发送');startRegisterResendCooldown(60);}
   catch(e){showFmsg('r-msg',e.message,'err');}
 }
 async function doForgot(){
@@ -2026,18 +2127,20 @@ async function loadFeed(reset=false,silent=false){
 
     const d=await api(`/api/news?${p}`);
     ST.total=d.total;
-    // BUG FIX: 正确累加，不使用slice(-20)
-    if(reset)ST.items=d.items;
-    else{const newItems=d.items.filter(ni=>!ST.items.find(oi=>oi.id===ni.id));ST.items=[...ST.items,...newItems];}
+    ST.access=d;
+    if(reset){ST.items=d.items;ST.lastAppendCount=d.items.length;}
+    else{const newItems=d.items.filter(ni=>!ST.items.find(oi=>oi.id===ni.id));ST.lastAppendCount=newItems.length;ST.items=[...ST.items,...newItems];}
 
     renderFeed(reset);
     el('load-wrap').style.display=(ST.items.length<ST.total)?'flex':'none';
 
     // Update status
     const status=el('feed-status');
-    if(status&&(ST.filter!=='all'||ST.search||ST.asset)){
+    const accessText=feedAccessText(d);
+    if(status&&(accessText||ST.filter!=='all'||ST.search||ST.asset)){
       status.style.display='block';
-      status.textContent=`已筛选 ${d.total} 条${ST.search?` · 关键词:"${ST.search}"`:''} ${ST.asset?`· 标的:${assetLabel(ST.asset)}`:''}${f!=='all'?` · 过滤:${f}`:''}`;
+      const filterText=(ST.filter!=='all'||ST.search||ST.asset)?`已筛选 ${d.total} 条${ST.search?` · 关键词:"${ST.search}"`:''} ${ST.asset?` · 标的:${assetLabel(ST.asset)}`:''}${f!=='all'?` · 过滤:${f}`:''}`:'';
+      status.textContent=[accessText,filterText].filter(Boolean).join(' · ');
     } else if(status){ status.style.display='none'; }
 
     // Update source counts
@@ -2048,6 +2151,13 @@ async function loadFeed(reset=false,silent=false){
   }catch(e){
     el('feed').innerHTML='<div class="empty"><div class="empty-i">📡</div><div style="font-size:12px">暂无数据，请检查网络</div></div>';
   }finally{ST.loading=false;}
+}
+
+function feedAccessText(d){
+  if(!d||d.vip_access)return '';
+  const h=Number(d.delay_hours||0),days=Number(d.free_history_days||0);
+  const range=[h?`${h}小时前`:'',days?`至${days}天内`:'' ].filter(Boolean).join('');
+  return `延迟视图 · 最新可见 ${d.latest_visible_str||'—'}${range?` · ${range}`:''}`;
 }
 
 function showSkels(r){
@@ -2062,8 +2172,11 @@ function renderFeed(reset){
   if(reset)feed.innerHTML=ST.items.map((n,i)=>buildCard(n,i)).join('');
   // BUG FIX: 加载更多时只追加新条目
   else{
-    const newCards=ST.items.slice(-20).map((n,i)=>buildCard(n,ST.items.length-20+i)).join('');
-    feed.innerHTML+=newCards;
+    const count=ST.lastAppendCount||0;
+    if(count>0){
+      const newCards=ST.items.slice(-count).map((n,i)=>buildCard(n,ST.items.length-count+i)).join('');
+      feed.innerHTML+=newCards;
+    }
   }
 }
 
