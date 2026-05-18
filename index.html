@@ -48,6 +48,12 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 @keyframes tkr{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .ti{display:inline-flex;align-items:center;gap:5px;padding:0 18px;font-family:var(--mono);font-size:9px;color:var(--text3);border-right:1px solid var(--border)}
 .ti .sym{color:var(--text2);font-weight:500}.ti .up{color:var(--green)}.ti .dn{color:var(--red)}
+.mobile-ticker-line{display:none;background:var(--header);border-bottom:1px solid var(--border);overflow:hidden;height:24px;position:sticky;top:46px;z-index:155;backdrop-filter:blur(18px)}
+.mobile-ticker-line::before,.mobile-ticker-line::after{content:'';position:absolute;top:0;bottom:0;width:28px;z-index:1;pointer-events:none}
+.mobile-ticker-line::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.mobile-ticker-line::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.mobile-ticker-inner{display:inline-flex;align-items:center;height:100%;white-space:nowrap;animation:tkr 36s linear infinite}
+.mobile-ticker-inner .ti{font-size:8px;padding:0 14px;height:100%;letter-spacing:.1px}
 .hdr-r{display:flex;align-items:center;gap:7px;flex-shrink:0;position:relative}
 .btn{padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;border:none;font-family:var(--body);transition:all .2s;letter-spacing:.3px}
 .btn-pri{background:var(--orange);color:#fff}.btn-pri:hover{background:var(--orange2);box-shadow:0 0 12px rgba(255,107,43,.3)}
@@ -564,6 +570,8 @@ tr:hover td{background:var(--orange3)}
   .logo-mark{width:30px;height:30px;border-radius:8px}
   .logo-txt .n{font-size:11px;letter-spacing:1.8px;white-space:nowrap}
   .logo-txt .s,.ticker-wrap,.profile-meta,.theme-btn,.hdr-action{display:none}
+  .mobile-ticker-line{display:block;top:54px}
+  .filter-bar{top:78px}
   .hdr-r{gap:6px;margin-left:auto}
   .upgrade-btn{height:30px;padding:0 8px;font-size:9px;border-radius:8px}
   .hdr-r .upgrade-btn{display:inline-flex;align-items:center}
@@ -755,6 +763,10 @@ tr:hover td{background:var(--orange3)}
   </div>
 </div>
 </header>
+
+<div class="mobile-ticker-line" aria-label="市场滚动行情">
+  <div class="mobile-ticker-inner" id="mobile-ticker"></div>
+</div>
 
 <div id="ws-toasts"></div>
 <div class="drawer-backdrop" id="drawer-backdrop" onclick="closeSidebarDrawer()"></div>
@@ -1565,7 +1577,7 @@ let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
 
 document.addEventListener('DOMContentLoaded',()=>{
-  loadTheme();checkAuth();loadStats();loadFeed(true);loadMacro();
+  loadTheme();initMobileTicker();checkAuth();loadStats();loadFeed(true);loadMacro();
   setInterval(loadStats,30000);setInterval(loadMacro,120000);
   setInterval(()=>{if(ST.page===1&&!document.hidden)loadFeed(true,true);},60000);
   const h=location.hash;
@@ -1580,6 +1592,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebarDrawer();closeModal();closeVipModal();closeShareCard();}});
 });
+
+function initMobileTicker(){
+  const desktop=el('ticker'), mobile=el('mobile-ticker');
+  if(desktop&&mobile)mobile.innerHTML=desktop.innerHTML;
+}
 
 // ═══ THEME ═══
 function loadTheme(){
@@ -1672,7 +1689,7 @@ function showWSToast(n,reason){
   const isS=lvl==='S';
   const badge=bull?'<span style="color:var(--red);font-size:9px;font-weight:700">📈 利多</span>':bear?'<span style="color:var(--green);font-size:9px;font-weight:700">📉 利空</span>':'<span style="color:var(--text3);font-size:9px;font-weight:700">📊 中性</span>';
   const title=n.title_cn||n.translation||n.title_en||'';
-  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'终端','Benzinga':'BZ'}[n.source]||n.source||'';
+  const src=sourceLabel(n.source);
   const reasonMap={global_hit:'全局热词',vip_terminal:'VIP终端',matched_keyword:'关键词命中',matched_sector:'板块命中',watchlist:'特别关注'};
   const reasonBadge=reason?`<span style="font-size:8px;color:var(--orange)">触发：${reasonMap[reason]||reason}</span>`:'';
 
@@ -1699,6 +1716,10 @@ function showWSToast(n,reason){
     if(feed.firstChild)feed.insertBefore(tmp.firstChild,feed.firstChild);
     else feed.appendChild(tmp.firstChild);
   }
+}
+
+function sourceLabel(source){
+  return {'Bloomberg':'彭博','Reuters':'路透','VIP终端':'VIP终端','Benzinga':'Benzinga'}[source]||source||'';
 }
 function dismissWst(btn){const t=btn.closest('.wst');t.classList.add('hide');setTimeout(()=>t.remove(),380);}
 
@@ -2229,8 +2250,8 @@ function buildCard(n,i){
   const scoreColor=score>=90?'var(--red)':score>=70?'var(--orange)':score>=50?'var(--blue)':'var(--text3)';
   const sentBadge=bull?'<span class="sent-badge s-bull">📈 利多</span>':bear?'<span class="sent-badge s-bear">📉 利空</span>':'<span class="sent-badge s-neut">● 中性</span>';
   const isVipSource=n.source==='VIP终端'||n.is_vip;
-  const vipBadge=isVipSource?'<span class="sent-badge s-vip">⚡ VIP</span>':'';
-  const src={'Bloomberg':'BBG','Reuters':'RTR','VIP终端':'终端','Benzinga':'BZ'}[n.source]||n.source||'';
+  const vipBadge=isVipSource?'<span class="sent-badge s-vip">⚡ VIP终端</span>':'';
+  const src=sourceLabel(n.source);
   const srcChip=src&&!isVipSource?`<span class="src-chip">${src}</span>`:'';
   const title=n.title_cn||n.translation||n.title_en||'—';
   const englishOriginal=(n.source==='VIP终端'||n.is_vip) ? (n.title_en||'') : (n.translation||n.title_en||'');
