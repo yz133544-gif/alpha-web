@@ -48,7 +48,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 @keyframes tkr{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .ti{display:inline-flex;align-items:center;gap:5px;padding:0 18px;font-family:var(--mono);font-size:9px;color:var(--text3);border-right:1px solid var(--border)}
 .ti .sym{color:var(--text2);font-weight:500}.ti .up{color:var(--green)}.ti .dn{color:var(--red)}
-.mobile-ticker-line{display:none;background:var(--header);border-bottom:1px solid var(--border);overflow:hidden;height:24px;position:sticky;top:46px;z-index:155;backdrop-filter:blur(18px)}
+.mobile-ticker-line{display:none;background:var(--header);border-bottom:1px solid var(--border);overflow:hidden;height:24px;position:relative;z-index:3;backdrop-filter:blur(18px)}
 .mobile-ticker-line::before,.mobile-ticker-line::after{content:'';position:absolute;top:0;bottom:0;width:28px;z-index:1;pointer-events:none}
 .mobile-ticker-line::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
 .mobile-ticker-line::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
@@ -570,8 +570,8 @@ tr:hover td{background:var(--orange3)}
   .logo-mark{width:30px;height:30px;border-radius:8px}
   .logo-txt .n{font-size:11px;letter-spacing:1.8px;white-space:nowrap}
   .logo-txt .s,.ticker-wrap,.profile-meta,.theme-btn,.hdr-action{display:none}
-  .mobile-ticker-line{display:block;top:54px}
-  .filter-bar{top:78px}
+  .mobile-ticker-line{display:block}
+  .filter-bar{top:54px}
   .hdr-r{gap:6px;margin-left:auto}
   .upgrade-btn{height:30px;padding:0 8px;font-size:9px;border-radius:8px}
   .hdr-r .upgrade-btn{display:inline-flex;align-items:center}
