@@ -463,6 +463,8 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .delivery-card:hover{border-color:var(--bhi2)}
 .delivery-card.on{border-color:var(--orange);background:var(--orange3);box-shadow:0 0 0 1px rgba(255,107,43,.12) inset}
 .delivery-card.locked{opacity:.82;cursor:not-allowed}
+.delivery-card.blocked{opacity:.45;filter:grayscale(.25);cursor:not-allowed;border-style:dashed}
+.delivery-card.blocked:hover{border-color:var(--border)}
 .delivery-title{font-size:12px;font-weight:850;color:var(--text);margin-bottom:4px}
 .delivery-copy{font-size:9px;color:var(--text3);line-height:1.65}
 .delivery-lock{font-family:var(--mono);font-size:8px;color:var(--gold);margin-top:6px;display:none}
@@ -1339,13 +1341,14 @@ tr:hover td{background:var(--orange3)}
               <div class="fg"><div class="flabel">可用次数</div><input class="finput" id="ic-uses" type="number" value="1" min="1"></div>
               <div class="fg"><div class="flabel">过期天数(0=永久)</div><input class="finput" id="ic-exp" type="number" value="0" min="0"></div>
               <div class="fg"><div class="flabel">备注</div><input class="finput" id="ic-note" placeholder="可选"></div>
+              <label class="source-chip" style="align-self:end;min-height:35px"><input type="checkbox" id="ic-email-disabled"> 禁邮箱推送</label>
             </div>
             <button class="btn btn-pri" onclick="createInvites()">生成邀请码</button>
             <button class="btn btn-sec" onclick="copyAllCodes()" style="margin-left:6px">复制全部</button>
             <div id="ic-result" style="margin-top:8px;font-size:9px;color:var(--text3);line-height:2;font-family:var(--mono)"></div>
           </div>
           <div class="tbl-wrap"><div class="tbl-head"><h3>邀请码列表</h3><button class="btn btn-sec" style="font-size:9px" onclick="loadInvites()">刷新</button></div>
-          <div class="tbl-scroll"><table><thead><tr><th>邀请码</th><th>天数</th><th>使用</th><th>备注</th><th>操作</th></tr></thead><tbody id="ic-tbody"></tbody></table></div></div>
+          <div class="tbl-scroll"><table><thead><tr><th>邀请码</th><th>天数</th><th>使用</th><th>邮箱权限</th><th>备注</th><th>操作</th></tr></thead><tbody id="ic-tbody"></tbody></table></div></div>
         </div>
         <!-- BROADCAST -->
         <div id="at-broadcast" style="display:none">
@@ -1904,6 +1907,7 @@ function showSettings(){
   const p=ME.notification_prefs||{};
   const ch=p.channels||{};
   const mode=p.delivery_mode || (ch.email?'email':ch.feishu?'feishu':'');
+  const emailBlocked=!!p.email_push_disabled;
   el('delivery-mode').value=mode;
   el('s-email').value=p.push_email||'';
   el('s-feishu').value=p.feishu_name||ME.feishu_name||'';
@@ -1930,6 +1934,10 @@ function showSettings(){
 }
 function selectDelivery(mode){
   const p=(ME&&ME.notification_prefs)||{};
+  if(mode==='email'&&p.email_push_disabled){
+    showToast('该账号暂未开放邮箱推送，可使用网页VIP或飞书群接收');
+    return;
+  }
   if(p.delivery_locked && p.delivery_mode && p.delivery_mode!==mode){
     showToast('推送通道已锁定，不能切换');
     return;
@@ -1945,6 +1953,7 @@ function selectDelivery(mode){
 }
 function renderDelivery(mode,locked=false){
   const p=(ME&&ME.notification_prefs)||{};
+  const emailBlocked=!!p.email_push_disabled;
   const cooldownUntil=Number(p.rules_cooldown_until||0)*1000;
   const cooldownActive=mode==='email'&&cooldownUntil>Date.now();
   const cooldownText=cooldownActive?new Date(cooldownUntil).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
@@ -1953,15 +1962,19 @@ function renderDelivery(mode,locked=false){
     if(!card)return;
     card.classList.toggle('on',mode===m);
     card.classList.toggle('locked',locked);
+    card.classList.toggle('blocked',m==='email'&&emailBlocked);
     card.classList.toggle('hidden',locked&&mode&&mode!==m);
   });
-  el('email-form').classList.toggle('disabled',mode!=='email');
+  el('email-form').classList.toggle('disabled',mode!=='email'||emailBlocked);
   el('feishu-form').classList.toggle('disabled',mode!=='feishu');
   el('email-form').classList.toggle('locked',locked&&mode==='email');
   el('feishu-form').classList.toggle('locked',locked&&mode==='feishu');
   const note=el('delivery-lock-note');
   if(note){
-    if(mode){
+    if(emailBlocked){
+      note.textContent=p.email_push_disabled_reason||'该账号当前仅开放网页 VIP 权限，暂不开放邮箱推送。后台恢复后即可重新选择邮箱通道。';
+      note.classList.add('show');
+    }else if(mode){
       const label=mode==='email'?'邮箱推送':'飞书推送';
       note.textContent=(locked?'当前接收通道':'即将启用通道')+`：${label}。${mode==='email'?'信源、关键词与频率规则可在系统允许周期内调整；':''}为保障账号安全与反滥用风控，通道切换需经过系统校验。`;
       note.classList.add('show');
@@ -1971,10 +1984,11 @@ function renderDelivery(mode,locked=false){
     }
   }
   const filterDisabled=!ME||!ME.is_vip||mode==='feishu'||!mode;
-  ['s-email','s-feishu'].forEach(id=>{if(el(id))el(id).disabled=locked;});
-  ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive;});
+  ['s-email','s-feishu'].forEach(id=>{if(el(id))el(id).disabled=locked||(id==='s-email'&&emailBlocked);});
+  ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive||emailBlocked;});
   if(el('filter-notice')){
-    if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为VIP邮箱推送专属功能';}
+    if(emailBlocked){el('filter-notice').style.display='block';el('filter-notice').textContent='该账号暂未开放邮箱推送，关键词与频率规则仅在后台恢复邮箱权限后生效。';}
+    else if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为VIP邮箱推送专属功能';}
     else if(mode==='feishu'){el('filter-notice').style.display='block';el('filter-notice').textContent='飞书通道为全量推送，筛选规则仅邮箱推送可用。';}
     else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱推送后启用关键词、板块和信源筛选。';}
     else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。系统通过冷却期降低误操作和高频改规则风险。`;}
@@ -2000,6 +2014,14 @@ function renderEmailVerification(p={},mode=''){
   const btn=el('email-resend-btn');
   if(!badge||!panel)return;
   const email=p.push_email||'';
+  if(p.email_push_disabled){
+    badge.innerHTML='<span class="verify-badge wait">邮箱暂停</span>';
+    panel.classList.add('show');
+    if(title)title.textContent='邮箱推送暂未开放';
+    if(copy)copy.textContent=p.email_push_disabled_reason||'该账号当前仅开放网页 VIP 权限，暂不开放邮箱推送。后台恢复后可重新选择邮箱通道。';
+    if(btn)btn.style.display='none';
+    return;
+  }
   const unsubscribed=mode==='email'&&email&&p.email_unsubscribed;
   const pending=mode==='email'&&email&&p.push_email_verified===false;
   const verified=mode==='email'&&email&&p.push_email_verified!==false;
@@ -2029,6 +2051,11 @@ function renderEmailVerification(p={},mode=''){
 async function saveSettings(){
   if(!ME){openModal('login');return}
   const mode=el('delivery-mode').value;
+  const curPrefs=(ME&&ME.notification_prefs)||{};
+  if(curPrefs.email_push_disabled&&mode==='email'){
+    showFmsg('s-msg','该账号暂未开放邮箱推送，请使用网页VIP或飞书群接收；如需开通请联系后台。','err');
+    return;
+  }
   if(!mode){showFmsg('s-msg','请选择邮箱或飞书推送通道','err');return;}
   const isFeishu=mode==='feishu';
   const prefs={
@@ -2553,14 +2580,16 @@ async function loadUsers(){
         ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${emailStatus}`
         : (u.delivery_mode==='feishu'?`飞书 · ${esc(u.feishu_name||'待备注')} ${u.feishu_verified?'✅':'待验证'}`:'未选择');
       const unsubLine=u.email_unsubscribed?`<br><span style="color:var(--red)">用户已退订${u.email_unsubscribed_str?' · '+esc(u.email_unsubscribed_str):''}</span>`:'';
+      const emailDisabledLine=u.email_push_disabled?`<br><span style="color:var(--gold)">邮箱权限暂停${u.email_push_disabled_str?' · '+esc(u.email_push_disabled_str):''}${u.email_push_disabled_source?' · '+esc(u.email_push_disabled_source):''}</span>`:'';
       return `<tr>
       <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong></td>
       <td style="color:var(--text2);font-size:9px">${esc(u.email)}</td>
       <td><span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
       <td>
-        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}${unsubLine}</div>
+        <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}${unsubLine}${emailDisabledLine}</div>
         <div class="admin-push-actions">
+          <button onclick="toggleUserEmailPush(${u.id},${u.email_push_disabled?0:1})" style="background:${u.email_push_disabled?'rgba(0,200,120,.1)':'rgba(255,184,0,.08)'};border:1px solid ${u.email_push_disabled?'rgba(0,200,120,.2)':'rgba(255,184,0,.18)'};color:${u.email_push_disabled?'var(--green)':'var(--gold)'};padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">${u.email_push_disabled?'恢复邮箱':'禁邮箱'}</button>
           <button onclick="adminSetEmail(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设邮箱</button>
           <button onclick="adminSetFeishu(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设飞书</button>
           ${u.delivery_mode==='email'&&u.push_email?`<button onclick="adminResendActivation(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重发激活</button>`:''}
@@ -2608,6 +2637,18 @@ async function adminResendActivation(uid){
     showToast('✅ 激活邮件已重发');
     loadUsers();
   }catch(e){showToast(e.message||'发送失败');}
+}
+async function toggleUserEmailPush(uid,enabledFlag){
+  const disable=!!enabledFlag;
+  const msg=disable
+    ? '确定暂停该用户邮箱推送权限吗？暂停后前端邮箱入口会变灰，后端也不会发送邮件。网页VIP仍可正常查看。'
+    : '确定恢复该用户邮箱推送权限吗？恢复后用户可以重新选择邮箱，但不会自动开启，需要用户或后台重新设置。';
+  if(!confirm(msg))return;
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({email_push_disabled:disable})});
+    showToast(disable?'✅ 已暂停邮箱权限':'✅ 已恢复邮箱权限');
+    loadUsers();
+  }catch(e){showToast(e.message||'操作失败');}
 }
 async function adminSetEmail(uid){
   const email=prompt('输入用户接收推送的邮箱');
@@ -2667,15 +2708,19 @@ async function loadInvites(){
       <td><span class="ic-code" onclick="copyText('${c.code}')" title="点击复制">${c.code}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--orange)">${c.days}天</td>
       <td style="font-family:var(--mono);font-size:9px">${c.used_count}/${c.max_uses}</td>
+      <td><span class="bp ${c.email_disabled?'p-vip':'p-free'}">${c.email_disabled?'禁邮箱':'正常'}</span></td>
       <td style="color:var(--text3);font-size:9px">${c.note||'—'}</td>
-      <td><button onclick="delInvite(${c.id})" style="background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.13);color:var(--red);padding:1px 5px;border-radius:2px;cursor:pointer;font-size:8px">删除</button></td>
+      <td>
+        <button onclick="toggleInviteEmail(${c.id},${c.email_disabled?0:1})" style="background:rgba(255,184,0,.07);border:1px solid rgba(255,184,0,.18);color:var(--gold);padding:1px 5px;border-radius:2px;cursor:pointer;font-size:8px">${c.email_disabled?'恢复邮箱':'禁邮箱'}</button>
+        <button onclick="delInvite(${c.id})" style="background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.13);color:var(--red);padding:1px 5px;border-radius:2px;cursor:pointer;font-size:8px">删除</button>
+      </td>
     </tr>`).join('');
   }catch(e){}
 }
 async function createInvites(){
   const rawD=el('ic-days').value;const days=rawD==='0'?parseInt(el('ic-cd').value)||30:parseInt(rawD)||30;
   try{
-    const d=await api('/api/admin/invite-codes',{method:'POST',body:JSON.stringify({count:parseInt(el('ic-count').value)||1,days,max_uses:parseInt(el('ic-uses').value)||1,expires_days:parseInt(el('ic-exp').value)||0,note:el('ic-note').value})});
+    const d=await api('/api/admin/invite-codes',{method:'POST',body:JSON.stringify({count:parseInt(el('ic-count').value)||1,days,max_uses:parseInt(el('ic-uses').value)||1,expires_days:parseInt(el('ic-exp').value)||0,note:el('ic-note').value,email_disabled:!!(el('ic-email-disabled')&&el('ic-email-disabled').checked)})});
     el('ic-result').innerHTML='已生成：<br>'+d.codes.map(c=>`<span class="ic-code" onclick="copyText('${c}')">${c}</span>`).join(' ');
     showToast(`✅ 生成${d.count}个·${d.days}天邀请码`);loadInvites();
   }catch(e){showToast('❌ 生成失败');}
@@ -2686,6 +2731,17 @@ function copyAllCodes(){
   copyText(codes.join('\n'));
 }
 async function delInvite(id){try{await api(`/api/admin/invite-codes/${id}`,{method:'DELETE'});loadInvites();}catch(e){}}
+async function toggleInviteEmail(id,flag){
+  const msg=flag
+    ? '确定把这个邀请码设为“禁邮箱”吗？已使用该邀请码的用户也会同步暂停邮箱推送，只保留网页VIP/飞书群。'
+    : '确定恢复这个邀请码的邮箱权限吗？已使用该邀请码的用户也会同步恢复可选择邮箱，但不会自动开启邮件。';
+  if(!confirm(msg))return;
+  try{
+    await api(`/api/admin/invite-codes/${id}`,{method:'PATCH',body:JSON.stringify({email_disabled:!!flag})});
+    showToast(flag?'✅ 邀请码已设为禁邮箱':'✅ 邀请码已恢复邮箱权限');
+    loadInvites();
+  }catch(e){showToast(e.message||'更新失败');}
+}
 
 // 快捷广播
 async function doBroadcast(){
