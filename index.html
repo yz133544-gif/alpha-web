@@ -1614,7 +1614,12 @@ function updateGauge(v){
   if(el('m-fng-v')){el('m-fng-v').textContent=v;el('m-fng-v').style.color=c;}
 }
 function cleanMacroState(s){
-  return String(s||'').replace(/^[🥶😨🔥😋😐🟢🟡🟠🔴⚪]\s*/,'').trim();
+  const raw=String(s||'').normalize('NFKC');
+  const cleaned=raw
+    .replace(/[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFE0E\uFE0F]/g,'')
+    .replace(/[^\u4e00-\u9fa5（）()]/g,'')
+    .trim();
+  return cleaned || raw.replace(/^[^\u4e00-\u9fa5]+/,'').trim();
 }
 async function loadMacro(){
   try{
