@@ -772,7 +772,7 @@ tr:hover td{background:var(--orange3)}
       </div>
       <div class="macro-row">
         <div class="mcrd mcrd-fng">
-          <div class="m-label">CNN 恐惧贪婪</div>
+          <div class="m-label">CNN 恐惧贪婪指数</div>
           <svg class="gauge-svg" viewBox="0 0 70 38" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#0f1e35" stroke-width="6" stroke-linecap="round"/>
             <path id="fng-arc" d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="47"/>
@@ -782,7 +782,7 @@ tr:hover td{background:var(--orange3)}
           <div class="m-upd" id="m-upd"></div>
         </div>
         <div class="mcrd mcrd-vix">
-          <div class="m-label">VIX 恐慌</div>
+          <div class="m-label">VIX 恐慌指数</div>
           <div class="m-icon" id="vix-icon">⚪</div>
           <div class="m-num" id="vix-v">—</div>
           <div class="m-sub" id="vix-s">波动率</div>
@@ -821,7 +821,7 @@ tr:hover td{background:var(--orange3)}
       </div>
       <div class="mobile-macro-strip" aria-label="宏观指标">
         <div class="mobile-macro-item mobile-macro-fng">
-          <div class="mobile-macro-label">CNN</div>
+          <div class="mobile-macro-label">CNN 指数</div>
           <div class="mobile-gauge-row">
             <svg class="mobile-gauge-svg" viewBox="0 0 70 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#0f1e35" stroke-width="7" stroke-linecap="round"/>
@@ -830,23 +830,27 @@ tr:hover td{background:var(--orange3)}
             <div>
               <div class="mobile-macro-value" id="m-fng-v">—</div>
               <div class="mobile-macro-sub" id="m-fng-s">恐惧贪婪</div>
+              <div class="mobile-macro-sub" id="m-fng-upd"></div>
             </div>
           </div>
         </div>
         <div class="mobile-macro-item">
-          <div class="mobile-macro-label">VIX</div>
+          <div class="mobile-macro-label">VIX 恐慌</div>
           <div class="mobile-macro-main"><span class="mobile-macro-icon" id="m-vix-icon">⚪</span><div class="mobile-macro-value" id="m-vix-v">—</div></div>
           <div class="mobile-macro-sub" id="m-vix-s">波动率</div>
+          <div class="mobile-macro-sub" id="m-vix-upd"></div>
         </div>
         <div class="mobile-macro-item">
           <div class="mobile-macro-label">BTC</div>
           <div class="mobile-macro-main"><span class="mobile-macro-icon">₿</span><div class="mobile-macro-value" id="m-btc-v">—</div></div>
           <div class="mobile-macro-sub">风险锚点</div>
+          <div class="mobile-macro-sub" id="m-btc-upd"></div>
         </div>
         <div class="mobile-macro-item">
           <div class="mobile-macro-label zh">黄金</div>
           <div class="mobile-macro-main"><span class="mobile-macro-icon">🥇</span><div class="mobile-macro-value" id="m-gold-v">—</div></div>
           <div class="mobile-macro-sub">避险锚点</div>
+          <div class="mobile-macro-sub" id="m-gold-upd"></div>
         </div>
       </div>
       <div class="compliance-strip mobile-compliance"><b>RISK NOTICE</b> 本系统仅客观加速公开资讯送达，不提供投资咨询、荐股、收益承诺或交易指令。</div>
@@ -1338,7 +1342,7 @@ tr:hover td{background:var(--orange3)}
                   <option value="30">30天</option><option value="90">90天</option><option value="180">180天</option><option value="360">360天</option><option value="0">自定义</option>
                 </select></div>
               <div class="fg" id="ic-cw" style="display:none"><div class="flabel">自定义天数</div><input class="finput" id="ic-cd" type="number" value="30" min="1"></div>
-              <div class="fg"><div class="flabel">可用次数</div><input class="finput" id="ic-uses" type="number" value="1" min="1"></div>
+              <div class="fg"><div class="flabel">使用限制</div><input class="finput" id="ic-uses" type="text" value="固定 1 人 / 1 次" disabled></div>
               <div class="fg"><div class="flabel">过期天数(0=永久)</div><input class="finput" id="ic-exp" type="number" value="0" min="0"></div>
               <div class="fg"><div class="flabel">备注</div><input class="finput" id="ic-note" placeholder="可选"></div>
               <label class="source-chip" style="align-self:end;min-height:35px"><input type="checkbox" id="ic-email-disabled"> 禁邮箱推送</label>
@@ -1348,7 +1352,7 @@ tr:hover td{background:var(--orange3)}
             <div id="ic-result" style="margin-top:8px;font-size:9px;color:var(--text3);line-height:2;font-family:var(--mono)"></div>
           </div>
           <div class="tbl-wrap"><div class="tbl-head"><h3>邀请码列表</h3><button class="btn btn-sec" style="font-size:9px" onclick="loadInvites()">刷新</button></div>
-          <div class="tbl-scroll"><table><thead><tr><th>邀请码</th><th>天数</th><th>使用</th><th>邮箱权限</th><th>备注</th><th>操作</th></tr></thead><tbody id="ic-tbody"></tbody></table></div></div>
+          <div class="tbl-scroll"><table><thead><tr><th>邀请码</th><th>天数</th><th>使用</th><th>绑定用户</th><th>邮箱权限</th><th>备注</th><th>操作</th></tr></thead><tbody id="ic-tbody"></tbody></table></div></div>
         </div>
         <!-- BROADCAST -->
         <div id="at-broadcast" style="display:none">
@@ -1609,14 +1613,18 @@ function updateGauge(v){
   if(el('fng-v')){el('fng-v').textContent=v;el('fng-v').style.color=c;}
   if(el('m-fng-v')){el('m-fng-v').textContent=v;el('m-fng-v').style.color=c;}
 }
+function cleanMacroState(s){
+  return String(s||'').replace(/^[🥶😨🔥😋😐🟢🟡🟠🔴⚪]\s*/,'').trim();
+}
 async function loadMacro(){
   try{
     const d=await api('/api/macro');if(!d.updated_at)return;
     updateGauge(d.fng_value||50);
-    setText('fng-s',d.fng_state||'');setText('vix-v',d.vix_value||'N/A');
+    const fngState=cleanMacroState(d.fng_state||'');
+    setText('fng-s',fngState);setText('vix-v',d.vix_value||'N/A');
     setText('vix-s',d.vix_status||'');setText('btc-v',d.btc_price||'N/A');
     setText('gold-v',d.gold_price||'N/A');
-    setText('m-fng-s',d.fng_state||'恐惧贪婪');
+    setText('m-fng-s',fngState||'恐惧贪婪');
     setText('m-vix-v',d.vix_value||'N/A');setText('m-vix-s',d.vix_status||'波动率');
     setText('m-btc-v',d.btc_price||'N/A');setText('m-gold-v',d.gold_price||'N/A');
     const vix=parseFloat(d.vix_value)||0;
@@ -1626,7 +1634,7 @@ async function loadMacro(){
     if(d.updated_at){
       const bj=new Date(d.updated_at*1000+8*3600000);
       const upd='更新 '+bj.toISOString().slice(5,16).replace('T',' ');
-      ['m-upd','vix-upd','btc-upd','gold-upd'].forEach(id=>setText(id,upd));
+      ['m-upd','vix-upd','btc-upd','gold-upd','m-fng-upd','m-vix-upd','m-btc-upd','m-gold-upd'].forEach(id=>setText(id,upd));
     }
   }catch(e){}
 }
@@ -2704,23 +2712,26 @@ async function exportUsersCsv(){
 async function loadInvites(){
   try{
     const d=await api('/api/admin/invite-codes');
-    el('ic-tbody').innerHTML=d.items.map(c=>`<tr>
+    el('ic-tbody').innerHTML=d.items.map(c=>{
+      const bound=(c.bound_users||[]).map(u=>`<div style="line-height:1.55"><b style="color:var(--text)">${esc(u.username||('UID '+u.id))}</b> <span style="color:var(--text3);font-family:var(--mono)">${esc(u.email||'')}</span>${u.vip_expire?` <span style="color:var(--orange);font-family:var(--mono)">${esc(u.vip_expire)}</span>`:''}</div>`).join('')||'<span style="color:var(--text3)">未绑定</span>';
+      return `<tr>
       <td><span class="ic-code" onclick="copyText('${c.code}')" title="点击复制">${c.code}</span></td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--orange)">${c.days}天</td>
       <td style="font-family:var(--mono);font-size:9px">${c.used_count}/${c.max_uses}</td>
+      <td style="font-size:8px;min-width:160px">${bound}</td>
       <td><span class="bp ${c.email_disabled?'p-vip':'p-free'}">${c.email_disabled?'禁邮箱':'正常'}</span></td>
       <td style="color:var(--text3);font-size:9px">${c.note||'—'}</td>
       <td>
         <button onclick="toggleInviteEmail(${c.id},${c.email_disabled?0:1})" style="background:rgba(255,184,0,.07);border:1px solid rgba(255,184,0,.18);color:var(--gold);padding:1px 5px;border-radius:2px;cursor:pointer;font-size:8px">${c.email_disabled?'恢复邮箱':'禁邮箱'}</button>
         <button onclick="delInvite(${c.id})" style="background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.13);color:var(--red);padding:1px 5px;border-radius:2px;cursor:pointer;font-size:8px">删除</button>
       </td>
-    </tr>`).join('');
+    </tr>`}).join('');
   }catch(e){}
 }
 async function createInvites(){
   const rawD=el('ic-days').value;const days=rawD==='0'?parseInt(el('ic-cd').value)||30:parseInt(rawD)||30;
   try{
-    const d=await api('/api/admin/invite-codes',{method:'POST',body:JSON.stringify({count:parseInt(el('ic-count').value)||1,days,max_uses:parseInt(el('ic-uses').value)||1,expires_days:parseInt(el('ic-exp').value)||0,note:el('ic-note').value,email_disabled:!!(el('ic-email-disabled')&&el('ic-email-disabled').checked)})});
+    const d=await api('/api/admin/invite-codes',{method:'POST',body:JSON.stringify({count:parseInt(el('ic-count').value)||1,days,max_uses:1,expires_days:parseInt(el('ic-exp').value)||0,note:el('ic-note').value,email_disabled:!!(el('ic-email-disabled')&&el('ic-email-disabled').checked)})});
     el('ic-result').innerHTML='已生成：<br>'+d.codes.map(c=>`<span class="ic-code" onclick="copyText('${c}')">${c}</span>`).join(' ');
     showToast(`✅ 生成${d.count}个·${d.days}天邀请码`);loadInvites();
   }catch(e){showToast('❌ 生成失败');}
