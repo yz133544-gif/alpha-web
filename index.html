@@ -1593,6 +1593,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const h=location.hash;
   if(h.includes('reset')){const p=new URLSearchParams(h.replace('#reset?',''));resetP={token:p.get('token'),email:p.get('email')};if(resetP.token)openModal('reset');}
   if(h==='#admin')showPage('admin');
+  handlePaymentReturn();
 
   // Back to top button
   window.addEventListener('scroll',()=>{
@@ -1602,6 +1603,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebarDrawer();closeModal();closeVipModal();closeShareCard();}});
 });
+
+function handlePaymentReturn(){
+  const p=new URLSearchParams(location.search);
+  if(p.get('payment')!=='success')return;
+  showToast('✅ 支付已完成，系统正在确认会员状态');
+  setTimeout(()=>checkAuth(),1200);
+  history.replaceState(null,'',location.pathname+location.hash);
+}
 
 function initMobileTicker(){
   const desktop=el('ticker'), mobile=el('mobile-ticker');
@@ -2176,8 +2185,12 @@ async function loadStats(){
 async function createOrder(planKey){
   if(!ME){openModal('login');return}
   try{
-    const d=await api('/api/subscription/create-order',{method:'POST',body:JSON.stringify({plan_key:planKey})});
-    showFmsg('pay-msg',`${d.plan.label} 订单已创建：${d.order_no}。支付宝网页支付开通后这里会直接跳转支付；当前可继续使用邀请码兑换。`,'ok');
+    const mobile=/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||window.innerWidth<720;
+    const d=await api('/api/subscription/create-order',{method:'POST',body:JSON.stringify({plan_key:planKey,client:mobile?'wap':'page'})});
+    showFmsg('pay-msg',`${d.plan.label} 订单已创建：${d.order_no}，正在跳转支付宝。支付成功后系统会自动续期 VIP。`,'ok');
+    if(d.pay_url){
+      setTimeout(()=>{window.location.href=d.pay_url;},450);
+    }
   }catch(e){showFmsg('pay-msg',e.message,'err');}
 }
 
