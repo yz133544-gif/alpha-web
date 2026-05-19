@@ -256,6 +256,9 @@ select.finput{cursor:pointer}
 .fmsg.ok{background:rgba(0,200,120,.07);color:var(--green);border:1px solid rgba(0,200,120,.12);display:block}
 .fmsg.err{background:rgba(255,61,90,.07);color:var(--red);border:1px solid rgba(255,61,90,.12);display:block}
 .fnote{font-size:9px;color:var(--text3);text-align:center;line-height:1.6;margin-top:6px}
+.agree-row{display:flex;align-items:flex-start;gap:7px;margin:0 0 10px;padding:8px 9px;border:1px solid rgba(255,107,43,.18);background:rgba(255,107,43,.045);border-radius:5px;color:var(--text3);font-size:9px;line-height:1.65}
+.agree-row input{width:13px;height:13px;margin-top:2px;accent-color:var(--orange);flex:0 0 auto}
+.agree-row strong{color:var(--orange);font-weight:800}
 .pass-wrap{position:relative}.pass-wrap .finput{padding-right:32px}
 .pass-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px}
 .strength-bar{height:2px;border-radius:2px;margin-top:3px;background:var(--border);overflow:hidden}
@@ -567,14 +570,16 @@ tr:hover td{background:var(--orange3)}
   [data-theme="dark"] body::before{background-size:34px 34px}
   .bottom-nav{display:block}
   .hdr{padding:0 12px;height:54px;gap:8px;justify-content:space-between}
+  .logo{gap:6px;min-width:0;flex:1 1 auto}
   .logo-mark{width:30px;height:30px;border-radius:8px}
-  .logo-txt .n{font-size:11px;letter-spacing:1.8px;white-space:nowrap}
-  .logo-txt .s,.ticker-wrap,.profile-meta,.theme-btn,.hdr-action{display:none}
+  .logo-txt .n{font-size:9.5px;letter-spacing:1.2px;white-space:nowrap;max-width:155px;overflow:hidden;text-overflow:ellipsis}
+  .logo-txt .s,.ticker-wrap,.profile-meta,.hdr-action{display:none}
   .mobile-ticker-line{display:block}
   .filter-bar{top:54px}
   .hdr-r{gap:6px;margin-left:auto}
   .upgrade-btn{height:30px;padding:0 8px;font-size:9px;border-radius:8px}
   .hdr-r .upgrade-btn{display:inline-flex;align-items:center}
+  .hdr-r .theme-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border-radius:8px;background:rgba(8,14,26,.88);font-size:13px;line-height:1}
   .mobile-top-settings{height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:rgba(8,14,26,.88);color:var(--text2);border-radius:8px;padding:0 8px;font-size:9px;font-weight:850;white-space:nowrap}
   .profile-btn{height:32px;padding:3px;border-radius:18px;background:transparent}
   .avatar{width:28px;height:28px;font-size:12px}
@@ -660,6 +665,7 @@ tr:hover td{background:var(--orange3)}
 [data-theme="light"] .tc-title{color:#16283b}
 [data-theme="light"] .bottom-nav{background:rgba(255,255,255,.96);border-top-color:#d8e2ee}
 [data-theme="light"] .mobile-top-settings{background:#fff;color:#4a6080}
+[data-theme="light"] .hdr-r .theme-btn{background:#fff;color:#1f2d3d}
 [data-theme="light"] .mine-hero{background:linear-gradient(135deg,rgba(30,144,212,.12),#fff 54%,rgba(255,107,43,.08));box-shadow:0 16px 44px rgba(26,42,58,.1),inset 0 0 0 1px rgba(255,255,255,.68)}
 [data-theme="light"] .mine-name{color:#172b40}
 [data-theme="light"] .mine-exp{color:#6b7f95}
@@ -865,7 +871,7 @@ tr:hover td{background:var(--orange3)}
           <div class="mobile-macro-sub" id="m-gold-upd"></div>
         </div>
       </div>
-      <div class="compliance-strip mobile-compliance"><b>RISK NOTICE</b> 本系统仅客观加速公开资讯送达，不提供投资咨询、荐股、收益承诺或交易指令。</div>
+      <div class="compliance-strip mobile-compliance"><b>RISK NOTICE</b> 本系统提供资讯聚合、技术路由与自动化推送支持，仅客观加速公开信息送达；不提供投资咨询、荐股、收益承诺或交易指令。市场有风险，交易需谨慎。</div>
       <div class="free-access-notice" id="free-access-notice">
         <b>ACCESS DELAY</b> 免费版仅开放 24 小时后的公开快讯回看；如需查看实时终端快讯、AI 解读与专属推送，请先登录并升级 <a onclick="openVipModal()">VIP 会员</a>。
       </div>
@@ -1465,6 +1471,10 @@ tr:hover td{background:var(--orange3)}
       <div id="r-conf-t" style="font-size:8px;margin-top:2px;font-family:var(--mono)"></div>
     </div>
     <div class="fg"><div class="flabel">邀请码 <span style="color:var(--text3)">(无邀请码默认免费版)</span></div><input class="finput" id="r-inv" placeholder="输入专属邀请码" style="text-transform:uppercase;font-family:var(--mono)"></div>
+    <label class="agree-row" for="r-agree">
+      <input type="checkbox" id="r-agree">
+      <span>我已阅读并同意平台服务条款、隐私保护规则与<strong>风险提示</strong>：本系统仅提供公开资讯聚合与自动化推送支持，不构成投资咨询、荐股、收益承诺或交易指令。</span>
+    </label>
     <button class="btn-full btn-orange" id="r-submit" onclick="doRegister()">注册账号</button>
     <button class="btn-full btn-sec" id="r-resend-btn" onclick="doRegisterResendVerify()" style="display:none;margin-top:7px">60秒后可重发验证邮件</button>
     <div class="fmsg" id="r-msg"></div>
@@ -1817,6 +1827,7 @@ async function doRegister(){
   const name=el('r-name').value.trim(),email=el('r-email').value.trim(),pw=el('r-pw').value,pw2=el('r-pw2').value,inv=el('r-inv').value.trim().toUpperCase();
   if(!name||!email||!pw||!pw2){showFmsg('r-msg','请填写完整','err');return}
   if(pw!==pw2){showFmsg('r-msg','两次密码不一致','err');return}
+  if(!el('r-agree')?.checked){showFmsg('r-msg','请先勾选服务条款、隐私保护规则与风险提示','err');return}
   try{const d=await api('/api/register',{method:'POST',body:JSON.stringify({username:name,email,password:pw,confirm:pw2,invite_code:inv})});showFmsg('r-msg',d.message,'ok');showToast('📧 验证邮件已发送');startRegisterResendCooldown(60);}
   catch(e){showFmsg('r-msg',e.message,'err');}
 }
