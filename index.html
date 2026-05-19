@@ -509,9 +509,13 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .channel-form.locked{opacity:.78}
 .feishu-owner{font-family:var(--mono);font-size:15px;color:var(--gold);font-weight:900;letter-spacing:.4px;margin:5px 0}
 .source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}
-.source-chip{display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--bg2);border-radius:5px;padding:7px 8px;font-size:9px;color:var(--text2);font-weight:800;cursor:pointer}
+.source-chip{display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--bg2);border-radius:5px;padding:7px 8px;font-size:9px;color:var(--text2);font-weight:800;cursor:pointer;min-width:0}
 .source-chip input{accent-color:var(--orange)}
 .source-chip:has(input:checked){border-color:rgba(255,107,43,.45);background:var(--orange3);color:var(--text)}
+.source-chip .source-name{white-space:nowrap}
+.source-chip .source-hint{margin-left:auto;border:1px solid rgba(119,143,169,.18);border-radius:999px;padding:1px 6px;font-family:var(--mono);font-size:7px;font-weight:900;letter-spacing:.5px;color:var(--text3);background:rgba(255,255,255,.025);white-space:nowrap}
+.source-chip.primary .source-hint{border-color:rgba(255,184,0,.3);background:rgba(255,184,0,.08);color:var(--gold)}
+.source-chip.optional .source-hint{border-color:rgba(30,144,212,.22);background:rgba(30,144,212,.06);color:var(--text3)}
 .feishu-steps{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:5px}
 .feishu-steps li{font-size:9px;color:var(--text3);line-height:1.65}
 .feishu-steps b{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,107,43,.35);color:var(--orange);font-family:var(--mono);font-size:7px;margin-right:5px}
@@ -1172,9 +1176,9 @@ tr:hover td{background:var(--orange3)}
       <div class="fg" style="margin-top:10px">
         <div class="flabel">信源范围</div>
         <div class="source-grid">
-          <label class="source-chip"><input type="checkbox" id="src-vip"> VIP终端</label>
-          <label class="source-chip"><input type="checkbox" id="src-reuters"> 路透社</label>
-          <label class="source-chip"><input type="checkbox" id="src-bloomberg"> 彭博社</label>
+          <label class="source-chip primary"><input type="checkbox" id="src-vip"><span class="source-name">VIP终端</span><span class="source-hint">推荐</span></label>
+          <label class="source-chip optional"><input type="checkbox" id="src-reuters"><span class="source-name">路透社</span><span class="source-hint">可选</span></label>
+          <label class="source-chip optional"><input type="checkbox" id="src-bloomberg"><span class="source-name">彭博社</span><span class="source-hint">可选</span></label>
         </div>
       </div>
       <div class="rule-mode-card" id="rule-mode-card">
