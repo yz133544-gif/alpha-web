@@ -1026,6 +1026,11 @@ tr:hover td{background:var(--orange3)}
         <span><span class="mine-item-title">会员服务</span><span class="mine-item-sub">升级 VIP，解锁实时快讯、邮件或飞书专属推送</span></span>
         <span class="mine-arrow">›</span>
       </button>
+      <button class="mine-item" onclick="openOrdersModal()">
+        <span class="mine-ico">□</span>
+        <span><span class="mine-item-title">我的订单</span><span class="mine-item-sub">查看支付记录、会员开通状态和售后核对信息</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
       <button class="mine-item" onclick="showPage('api-custom')">
         <span class="mine-ico">◇</span>
         <span><span class="mine-item-title">API定制服务</span><span class="mine-item-sub">Webhook 专线接入，英文原文快讯推送，机构客户人工配置</span></span>
@@ -1586,8 +1591,8 @@ let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null,SHARE_URL='',
 let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
 
-document.addEventListener('DOMContentLoaded',()=>{
-  loadTheme();initMobileTicker();checkAuth();loadStats();loadFeed(true);loadMacro();
+document.addEventListener('DOMContentLoaded',async ()=>{
+  loadTheme();initMobileTicker();await checkAuth();loadStats();loadFeed(true);loadMacro();
   setInterval(loadStats,30000);setInterval(loadMacro,120000);
   setInterval(()=>{if(ST.page===1&&!document.hidden)loadFeed(true,true);},60000);
   const h=location.hash;
@@ -1601,14 +1606,29 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(btn)btn.classList.toggle('visible',window.scrollY>400);
   });
 
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebarDrawer();closeModal();closeVipModal();closeShareCard();}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSidebarDrawer();closeModal();closeVipModal();closeOrdersModal();closeShareCard();}});
 });
 
-function handlePaymentReturn(){
+async function handlePaymentReturn(){
   const p=new URLSearchParams(location.search);
-  if(p.get('payment')!=='success')return;
-  showToast('✅ 支付已完成，系统正在确认会员状态');
-  setTimeout(()=>checkAuth(),1200);
+  const hasAlipayParams=p.has('out_trade_no')||p.has('trade_no');
+  if(!hasAlipayParams&&p.get('payment')!=='success')return;
+  showToast('✅ 支付已完成，正在确认会员状态');
+  if(hasAlipayParams&&ME){
+    try{
+      const params={};
+      p.forEach((v,k)=>{params[k]=v});
+      const d=await api('/api/payment/alipay/return-confirm',{method:'POST',body:JSON.stringify({params})});
+      await checkAuth();
+      showToast(`✅ VIP 已自动生效，到期：${d.vip_expire||'已更新'}`);
+      showPage('mine');bnSet('mine');
+    }catch(e){
+      showToast('支付已完成，等待支付宝异步通知确认');
+      setTimeout(()=>checkAuth(),1500);
+    }
+  }else{
+    setTimeout(()=>checkAuth(),1200);
+  }
   history.replaceState(null,'',location.pathname+location.hash);
 }
 
@@ -1917,6 +1937,68 @@ function toggleUserMenu(e){e.stopPropagation();el('profile-menu').classList.togg
 function closeHeaderMenus(){el('profile-menu')&&el('profile-menu').classList.remove('open');}
 function openVipModal(){closeHeaderMenus();el('vip-overlay').classList.add('open');}
 function closeVipModal(){el('vip-overlay').classList.remove('open');}
+function ensureOrdersModal(){
+  if(el('orders-overlay'))return;
+  document.body.insertAdjacentHTML('beforeend',`
+    <div id="orders-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:420;display:none;align-items:center;justify-content:center;padding:18px">
+      <div style="width:min(680px,96vw);max-height:82vh;overflow:auto;border:1px solid var(--border);background:var(--bg1);border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.5)">
+        <div style="position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);background:var(--bg1);z-index:1">
+          <div>
+            <div style="font-size:18px;font-weight:950;color:var(--text)">我的订单</div>
+            <div id="orders-sub" style="font-size:11px;color:var(--text3);margin-top:4px">支付记录、开通状态与售后核对</div>
+          </div>
+          <button onclick="closeOrdersModal()" style="width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);font-size:20px;cursor:pointer">×</button>
+        </div>
+        <div id="orders-list" style="display:grid;gap:10px;padding:16px 18px"></div>
+      </div>
+    </div>`);
+}
+function closeOrdersModal(){const o=el('orders-overlay');if(o)o.style.display='none';}
+async function openOrdersModal(){
+  if(!ME){openModal('login');return}
+  ensureOrdersModal();
+  const overlay=el('orders-overlay'), list=el('orders-list');
+  overlay.style.display='flex';
+  list.innerHTML='<div style="color:var(--text3);font-size:13px;padding:18px;text-align:center">正在读取订单...</div>';
+  try{
+    const d=await api('/api/subscription/orders');
+    setText('orders-sub',d.is_vip?`当前 VIP 到期：${d.vip_expire||'—'}`:'当前为普通用户');
+    if(!d.orders||!d.orders.length){
+      list.innerHTML='<div style="border:1px dashed var(--border);border-radius:10px;padding:24px;text-align:center;color:var(--text3)">暂无订单记录</div>';
+      return;
+    }
+    list.innerHTML=d.orders.map(o=>{
+      const paid=o.status==='paid';
+      const pending=o.status==='pending';
+      const color=paid?'#22c55e':pending?'#f59e0b':'#94a3b8';
+      return `<div style="border:1px solid var(--border);border-radius:10px;padding:13px;background:rgba(255,255,255,.025)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="min-width:0">
+            <div style="font-size:14px;font-weight:900;color:var(--text)">${esc(o.plan_name)} <span style="font-family:var(--mono);color:var(--text3);font-size:11px">${esc(o.plan_label||'')}</span></div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:5px;word-break:break-all">${esc(o.order_no)}</div>
+          </div>
+          <div style="font-size:13px;font-weight:900;color:${color};white-space:nowrap">${esc(o.status_text)}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;font-size:11px;color:var(--text3)">
+          <div>金额<br><b style="color:var(--text)">¥${Number(o.amount||0).toFixed(2)}</b></div>
+          <div>创建<br><b style="color:var(--text)">${esc(o.created_at||'—')}</b></div>
+          <div>支付<br><b style="color:var(--text)">${esc(o.paid_at||'—')}</b></div>
+        </div>
+        ${pending?`<button onclick="recheckOrder('${esc(o.order_no)}')" style="margin-top:12px;width:100%;height:34px;border:1px solid rgba(255,107,43,.5);border-radius:8px;background:rgba(255,107,43,.1);color:var(--orange);font-weight:900;cursor:pointer">同步支付状态</button>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){
+    list.innerHTML=`<div style="border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:18px;color:#ef4444">${esc(e.message)}</div>`;
+  }
+}
+async function recheckOrder(orderNo){
+  try{
+    const d=await api('/api/subscription/recheck-order',{method:'POST',body:JSON.stringify({order_no:orderNo})});
+    showToast(d.message||'订单状态已同步');
+    await checkAuth();
+    openOrdersModal();
+  }catch(e){showToast(e.message||'同步失败')}
+}
 function copyWechat(){navigator.clipboard&&navigator.clipboard.writeText('alphaheartbeat.com').then(()=>{showFmsg('vip-msg','网址已复制：alphaheartbeat.com','ok');showToast('已复制网址');}).catch(()=>showFmsg('vip-msg','请手动访问 alphaheartbeat.com','err'));}
 function openActivationModal(email){
   if(el('activation-email'))el('activation-email').textContent=email||'您的邮箱';
