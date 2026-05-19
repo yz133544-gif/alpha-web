@@ -337,7 +337,7 @@ input:checked+.sldr:before{transform:translateX(16px)}
 
 /* Share modal */
 .share-modal{max-width:520px}
-.share-preview{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;background:#0a0a0a}
+.share-preview{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px;background:#0a0a0a;min-height:220px;display:flex;align-items:center;justify-content:center}
 .share-preview img{display:block;width:100%;height:auto;background:#050505}
 .share-hint{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.65;margin:-6px 0 10px}
 .sp-inner{padding:20px;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
@@ -1564,10 +1564,10 @@ tr:hover td{background:var(--orange3)}
   <div class="modal-title">快讯分享卡片</div>
   <div class="modal-sub">一键生成适合微信、朋友圈、社群转发的品牌快讯图。</div>
   <div class="share-preview" id="share-preview"></div>
-  <div class="share-hint">移动端如未自动保存，可点“保存/分享图片”后长按图片保存；卡片仅在本机浏览器生成，不占用服务器存储。</div>
+  <div class="share-hint">移动端如未自动保存，可点“保存/分享图片”后长按预览图保存；卡片由本机浏览器生成，不占用服务器存储。</div>
   <div class="share-actions">
-    <button class="btn-full btn-orange" onclick="downloadShareCard()">保存/分享图片</button>
-    <button class="btn-full btn-outline" onclick="copyShareText()">📋 复制文案</button>
+    <button type="button" class="btn-full btn-orange" onclick="downloadShareCard()">保存/分享图片</button>
+    <button type="button" class="btn-full btn-outline" onclick="copyShareText()">📋 复制文案</button>
   </div>
   <div class="fmsg" id="share-msg"></div>
 </div>
@@ -2378,7 +2378,7 @@ function buildCard(n,i){
         ${readCount}
         <div class="score-bar-wrap"><div class="score-bar" style="width:${score}%;background:${scoreColor}"></div></div>
         <span class="tc-time">${n.time_str||''}</span>
-        <button class="share-btn" onclick="openShareCard(event,${n._idx??i})">分享</button>
+        <button type="button" class="share-btn" onclick="openShareCard(event,${n._idx??i})">分享</button>
       </div>
     </div>
     <div class="tc-title">${hlNum(esc(title))}</div>
@@ -2389,7 +2389,7 @@ function buildCard(n,i){
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
       <div class="tc-foot">
         <div class="tc-targets">影响板块：<span>${esc(n.targets||'全球市场')}</span></div>
-        <button class="share-btn" onclick="openShareCard(event,${n._idx??i})">生成分享卡</button>
+        <button type="button" class="share-btn" onclick="openShareCard(event,${n._idx??i})">生成分享卡</button>
         ${n.link?`<a class="orig-link" href="${esc(n.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">查看原文 →</a>`:''}
       </div>
     </div>
@@ -2483,10 +2483,13 @@ async function clearWatchlist(){
 
 // ═══ SHARE CARD ═══
 function openShareCard(e,idx){
-  e.stopPropagation();
-  SHARE_NEWS=ST.items[idx];if(!SHARE_NEWS)return;
-  renderShareCardImage(SHARE_NEWS);
+  if(e){e.preventDefault&&e.preventDefault();e.stopPropagation&&e.stopPropagation();}
+  SHARE_NEWS=ST.items[idx];
+  if(!SHARE_NEWS){showToast('未找到这条快讯');return;}
   el('share-overlay').classList.add('open');
+  el('share-msg').textContent='';
+  el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
+  setTimeout(()=>renderShareCardImage(SHARE_NEWS),30);
 }
 function closeShareCard(){
   el('share-overlay').classList.remove('open');
@@ -2496,21 +2499,21 @@ function closeShareCard(){
 function nowStr(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 
 function renderShareCardImage(n){
-  drawShareCanvas(n);
-  const c=el('share-canvas');
-  el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
-  if(SHARE_URL){URL.revokeObjectURL(SHARE_URL);SHARE_URL='';}
-  SHARE_BLOB=null;
-  if(c.toBlob){
-    c.toBlob(blob=>{
-      if(!blob){fallbackShareImage(c);return}
-      SHARE_BLOB=blob;
-      SHARE_URL=URL.createObjectURL(blob);
-      el('share-preview').innerHTML=`<img src="${SHARE_URL}" alt="Alpha Heartbeat 快讯分享卡">`;
-      showFmsg('share-msg','分享卡已生成，可保存或直接转发','ok');
-    },'image/png',.92);
-  }else{
-    fallbackShareImage(c);
+  try{
+    drawShareCanvas(n);
+    const c=el('share-canvas');
+    if(SHARE_URL&&SHARE_URL.startsWith('blob:'))URL.revokeObjectURL(SHARE_URL);
+    SHARE_BLOB=null;
+    // iOS/微信/QQ 内置浏览器对 blob URL 下载和预览兼容性不稳定，dataURL 更稳。
+    SHARE_URL=c.toDataURL('image/png');
+    el('share-preview').innerHTML=`<img src="${SHARE_URL}" alt="Alpha Heartbeat 快讯分享卡">`;
+    if(c.toBlob)c.toBlob(blob=>{SHARE_BLOB=blob||null;},'image/png',.92);
+    showFmsg('share-msg','分享卡已生成，可保存或直接转发','ok');
+  }catch(err){
+    console.error('share card render failed',err);
+    SHARE_URL='';SHARE_BLOB=null;
+    el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#ff6b2b;font-size:11px;line-height:1.8">生成图片失败，请先复制文案；如在微信/QQ内置浏览器中，请刷新页面后重试。</div>';
+    showFmsg('share-msg','图片生成失败，已保留复制文案功能','err');
   }
 }
 function fallbackShareImage(c){
@@ -2525,8 +2528,8 @@ function drawShareCanvas(n){
   const color=bull?'#ff3d5a':bear?'#00e676':'#ffb800';
   const icon=n.source==='VIP终端'?'⚡':(bull?'📈':bear?'📉':'●');
   const signal=n.source==='VIP终端'?'终端快讯':(bull?'利多信号':bear?'利空信号':'中性信息');
-  const sourceMap={'VIP终端':'VIP TERMINAL','Reuters':'REUTERS','Bloomberg':'BLOOMBERG','Benzinga':'BENZINGA'};
-  const source=sourceMap[n.source]||String(n.source||'ALPHA NEWS').toUpperCase();
+  const sourceMap={'VIP终端':'VIP终端','Reuters':'路透','Bloomberg':'彭博','Benzinga':'Benzinga'};
+  const source=sourceMap[n.source]||String(n.source||'Alpha News');
   const title=n.title_cn||n.translation||n.title_en||'全球金融快讯';
   const ai=n.ai_logic||n.translation||'Alpha Heartbeat 正在追踪全球市场资讯与潜在影响。';
   const assets=parseAssets(n.asset_tags).map(assetLabel).join(' / ')||(n.targets||'全球市场');
@@ -2538,19 +2541,19 @@ function drawShareCanvas(n){
   ctx.strokeStyle='rgba(255,255,255,.055)';ctx.lineWidth=1;
   for(let x=70;x<W;x+=92){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
   for(let y=80;y<H;y+=92){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  ctx.fillStyle='rgba(255,107,43,.92)';roundRect(ctx,74,78,88,88,18,true,false);
-  ctx.fillStyle='#fff';ctx.font='900 64px Arial';ctx.fillText('A',97,143);
-  ctx.fillStyle='#f4f7fb';ctx.font='900 43px Arial';ctx.fillText('ALPHA HEARTBEAT',190,112);
-  ctx.fillStyle='#7c8798';ctx.font='24px monospace';ctx.fillText('GLOBAL NEWS SIGNAL TERMINAL',192,150);
-  ctx.textAlign='right';ctx.fillStyle='#b7c0cf';ctx.font='28px monospace';ctx.fillText(n.time_str||nowStr(),W-74,112);
-  ctx.fillStyle='#667085';ctx.font='20px monospace';ctx.fillText('BJ',W-74,145);ctx.textAlign='left';
-  ctx.strokeStyle='rgba(255,255,255,.13)';ctx.beginPath();ctx.moveTo(74,215);ctx.lineTo(W-74,215);ctx.stroke();
+  ctx.fillStyle='rgba(255,107,43,.94)';roundRect(ctx,72,72,86,86,18,true,false);
+  ctx.fillStyle='#fff';ctx.font='900 62px Arial';ctx.fillText('A',95,136);
+  ctx.fillStyle='#f4f7fb';ctx.font='900 40px Arial';ctx.fillText('ALPHA HEARTBEAT',188,108);
+  ctx.fillStyle='#ff7a1a';ctx.font='900 24px Arial';ctx.fillText('alphaheartbeat.com',188,146);
+  ctx.textAlign='right';ctx.fillStyle='#b7c0cf';ctx.font='28px monospace';ctx.fillText(n.time_str||nowStr(),W-74,108);
+  ctx.fillStyle='#667085';ctx.font='20px monospace';ctx.fillText('BJ',W-74,142);ctx.textAlign='left';
+  ctx.strokeStyle='rgba(255,255,255,.13)';ctx.beginPath();ctx.moveTo(74,210);ctx.lineTo(W-74,210);ctx.stroke();
 
-  ctx.fillStyle=color+'22';ctx.strokeStyle=color;ctx.lineWidth=2;roundRect(ctx,74,260,250,66,12,true,true);
-  ctx.fillStyle=color;ctx.font='900 31px Arial';ctx.fillText(`${icon} ${signal}`,100,303);
-  ctx.fillStyle='#8b94a5';ctx.font='26px monospace';ctx.fillText(source,352,302);
+  ctx.fillStyle=hexToRgba(color,.16);ctx.strokeStyle=color;ctx.lineWidth=2;roundRect(ctx,74,252,260,66,12,true,true);
+  ctx.fillStyle=color;ctx.font='900 31px Arial';ctx.fillText(`${icon} ${signal}`,100,295);
+  ctx.fillStyle='#b3bdcc';ctx.font='900 28px Arial';ctx.fillText(source,362,295);
   ctx.fillStyle='#f8fafc';ctx.font='900 58px Arial';
-  let y=wrapCanvasText(ctx,title,74,420,W-148,78,6);
+  let y=wrapCanvasText(ctx,title,74,406,W-148,78,6);
 
   const boxY=Math.min(y+42,980);
   ctx.fillStyle='rgba(9,14,25,.92)';roundRect(ctx,74,boxY,W-148,330,18,true,false);
@@ -2565,6 +2568,11 @@ function drawShareCanvas(n){
   ctx.fillStyle='#7c8798';ctx.font='24px monospace';ctx.fillText('news@heartbeat-news.top',74,H-74);
   ctx.textAlign='right';ctx.fillStyle='#646f7f';ctx.font='23px Arial';ctx.fillText('仅供参考，不构成投资建议',W-74,H-115);
   ctx.fillText('市场有风险，交易需谨慎',W-74,H-74);ctx.textAlign='left';
+}
+function hexToRgba(hex,a){
+  const h=String(hex||'#ffffff').replace('#','');
+  const r=parseInt(h.slice(0,2),16)||255,g=parseInt(h.slice(2,4),16)||255,b=parseInt(h.slice(4,6),16)||255;
+  return `rgba(${r},${g},${b},${a})`;
 }
 
 async function downloadShareCard(){
