@@ -547,7 +547,7 @@ th{background:var(--bg3);color:var(--text3);padding:6px 9px;text-align:left;font
 td{padding:6px 9px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
 tr:hover td{background:var(--orange3)}
 .bp{padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;font-family:var(--mono)}
-.p-free{background:rgba(74,98,128,.1);color:var(--text3)}.p-vip{background:rgba(255,184,0,.1);color:var(--gold)}
+.p-free{background:rgba(74,98,128,.1);color:var(--text3)}.p-vip{background:rgba(255,184,0,.1);color:var(--gold)}.p-pending{background:rgba(255,184,0,.08);color:var(--gold);border:1px solid rgba(255,184,0,.18)}
 .admin-login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px}
 .alb{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:28px;width:100%;max-width:320px}
 .ic-code{font-family:var(--mono);font-size:10px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:2px 6px;color:var(--orange);cursor:pointer;display:inline-block;margin:2px;user-select:all}
@@ -843,7 +843,7 @@ tr:hover td{background:var(--orange3)}
       </div>
       <div class="mobile-macro-strip" aria-label="宏观指标">
         <div class="mobile-macro-item mobile-macro-fng">
-          <div class="mobile-macro-label">CNN 指数</div>
+          <div class="mobile-macro-label">CNN 恐贪指数</div>
           <div class="mobile-gauge-row">
             <svg class="mobile-gauge-svg" viewBox="0 0 70 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M5 36 A30 30 0 0 1 65 36" fill="none" stroke="#0f1e35" stroke-width="7" stroke-linecap="round"/>
@@ -857,7 +857,7 @@ tr:hover td{background:var(--orange3)}
           </div>
         </div>
         <div class="mobile-macro-item">
-          <div class="mobile-macro-label">VIX 恐慌</div>
+          <div class="mobile-macro-label">VIX 恐慌指数</div>
           <div class="mobile-macro-main"><span class="mobile-macro-icon" id="m-vix-icon">⚪</span><div class="mobile-macro-value" id="m-vix-v">—</div></div>
           <div class="mobile-macro-sub" id="m-vix-s">波动率</div>
           <div class="mobile-macro-sub" id="m-vix-upd"></div>
@@ -1350,7 +1350,7 @@ tr:hover td{background:var(--orange3)}
               <h3>用户列表 <span id="u-total" style="color:var(--text3);font-size:8px;font-weight:normal;font-family:var(--mono)"></span></h3>
               <div style="display:flex;gap:6px;align-items:center">
                 <select id="u-filter" class="finput" style="width:90px;padding:4px 6px;font-size:10px" onchange="loadUsers()">
-                  <option value="">全部</option><option value="vip">VIP</option><option value="free">免费</option>
+                  <option value="">全部</option><option value="vip">VIP</option><option value="free">免费</option><option value="inactive">待验证</option>
                 </select>
                 <input class="finput" id="u-q" placeholder="搜索用户名/邮箱" style="width:150px;padding:4px 8px;font-size:10px" oninput="loadUsers()">
               </div>
@@ -2723,6 +2723,12 @@ async function loadUsers(){
     const d=await api(`/api/admin/users?${params}`);
     setText('u-total','· '+d.total+' 位用户');
     el('u-tbody').innerHTML=d.items.map(u=>{
+      const isActive = u.is_active !== false && u.is_active !== 0;
+      const accountBadge = isActive ? '' : `<br><span class="bp p-pending" title="用户还没有点击注册确认邮件">待验证</span>`;
+      const emailVerifyHint = isActive ? '' : `<br><span style="color:var(--gold);font-size:8px">验证邮件已发送，点击邮箱链接后才算注册成功</span>`;
+      const planBadge = isActive
+        ? `<span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span>`
+        : `<span class="bp p-pending">未完成注册</span>`;
       const src=u.sources||{};
       const srcText=['vip_terminal','reuters','bloomberg'].filter(k=>src[k]!==false).map(k=>({vip_terminal:'VIP终端',reuters:'路透',bloomberg:'彭博'}[k])).join(' / ')||'未选信源';
       const kw=[...(u.keywords||[]),...(u.sectors||[]).map(s=>'板块:'+s)].slice(0,4).join('、')||'未设关键词';
@@ -2735,9 +2741,9 @@ async function loadUsers(){
       const unsubLine=u.email_unsubscribed?`<br><span style="color:var(--red)">用户已退订${u.email_unsubscribed_str?' · '+esc(u.email_unsubscribed_str):''}</span>`:'';
       const emailDisabledLine=u.email_push_disabled?`<br><span style="color:var(--gold)">邮箱权限暂停${u.email_push_disabled_str?' · '+esc(u.email_push_disabled_str):''}${u.email_push_disabled_source?' · '+esc(u.email_push_disabled_source):''}</span>`:'';
       return `<tr>
-      <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong></td>
-      <td style="color:var(--text2);font-size:9px">${esc(u.email)}</td>
-      <td><span class="bp ${u.is_vip_active?'p-vip':'p-free'}">${u.is_vip_active?'VIP':'免费'}</span></td>
+      <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong>${accountBadge}</td>
+      <td style="color:var(--text2);font-size:9px">${esc(u.email)}${emailVerifyHint}</td>
+      <td>${planBadge}</td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
       <td>
         <div class="admin-mini"><strong style="color:var(--text)">${mode}</strong><br>${u.delivery_locked?'已锁定':'未锁定'} · ${modeLabel} · ${srcText}<br>${esc(kw)}${unsubLine}${emailDisabledLine}</div>
@@ -2756,6 +2762,7 @@ async function loadUsers(){
           <option value="free" ${u.plan==='free'?'selected':''}>免费</option>
           <option value="vip" ${u.plan==='vip'?'selected':''}>VIP</option>
         </select>
+        ${!isActive?`<button onclick="activateUser(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">手动激活</button>`:''}
         <input id="ud-${u.id}" type="number" placeholder="+天" style="width:38px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:2px 3px;border-radius:2px;font-size:8px;font-family:var(--mono)" min="1">
         <button onclick="addVipD(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">续期</button>
         ${u.is_vip_active?`<button onclick="cancelVip(${u.id})" style="background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.18);color:var(--red);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">取消VIP</button>`:''}
@@ -2783,6 +2790,14 @@ async function cancelVip(uid){
 }
 async function addVipD(uid){const inp=el('ud-'+uid);const days=parseInt(inp&&inp.value)||0;if(!days)return;try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({vip_days:days})});showToast(`✅ +${days}天VIP`);loadUsers();}catch(e){}}
 async function verifyFs(uid){try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({feishu_verified:1})});showToast('✅ 飞书已验证');loadUsers();}catch(e){}}
+async function activateUser(uid){
+  if(!confirm('确认手动激活该账号？激活后用户可正常登录。'))return;
+  try{
+    await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({is_active:1})});
+    showToast('✅ 账号已激活');
+    loadUsers();
+  }catch(e){showToast(e.message||'激活失败');}
+}
 async function adminResendActivation(uid){
   if(!confirm('确定给该用户重新发送快讯邮箱激活邮件？这会清除退订状态，但仍需用户点击邮件确认后才会恢复推送。'))return;
   try{
