@@ -190,7 +190,7 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .tc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:7px;gap:8px;flex-wrap:wrap}
 .tc-targets{font-size:9px;color:var(--text3)}
 .tc-targets span{color:var(--text2);margin-left:2px}
-.orig-link{font-family:var(--mono);font-size:9px;color:var(--blue);text-decoration:none}.orig-link:hover{color:var(--cyan)}
+.orig-link{font-family:var(--mono);font-size:9px;color:var(--blue);text-decoration:none}.orig-link:hover{color:var(--cyan)}.share-card-link{background:transparent;border:0;padding:0;cursor:pointer;white-space:nowrap}.share-card-link:hover{color:var(--orange)}
 .share-btn{background:transparent;border:1px solid var(--border);color:var(--text3);padding:2px 7px;border-radius:3px;font-size:8px;cursor:pointer;font-family:var(--mono);transition:all .15s;flex-shrink:0}
 .share-btn:hover{border-color:var(--orange);color:var(--orange)}
 .card-read-count{font-family:var(--mono);font-size:7px;color:var(--text3);letter-spacing:.5px}
@@ -2371,7 +2371,7 @@ function buildCard(n,i){
   const assetHtml=assets.length?`<div class="tc-assets">${assets.map(a=>`<span class="asset-tag${wl.includes(a)?' watching':''}" onclick="assetAction(event,'${esc(a)}',this)">${assetLabel(a)}</span>`).join('')}</div>`:'';
   const readCount='';
 
-  return `<div class="tcard ${cls}" data-id="${n.id||''}" style="animation:fadeIn .25s ${Math.min(i,6)*.04}s both" onclick="toggleCard(this)">
+  return `<div class="tcard ${cls}" data-id="${n.id||''}" data-idx="${n._idx??i}" style="animation:fadeIn .25s ${Math.min(i,6)*.04}s both" onclick="toggleCard(this)">
     <div class="tc-head">
       <div class="tc-meta">
         <span class="level-badge l-${lvl.toLowerCase()}">${lvl}</span>
@@ -2394,8 +2394,7 @@ function buildCard(n,i){
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
       <div class="tc-foot">
         <div class="tc-targets">影响板块：<span>${esc(n.targets||'全球市场')}</span></div>
-        <button type="button" class="share-btn" onclick="openShareCard(event,${n._idx??i})">生成分享卡</button>
-        ${n.link?`<a class="orig-link" href="${esc(n.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">查看原文 →</a>`:''}
+        <button type="button" class="orig-link share-card-link" onclick="openShareCard(event,${n._idx??i})">生成分享卡 →</button>
       </div>
     </div>
   </div>`;
@@ -2487,10 +2486,26 @@ async function clearWatchlist(){
 }
 
 // ═══ SHARE CARD ═══
+function resolveShareNewsForCard(e,idx){
+  const direct=Number(idx);
+  if(Number.isFinite(direct)&&ST.items[direct])return ST.items[direct];
+  const target=e&&e.target;
+  const card=target&&target.closest?target.closest('.tcard'):null;
+  if(card){
+    const id=card.dataset.id;
+    if(id){
+      const found=ST.items.find(x=>String(x.id||'')===String(id));
+      if(found)return found;
+    }
+    const cardIdx=Number(card.dataset.idx);
+    if(Number.isFinite(cardIdx)&&ST.items[cardIdx])return ST.items[cardIdx];
+  }
+  return null;
+}
 function openShareCard(e,idx){
   if(e){e.preventDefault&&e.preventDefault();e.stopPropagation&&e.stopPropagation();}
-  SHARE_NEWS=ST.items[idx];
-  if(!SHARE_NEWS){showToast('未找到这条快讯');return;}
+  SHARE_NEWS=resolveShareNewsForCard(e,idx);
+  if(!SHARE_NEWS){showToast('未找到这条快讯，请刷新后重试');return;}
   el('share-overlay').classList.add('open');
   el('share-msg').textContent='';
   el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
@@ -2526,6 +2541,12 @@ function fallbackShareImage(c){
   el('share-preview').innerHTML=`<img src="${SHARE_URL}" alt="Alpha Heartbeat 快讯分享卡">`;
   showFmsg('share-msg','分享卡已生成，可长按保存','ok');
 }
+function shareAssetsText(n){
+  const raw=n&&n.asset_tags;
+  const assets=Array.isArray(raw)?raw:parseAssets(raw);
+  const text=assets.map(assetLabel).filter(Boolean).join(' / ');
+  return text||(n&&n.targets)||'全球市场';
+}
 
 function drawShareCanvas(n){
   const c=el('share-canvas'),ctx=c.getContext('2d'),W=c.width,H=c.height;
@@ -2537,7 +2558,7 @@ function drawShareCanvas(n){
   const source=sourceMap[n.source]||String(n.source||'Alpha News');
   const title=n.title_cn||n.translation||n.title_en||'全球金融快讯';
   const ai=n.ai_logic||n.translation||'Alpha Heartbeat 正在追踪全球市场资讯与潜在影响。';
-  const assets=parseAssets(n.asset_tags).map(assetLabel).join(' / ')||(n.targets||'全球市场');
+  const assets=shareAssetsText(n);
   ctx.clearRect(0,0,W,H);
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#151923');g.addColorStop(.45,'#090d16');g.addColorStop(1,'#030406');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
@@ -2567,7 +2588,7 @@ function drawShareCanvas(n){
   ctx.fillStyle='#c7d1df';ctx.font='34px Arial';wrapCanvasText(ctx,ai,112,boxY+130,W-224,54,4);
 
   ctx.fillStyle='#6f7c91';ctx.font='24px monospace';ctx.fillText('FOCUS ASSETS',74,H-330);
-  ctx.fillStyle='#27d7ff';ctx.font='900 40px monospace';wrapCanvasText(ctx,assets,H>0?74:74,H-270,W-148,56,2);
+  ctx.fillStyle='#27d7ff';ctx.font='900 40px monospace';wrapCanvasText(ctx,assets,74,H-270,W-148,56,2);
   ctx.strokeStyle='rgba(255,255,255,.13)';ctx.beginPath();ctx.moveTo(74,H-178);ctx.lineTo(W-74,H-178);ctx.stroke();
   ctx.fillStyle='#ff7a1a';ctx.font='900 38px monospace';ctx.fillText('alphaheartbeat.com',74,H-115);
   ctx.fillStyle='#7c8798';ctx.font='24px monospace';ctx.fillText('news@heartbeat-news.top',74,H-74);
