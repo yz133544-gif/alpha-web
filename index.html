@@ -190,8 +190,8 @@ header{position:sticky;top:0;z-index:200;background:var(--header);backdrop-filte
 .tc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:7px;gap:8px;flex-wrap:wrap}
 .tc-targets{font-size:9px;color:var(--text3)}
 .tc-targets span{color:var(--text2);margin-left:2px}
-.orig-link{font-family:var(--mono);font-size:9px;color:var(--blue);text-decoration:none}.orig-link:hover{color:var(--cyan)}.share-card-link{background:transparent;border:0;padding:0;cursor:pointer;white-space:nowrap;touch-action:manipulation}.share-card-link:hover{color:var(--orange)}
-.share-btn{touch-action:manipulation;background:transparent;border:1px solid var(--border);color:var(--text3);padding:2px 7px;border-radius:3px;font-size:8px;cursor:pointer;font-family:var(--mono);transition:all .15s;flex-shrink:0}
+.orig-link{font-family:var(--mono);font-size:9px;color:var(--blue);text-decoration:none}.orig-link:hover{color:var(--cyan)}.share-card-link{background:transparent;border:0;padding:0;cursor:pointer;white-space:nowrap}.share-card-link:hover{color:var(--orange)}
+.share-btn{background:transparent;border:1px solid var(--border);color:var(--text3);padding:2px 7px;border-radius:3px;font-size:8px;cursor:pointer;font-family:var(--mono);transition:all .15s;flex-shrink:0}
 .share-btn:hover{border-color:var(--orange);color:var(--orange)}
 .card-read-count{font-family:var(--mono);font-size:7px;color:var(--text3);letter-spacing:.5px}
 
@@ -296,7 +296,7 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .tag-input{background:transparent;border:none;outline:none;font-size:10px;color:var(--text);font-family:var(--mono);min-width:60px;flex:1}
 
 /* ═══ MODAL ═══ */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--bg1);border:1px solid var(--bhi);border-radius:8px;padding:22px;max-width:390px;width:100%;transform:scale(.93) translateY(12px);transition:transform .2s;position:relative;max-height:90vh;overflow-y:auto}
 .overlay.open .modal{transform:scale(1) translateY(0)}
@@ -695,7 +695,7 @@ tr:hover td{background:var(--orange3)}
   .tc-title{font-size:14px;line-height:1.42;margin-bottom:5px}
   .tc-ai{font-size:11px;line-height:1.5;-webkit-line-clamp:2}
   .score-bar-wrap{width:30px}
-  .share-btn{touch-action:manipulation;padding:2px 6px}
+  .share-btn{padding:2px 6px}
   .api-title{font-size:27px}
   .api-hero{padding:18px;border-radius:4px}
   .api-flow{display:block;padding-left:14px}
@@ -1563,16 +1563,16 @@ tr:hover td{background:var(--orange3)}
 </div>
 
 <!-- SHARE CARD MODAL -->
-<div class="overlay" id="share-overlay">
+<div class="overlay" id="share-overlay" onclick="if(event.target===this)closeShareCard()">
 <div class="modal share-modal">
-  <button type="button" class="modal-close" data-share-close="1">✕</button>
+  <button class="modal-close" onclick="closeShareCard()">✕</button>
   <div class="modal-title">快讯分享卡片</div>
   <div class="modal-sub">一键生成适合微信、朋友圈、社群转发的品牌快讯图。</div>
   <div class="share-preview" id="share-preview"></div>
   <div class="share-hint">移动端如未自动保存，可点“保存/分享图片”后长按预览图保存；卡片由本机浏览器生成，不占用服务器存储。</div>
   <div class="share-actions">
-    <button type="button" class="btn-full btn-orange" data-share-download="1">保存/分享图片</button>
-    <button type="button" class="btn-full btn-outline" data-share-copy="1">📋 复制文案</button>
+    <button type="button" class="btn-full btn-orange" onclick="downloadShareCard()">保存/分享图片</button>
+    <button type="button" class="btn-full btn-outline" onclick="copyShareText()">📋 复制文案</button>
   </div>
   <div class="fmsg" id="share-msg"></div>
 </div>
@@ -1597,7 +1597,6 @@ let PANEL_OPEN=false;
 const ASSET_LABELS={'$BTC':'比特币','$ETH':'以太坊','$GOLD':'黄金','$OIL':'原油','$SPX':'标普500','$NDX':'纳斯达克','$HSI':'恒生指数','$CSI300':'沪深300','$AAPL':'苹果','$NVDA':'英伟达','$TSLA':'特斯拉','$AMZN':'亚马逊','$MSFT':'微软','$GOOGL':'谷歌','$CNY':'人民币','$JPY':'日元','$EUR':'欧元','$AUD':'澳元'};
 
 document.addEventListener('DOMContentLoaded',async ()=>{
-  bindShareCardClicks();
   loadTheme();initMobileTicker();await checkAuth();loadStats();loadFeed(true);loadMacro();
   setInterval(loadStats,30000);setInterval(loadMacro,120000);
   setInterval(()=>{if(ST.page===1&&!document.hidden)loadFeed(true,true);},60000);
@@ -2353,21 +2352,7 @@ function renderFeed(reset){
   }
 }
 
-function shareNewsKey(n,i){
-  const raw=[n&&n.id,n&&n.news_id,n&&n.created_at,n&&n.time_str,n&&(n.title_cn||n.translation||n.title_en),i].filter(v=>v!==undefined&&v!==null).join('|');
-  let h=0;
-  for(let j=0;j<raw.length;j++)h=((h<<5)-h+raw.charCodeAt(j))|0;
-  const k='s_'+Math.abs(h).toString(36)+'_'+String(n&&n.id||i||0).replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,32);
-  const cache=window.__AH_SHARE_NEWS_CACHE||(window.__AH_SHARE_NEWS_CACHE={});
-  const keys=window.__AH_SHARE_NEWS_KEYS||(window.__AH_SHARE_NEWS_KEYS=[]);
-  if(!cache[k])keys.push(k);
-  cache[k]=n;
-  while(keys.length>800){const oldKey=keys.shift();delete cache[oldKey];}
-  return k;
-}
-
 function buildCard(n,i){
-  const shareKey=shareNewsKey(n,n._idx??i);
   const s=n.sentiment||'中性';
   const bull=s.includes('利多'),bear=s.includes('利空');
   let cls=bull?'bull':bear?'bear':'neut';if(n.is_vip)cls+=' vipc';
@@ -2386,7 +2371,7 @@ function buildCard(n,i){
   const assetHtml=assets.length?`<div class="tc-assets">${assets.map(a=>`<span class="asset-tag${wl.includes(a)?' watching':''}" onclick="assetAction(event,'${esc(a)}',this)">${assetLabel(a)}</span>`).join('')}</div>`:'';
   const readCount='';
 
-  return `<div class="tcard ${cls}" data-id="${escAttr(n.id||'')}" data-idx="${n._idx??i}" data-share-key="${escAttr(shareKey)}" data-share-title="${escAttr(title)}" data-share-ai="${escAttr(n.ai_logic||'')}" data-share-source="${escAttr(n.source||'')}" data-share-sentiment="${escAttr(s)}" data-share-level="${escAttr(lvl)}" data-share-time="${escAttr(n.time_str||'')}" data-share-targets="${escAttr(n.targets||'全球市场')}" data-share-assets="${escAttr(Array.isArray(n.asset_tags)?n.asset_tags.join(','):(n.asset_tags||''))}" data-share-title-en="${escAttr(n.title_en||'')}" data-share-translation="${escAttr(n.translation||'')}" style="animation:fadeIn .25s ${Math.min(i,6)*.04}s both" onclick="toggleCard(this)">
+  return `<div class="tcard ${cls}" data-id="${n.id||''}" data-idx="${n._idx??i}" style="animation:fadeIn .25s ${Math.min(i,6)*.04}s both" onclick="toggleCard(this)">
     <div class="tc-head">
       <div class="tc-meta">
         <span class="level-badge l-${lvl.toLowerCase()}">${lvl}</span>
@@ -2398,7 +2383,7 @@ function buildCard(n,i){
         ${readCount}
         <div class="score-bar-wrap"><div class="score-bar" style="width:${score}%;background:${scoreColor}"></div></div>
         <span class="tc-time">${n.time_str||''}</span>
-        <button type="button" class="share-btn" data-share-card="1" data-share-idx="${n._idx??i}" data-share-key="${escAttr(shareKey)}" onclick="openShareCard(event,null,this.dataset.shareKey)">分享</button>
+        <button type="button" class="share-btn" onclick="openShareCard(event,${n._idx??i})">分享</button>
       </div>
     </div>
     <div class="tc-title">${hlNum(esc(title))}</div>
@@ -2409,7 +2394,7 @@ function buildCard(n,i){
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
       <div class="tc-foot">
         <div class="tc-targets">影响板块：<span>${esc(n.targets||'全球市场')}</span></div>
-        <button type="button" class="orig-link share-card-link" data-share-card="1" data-share-idx="${n._idx??i}" data-share-key="${escAttr(shareKey)}" onclick="openShareCard(event,null,this.dataset.shareKey)">生成分享卡 →</button>
+        <button type="button" class="orig-link share-card-link" onclick="openShareCard(event,${n._idx??i})">生成分享卡 →</button>
       </div>
     </div>
   </div>`;
@@ -2501,43 +2486,12 @@ async function clearWatchlist(){
 }
 
 // ═══ SHARE CARD ═══
-function bindShareCardClicks(){
-  if(window.__AH_SHARE_CARD_BOUND)return;
-  window.__AH_SHARE_CARD_BOUND=true;
-  let lastShareTrigger=0;
-  const handleShareAction=(e)=>{
-    const target=e.target;
-    if(!target||!target.closest)return;
-    const shareBtn=target.closest('[data-share-card]');
-    if(shareBtn){
-      const now=Date.now();
-      if(e.type==='click'&&now-lastShareTrigger<450)return;
-      lastShareTrigger=now;
-      openShareCard(e,shareBtn.dataset.shareIdx,shareBtn.dataset.shareKey);
-      return;
-    }
-    if(target.id==='share-overlay'||target.closest('[data-share-close]')){e.preventDefault();e.stopPropagation();closeShareCard();return;}
-    const dl=target.closest('[data-share-download]');
-    if(dl){e.preventDefault();e.stopPropagation();downloadShareCard();return;}
-    const cp=target.closest('[data-share-copy]');
-    if(cp){e.preventDefault();e.stopPropagation();copyShareText();return;}
-  };
-  document.addEventListener('click',handleShareAction,true);
-  document.addEventListener('pointerup',handleShareAction,true);
-}
-function resolveShareNewsForCard(e,idx,key){
-  const cache=window.__AH_SHARE_NEWS_CACHE||{};
-  if(key&&cache[key])return cache[key];
-  const target=e&&e.target;
-  const btn=target&&target.closest?target.closest('[data-share-card]'):null;
-  const btnKey=btn&&btn.dataset?btn.dataset.shareKey:'';
-  if(btnKey&&cache[btnKey])return cache[btnKey];
+function resolveShareNewsForCard(e,idx){
   const direct=Number(idx);
   if(Number.isFinite(direct)&&ST.items[direct])return ST.items[direct];
+  const target=e&&e.target;
   const card=target&&target.closest?target.closest('.tcard'):null;
   if(card){
-    const cardKey=card.dataset.shareKey;
-    if(cardKey&&cache[cardKey])return cache[cardKey];
     const id=card.dataset.id;
     if(id){
       const found=ST.items.find(x=>String(x.id||'')===String(id));
@@ -2545,58 +2499,20 @@ function resolveShareNewsForCard(e,idx,key){
     }
     const cardIdx=Number(card.dataset.idx);
     if(Number.isFinite(cardIdx)&&ST.items[cardIdx])return ST.items[cardIdx];
-
-    const textFrom=(sel)=>{
-      const node=card.querySelector(sel);
-      return node ? node.textContent.trim() : '';
-    };
-    const domTitle=(card.dataset.shareTitle||textFrom('.tc-title')).trim();
-    if(domTitle){
-      const domAi=(card.dataset.shareAi||textFrom('.tc-detail .tc-section:nth-of-type(2)')||textFrom('.tc-ai')).trim();
-      const domTargets=(card.dataset.shareTargets||textFrom('.tc-foot span')||'全球市场').trim();
-      return {
-        id:card.dataset.id||'',
-        title_cn:domTitle,
-        translation:card.dataset.shareTranslation||domTitle,
-        title_en:card.dataset.shareTitleEn||'',
-        ai_logic:domAi.replace(/^AI\s*影响解读\s*/,'').trim(),
-        source:card.dataset.shareSource||'',
-        sentiment:card.dataset.shareSentiment||'中性',
-        level:card.dataset.shareLevel||textFrom('.level-badge')||'B',
-        targets:domTargets.replace(/^影响板块[:：]?\s*/,'')||'全球市场',
-        asset_tags:card.dataset.shareAssets||'',
-        time_str:card.dataset.shareTime||textFrom('.tc-time')||''
-      };
-    }
   }
   return null;
 }
-function showShareCardError(text){
-  const overlay=el('share-overlay'),preview=el('share-preview');
-  if(overlay&&preview){
-    overlay.classList.add('open');
-    preview.innerHTML=`<div style="padding:28px;text-align:center;color:var(--muted);border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.03)">${esc(text)}</div>`;
-    showFmsg('share-msg',text,'err');
-  }else{
-    showToast(text);
-  }
-}
-function openShareCard(e,idx,key){
-  if(e){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();}
-  SHARE_NEWS=resolveShareNewsForCard(e,idx,key);
-  if(!SHARE_NEWS){showShareCardError('未找到这条快讯，请刷新后重试');return;}
-  const overlay=el('share-overlay'),preview=el('share-preview');
-  if(!overlay||!preview){showToast('分享卡组件未加载，请刷新页面');return;}
-  overlay.classList.add('open');
-  document.body.classList.add('share-open');
-  preview.innerHTML='<div class="muted" style="padding:22px;text-align:center">正在生成分享卡...</div>';
-  showFmsg('share-msg','正在生成高清分享卡...');
-  requestAnimationFrame(()=>renderShareCardImage(SHARE_NEWS));
+function openShareCard(e,idx){
+  if(e){e.preventDefault&&e.preventDefault();e.stopPropagation&&e.stopPropagation();}
+  SHARE_NEWS=resolveShareNewsForCard(e,idx);
+  if(!SHARE_NEWS){showToast('未找到这条快讯，请刷新后重试');return;}
+  el('share-overlay').classList.add('open');
+  el('share-msg').textContent='';
+  el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
+  setTimeout(()=>renderShareCardImage(SHARE_NEWS),30);
 }
 function closeShareCard(){
-  const overlay=el('share-overlay');
-  if(overlay)overlay.classList.remove('open');
-  document.body.classList.remove('share-open');
+  el('share-overlay').classList.remove('open');
   if(SHARE_URL&&SHARE_URL.startsWith('blob:'))URL.revokeObjectURL(SHARE_URL);
   SHARE_URL='';SHARE_BLOB=null;
 }
@@ -2724,8 +2640,6 @@ function copyShareText(){
   const txt=`【Alpha Heartbeat 快讯】\n${n.title_cn||n.translation||n.title_en||''}\n\nAI解读：${n.ai_logic||'查看详情获取市场影响解读'}\n\nAlphaHeartbeat.com`;
   navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>showFmsg('share-msg','分享文案已复制','ok')).catch(()=>showFmsg('share-msg','复制失败，请手动选择文本','err'));
 }
-
-Object.assign(window,{openShareCard,closeShareCard,downloadShareCard,copyShareText});
 
 // ═══ ADMIN ═══
 async function adminLogin(){
@@ -3129,7 +3043,6 @@ async function api(url,opts={}){
 function el(id){return document.getElementById(id)}
 function setText(id,v){const e=el(id);if(e)e.textContent=v;}
 function esc(s){if(s===undefined||s===null)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function escAttr(s){return esc(s).replace(/'/g,'&#39;')}
 function hlNum(t){return t.replace(/(\d+(\.\d+)?%)/g,'<span class="num">$1</span>').replace(/(\$[\d,.]+(\.\d+)?[BMKbmk]?)/g,'<span class="num">$1</span>')}
 function showFmsg(id,txt,type){const e=el(id);if(!e)return;e.textContent=txt;e.className=`fmsg ${type}`}
 function showToast(msg){const t=el('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
