@@ -1041,6 +1041,11 @@ tr:hover td{background:var(--orange3)}
         <span><span class="mine-item-title">API定制服务</span><span class="mine-item-sub">Webhook 专线接入，英文原文快讯推送，机构客户人工配置</span></span>
         <span class="mine-arrow">›</span>
       </button>
+      <button class="mine-item" onclick="openPasswordModal()">
+        <span class="mine-ico">◇</span>
+        <span><span class="mine-item-title">账户安全</span><span class="mine-item-sub">修改登录密码，建议定期更新并避免与其他网站复用</span></span>
+        <span class="mine-arrow">›</span>
+      </button>
       <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
         <span class="mine-ico">⚙</span>
         <span><span class="mine-item-title">设置</span><span class="mine-item-sub">外观偏好、订阅状态、邀请码兑换与推送通道</span></span>
@@ -1273,8 +1278,8 @@ tr:hover td{background:var(--orange3)}
         <div class="logo-mark" style="width:38px;height:38px;border-radius:8px;margin:0 auto 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 20h4l1.5-4h7L17 20h4L12 2zm-2.5 11L12 7l2.5 6h-5z" fill="white"/></svg></div>
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--text3)">管理后台</div>
       </div>
-      <div class="fg"><div class="flabel">账号</div><input class="finput" id="a-user" placeholder="admin"></div>
-      <div class="fg"><div class="flabel">密码</div><input class="finput" type="password" id="a-pass" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+      <div class="fg"><div class="flabel">账号</div><input class="finput" id="a-user" placeholder="请输入管理账号" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+      <div class="fg"><div class="flabel">密码</div><input class="finput" type="password" id="a-pass" autocomplete="new-password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
       <button class="btn-full btn-orange" onclick="adminLogin()">进入后台</button>
       <div class="fmsg" id="a-login-msg"></div>
       <div style="text-align:center;margin-top:10px"><span class="inv-link" onclick="showPage('main')">← 返回首页</span></div>
@@ -1506,6 +1511,30 @@ tr:hover td{background:var(--orange3)}
 </div>
 </div>
 
+<!-- PASSWORD MODAL -->
+<div class="overlay" id="password-overlay" onclick="if(event.target===this)closePasswordModal()">
+<div class="modal">
+  <button class="modal-close" onclick="closePasswordModal()">✕</button>
+  <div class="modal-title">修改登录密码</div>
+  <div class="modal-sub">请输入当前密码验证身份，然后设置新的登录密码。</div>
+  <div class="fg">
+    <div class="flabel">当前密码</div>
+    <div class="pass-wrap"><input class="finput" type="password" id="cp-old" autocomplete="current-password" placeholder="请输入当前密码"><button class="pass-eye" onclick="togglePw('cp-old',this)" type="button">👁</button></div>
+  </div>
+  <div class="fg">
+    <div class="flabel">新密码 <span style="color:var(--text3)">(至少6位)</span></div>
+    <div class="pass-wrap"><input class="finput" type="password" id="cp-new" autocomplete="new-password" placeholder="请输入新密码" oninput="checkStr(this,'cp-str')"><button class="pass-eye" onclick="togglePw('cp-new',this)" type="button">👁</button></div>
+    <div class="strength-bar"><div class="strength-fill" id="cp-str" style="width:0"></div></div>
+  </div>
+  <div class="fg">
+    <div class="flabel">确认新密码</div>
+    <div class="pass-wrap"><input class="finput" type="password" id="cp-confirm" autocomplete="new-password" placeholder="再次输入新密码" onkeydown="if(event.key==='Enter')changePassword()"><button class="pass-eye" onclick="togglePw('cp-confirm',this)" type="button">👁</button></div>
+  </div>
+  <button class="btn-full btn-orange" onclick="changePassword()">保存新密码</button>
+  <div class="fmsg" id="cp-msg"></div>
+</div>
+</div>
+
 <!-- EMAIL ACTIVATION MODAL -->
 <div class="overlay" id="activation-overlay" onclick="if(event.target===this)closeActivationModal()">
 <div class="modal activation-modal">
@@ -1590,7 +1619,14 @@ tr:hover td{background:var(--orange3)}
 </div>
 
 <script>
-const API = 'https://api.alphaheartbeat.com:8443';
+window.AH_API_BASE = (() => {
+  const host = window.location.hostname;
+  if (host === 'alphaheartbeat.cn' || host === 'www.alphaheartbeat.cn') {
+    return window.location.origin;
+  }
+  return 'https://api.alphaheartbeat.com:8443';
+})();
+const API = '' + window.AH_API_BASE + '';
 let ST={page:1,filter:'all',search:'',asset:'',total:0,items:[],loading:false,lastAppendCount:0,access:null};
 let ME=null,WS=null,kwTags=[],secTags=[],resetP={},SHARE_NEWS=null,SHARE_URL='',SHARE_BLOB=null;
 let PANEL_OPEN=false;
@@ -1888,6 +1924,33 @@ async function doReset(){
   catch(e){showFmsg('rp-msg',e.message,'err');}
 }
 async function doLogout(){await fetch(API+'/api/logout',{method:'POST',credentials:'include'});setGuest();if(WS)WS.close();loadFeed(true);showToast('已退出');}
+
+function openPasswordModal(){
+  if(!ME){openModal('login');return}
+  ['cp-old','cp-new','cp-confirm'].forEach(id=>{const i=el(id);if(i)i.value='';});
+  const bar=el('cp-str');if(bar){bar.style.width='0';bar.style.background='transparent';}
+  showFmsg('cp-msg','','');
+  el('password-overlay').classList.add('open');
+  setTimeout(()=>el('cp-old')&&el('cp-old').focus(),80);
+}
+function closePasswordModal(){
+  el('password-overlay').classList.remove('open');
+}
+async function changePassword(){
+  if(!ME){closePasswordModal();openModal('login');return}
+  const oldPw=el('cp-old').value,newPw=el('cp-new').value,confirm=el('cp-confirm').value;
+  if(!oldPw||!newPw||!confirm){showFmsg('cp-msg','请填写完整','err');return}
+  if(newPw.length<6){showFmsg('cp-msg','新密码至少6位','err');return}
+  if(newPw!==confirm){showFmsg('cp-msg','两次新密码不一致','err');return}
+  if(oldPw===newPw){showFmsg('cp-msg','新密码不能与当前密码相同','err');return}
+  try{
+    const d=await api('/api/me/password',{method:'POST',body:JSON.stringify({current_password:oldPw,password:newPw,confirm})});
+    showFmsg('cp-msg',d.message||'密码已修改','ok');
+    showToast('✅ 密码已修改');
+    ['cp-old','cp-new','cp-confirm'].forEach(id=>{const i=el(id);if(i)i.value='';});
+    setTimeout(closePasswordModal,900);
+  }catch(e){showFmsg('cp-msg',e.message,'err');}
+}
 
 function togglePw(id,btn){const i=el(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
 function checkStr(inp,barId='r-str'){
@@ -2383,7 +2446,7 @@ function buildCard(n,i){
         ${readCount}
         <div class="score-bar-wrap"><div class="score-bar" style="width:${score}%;background:${scoreColor}"></div></div>
         <span class="tc-time">${n.time_str||''}</span>
-        <button type="button" class="share-btn" onclick="openShareCard(event,${n._idx??i})">分享</button>
+        <button type="button" class="share-btn" data-share-idx="${n._idx??i}" onclick="openShareCard(event,${n._idx??i})">分享</button>
       </div>
     </div>
     <div class="tc-title">${hlNum(esc(title))}</div>
@@ -2394,7 +2457,7 @@ function buildCard(n,i){
       ${n.ai_logic?`<div class="dbox"><div class="d-label">AI影响解读</div><div class="d-text">${esc(n.ai_logic)}</div></div>`:''}
       <div class="tc-foot">
         <div class="tc-targets">影响板块：<span>${esc(n.targets||'全球市场')}</span></div>
-        <button type="button" class="orig-link share-card-link" onclick="openShareCard(event,${n._idx??i})">生成分享卡 →</button>
+        <button type="button" class="orig-link share-card-link" data-share-idx="${n._idx??i}" onclick="openShareCard(event,${n._idx??i})">生成分享卡 →</button>
       </div>
     </div>
   </div>`;
@@ -2490,6 +2553,9 @@ function resolveShareNewsForCard(e,idx){
   const direct=Number(idx);
   if(Number.isFinite(direct)&&ST.items[direct])return ST.items[direct];
   const target=e&&e.target;
+  const trigger=(e&&e.currentTarget)||(target&&target.closest&&target.closest('[data-share-idx]'));
+  const triggerIdx=Number(trigger&&trigger.dataset&&trigger.dataset.shareIdx);
+  if(Number.isFinite(triggerIdx)&&ST.items[triggerIdx])return ST.items[triggerIdx];
   const card=target&&target.closest?target.closest('.tcard'):null;
   if(card){
     const id=card.dataset.id;
@@ -2506,9 +2572,11 @@ function openShareCard(e,idx){
   if(e){e.preventDefault&&e.preventDefault();e.stopPropagation&&e.stopPropagation();}
   SHARE_NEWS=resolveShareNewsForCard(e,idx);
   if(!SHARE_NEWS){showToast('未找到这条快讯，请刷新后重试');return;}
-  el('share-overlay').classList.add('open');
-  el('share-msg').textContent='';
-  el('share-preview').innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
+  const overlay=el('share-overlay'),msg=el('share-msg'),preview=el('share-preview');
+  if(!overlay||!msg||!preview){showToast('分享卡组件未加载，请刷新页面');return;}
+  overlay.classList.add('open');
+  msg.textContent='';
+  preview.innerHTML='<div style="padding:24px;text-align:center;color:#8aa0b8;font-family:var(--mono);font-size:10px">正在生成分享卡...</div>';
   setTimeout(()=>renderShareCardImage(SHARE_NEWS),30);
 }
 function closeShareCard(){
@@ -2640,6 +2708,21 @@ function copyShareText(){
   const txt=`【Alpha Heartbeat 快讯】\n${n.title_cn||n.translation||n.title_en||''}\n\nAI解读：${n.ai_logic||'查看详情获取市场影响解读'}\n\nAlphaHeartbeat.com`;
   navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>showFmsg('share-msg','分享文案已复制','ok')).catch(()=>showFmsg('share-msg','复制失败，请手动选择文本','err'));
 }
+
+document.addEventListener('click',e=>{
+  const trigger=e.target&&e.target.closest&&e.target.closest('.share-btn,.share-card-link');
+  if(!trigger)return;
+  e.preventDefault();
+  if(e.stopImmediatePropagation)e.stopImmediatePropagation();
+  openShareCard(e,trigger.dataset&&trigger.dataset.shareIdx);
+},true);
+window.openShareCard=openShareCard;
+window.closeShareCard=closeShareCard;
+window.downloadShareCard=downloadShareCard;
+window.copyShareText=copyShareText;
+window.openPasswordModal=openPasswordModal;
+window.closePasswordModal=closePasswordModal;
+window.changePassword=changePassword;
 
 // ═══ ADMIN ═══
 async function adminLogin(){
@@ -3010,12 +3093,17 @@ function showPage(p){
   else if(p==='mine'){if(!ME){el('main-page').classList.add('active');openModal('login');}else{el('mine-page').classList.add('active');renderMinePage();}}
   else if(p==='api-custom')el('api-custom-page').classList.add('active');
   else if(p==='settings'){el('settings-page').classList.add('active');showSettings();}
-  else if(p==='admin')el('admin-page').classList.add('active');
+  else if(p==='admin'){el('admin-page').classList.add('active');setTimeout(prepareAdminLogin,30);}
   else el('main-page').classList.add('active');
   window.scrollTo(0,0);
   bnSet(p==='settings'?'settings':(p==='mine'||p==='api-custom')?'mine':p==='admin'?'admin':'home');
 }
 function bnSet(t){document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('on'));el('bn-'+t)&&el('bn-'+t).classList.add('on');}
+function prepareAdminLogin(){
+  const u=el('a-user'),p=el('a-pass');
+  if(u&&String(u.value||'').trim().toLowerCase()==='admin')u.value='';
+  if(p&&String(p.value||'').trim().toLowerCase()==='admin')p.value='';
+}
 
 // ═══ MODAL ═══
 function openModal(tab='login'){el('auth-overlay').classList.add('open');switchTab(tab);}
