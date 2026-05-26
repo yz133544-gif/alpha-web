@@ -1278,7 +1278,7 @@ tr:hover td{background:var(--orange3)}
         <div class="logo-mark" style="width:38px;height:38px;border-radius:8px;margin:0 auto 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 20h4l1.5-4h7L17 20h4L12 2zm-2.5 11L12 7l2.5 6h-5z" fill="white"/></svg></div>
         <div style="font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--text3)">管理后台</div>
       </div>
-      <div class="fg"><div class="flabel">账号</div><input class="finput" id="a-user" placeholder="请输入管理账号" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+      <div class="fg"><div class="flabel">账号</div><input class="finput" id="a-user" type="password" placeholder="请输入管理账号" autocomplete="new-password" autocapitalize="none" spellcheck="false"></div>
       <div class="fg"><div class="flabel">密码</div><input class="finput" type="password" id="a-pass" autocomplete="new-password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
       <button class="btn-full btn-orange" onclick="adminLogin()">进入后台</button>
       <div class="fmsg" id="a-login-msg"></div>
