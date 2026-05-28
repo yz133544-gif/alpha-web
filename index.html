@@ -1492,6 +1492,14 @@ tr:hover td{background:var(--orange3)}
     </label>
     <button class="btn-full btn-orange" id="r-submit" onclick="doRegister()">注册账号</button>
     <button class="btn-full btn-sec" id="r-resend-btn" onclick="doRegisterResendVerify()" style="display:none;margin-top:7px">60秒后可重发验证邮件</button>
+    <div id="r-verify-panel" style="display:none;margin-top:10px;border:1px solid rgba(255,184,0,.2);background:rgba(255,184,0,.06);border-radius:8px;padding:10px">
+      <div class="flabel" style="color:var(--gold)">邮箱验证码</div>
+      <div style="font-size:9px;color:var(--text3);line-height:1.7;margin-bottom:8px">如果邮件里的按钮或链接打不开，请输入邮件中的 6 位验证码完成激活。</div>
+      <div class="redeem-row">
+        <input class="finput" id="r-code" placeholder="6位验证码" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="font-family:var(--mono);letter-spacing:3px">
+        <button class="btn btn-pri" onclick="doRegisterVerifyCode()" style="flex-shrink:0;padding:7px 12px">验证</button>
+      </div>
+    </div>
     <div class="fmsg" id="r-msg"></div>
     <div class="fnote">注册即同意服务条款。本快讯仅供参考，投资有风险，请谨慎决策。</div>
   </div>
@@ -1893,18 +1901,55 @@ function startRegisterResendCooldown(seconds=60){
     btn.textContent=`${left}秒后可重发验证邮件`;
   },1000);
 }
+function showRegisterVerifyPanel(msg='',cooldown=0){
+  const panel=el('r-verify-panel'),btn=el('r-resend-btn');
+  if(panel)panel.style.display='block';
+  if(btn){btn.style.display='block';btn.disabled=false;btn.textContent='重新发送验证邮件';}
+  if(msg)showFmsg('r-msg',msg,'ok');
+  if(cooldown>0)startRegisterResendCooldown(cooldown);
+}
 async function doRegister(){
   const name=el('r-name').value.trim(),email=el('r-email').value.trim(),pw=el('r-pw').value,pw2=el('r-pw2').value,inv=el('r-inv').value.trim().toUpperCase();
   if(!name||!email||!pw||!pw2){showFmsg('r-msg','请填写完整','err');return}
   if(pw!==pw2){showFmsg('r-msg','两次密码不一致','err');return}
   if(!el('r-agree')?.checked){showFmsg('r-msg','请先勾选服务条款、隐私保护规则与风险提示','err');return}
-  try{const d=await api('/api/register',{method:'POST',body:JSON.stringify({username:name,email,password:pw,confirm:pw2,invite_code:inv})});showFmsg('r-msg',d.message,'ok');showToast('📧 验证邮件已发送');startRegisterResendCooldown(60);}
-  catch(e){showFmsg('r-msg',e.message,'err');}
+  try{
+    const d=await api('/api/register',{method:'POST',body:JSON.stringify({username:name,email,password:pw,confirm:pw2,invite_code:inv})});
+    showRegisterVerifyPanel(d.message||'验证邮件已发送，请查收邮箱。',60);
+    showToast('📧 验证邮件已发送');
+  }
+  catch(e){
+    if(e.data&&e.data.needs_verification){
+      showRegisterVerifyPanel(e.message||'该邮箱已注册但未验证，可重新发送验证邮件。',0);
+      showToast('请重新发送验证邮件或输入验证码');
+      return;
+    }
+    showFmsg('r-msg',e.message,'err');
+  }
 }
 async function doRegisterResendVerify(){
   const email=el('r-email').value.trim();if(!email){showFmsg('r-msg','请输入注册邮箱','err');return}
-  try{const d=await api('/api/resend-verify',{method:'POST',body:JSON.stringify({email})});showFmsg('r-msg',d.message,'ok');showToast('验证邮件已重新发送');startRegisterResendCooldown(60);}
-  catch(e){showFmsg('r-msg',e.message,'err');}
+  try{
+    const d=await api('/api/resend-verify',{method:'POST',body:JSON.stringify({email})});
+    showRegisterVerifyPanel(d.message||'验证邮件已重新发送，请查收邮箱。',Number(d.retry_after||60));
+    showToast('验证邮件已重新发送');
+  }
+  catch(e){
+    const retry=Number((e.data&&e.data.retry_after)||0);
+    if(retry>0){showRegisterVerifyPanel(e.message,retry);return;}
+    showFmsg('r-msg',e.message,'err');
+  }
+}
+async function doRegisterVerifyCode(){
+  const email=el('r-email').value.trim(),code=el('r-code').value.trim();
+  if(!email){showFmsg('r-msg','请输入注册邮箱','err');return}
+  if(!/^\d{6}$/.test(code)){showFmsg('r-msg','请输入6位数字验证码','err');return}
+  try{
+    const d=await api('/api/verify-code',{method:'POST',body:JSON.stringify({email,code})});
+    showFmsg('r-msg',d.message||'邮箱验证成功，可以登录。','ok');
+    showToast('✅ 邮箱验证成功');
+    setTimeout(()=>{switchTab('login');el('l-id').value=email;},900);
+  }catch(e){showFmsg('r-msg',e.message,'err');}
 }
 async function doForgot(){
   const email=el('fp-email').value.trim();if(!email){showFmsg('fp-msg','请输入邮箱','err');return}
@@ -2723,6 +2768,8 @@ window.copyShareText=copyShareText;
 window.openPasswordModal=openPasswordModal;
 window.closePasswordModal=closePasswordModal;
 window.changePassword=changePassword;
+window.doRegisterResendVerify=doRegisterResendVerify;
+window.doRegisterVerifyCode=doRegisterVerifyCode;
 
 // ═══ ADMIN ═══
 async function adminLogin(){
@@ -3111,6 +3158,12 @@ function closeModal(){el('auth-overlay').classList.remove('open');}
 function closeModalOut(e){if(e.target===el('auth-overlay'))closeModal();}
 function switchTab(t){
   ['login','register','forgot','reset'].forEach(x=>el('form-'+x)&&(el('form-'+x).style.display=x===t?'block':'none'));
+  if(t!=='register'){
+    const panel=el('r-verify-panel'),btn=el('r-resend-btn');
+    if(panel)panel.style.display='none';
+    if(btn)btn.style.display='none';
+    if(registerResendTimer){clearInterval(registerResendTimer);registerResendTimer=null;}
+  }
   ['l','r','f'].forEach(x=>el('tab-'+x)&&el('tab-'+x).classList.remove('on'));
   if(t==='login')el('tab-l')&&el('tab-l').classList.add('on');
   else if(t==='register')el('tab-r')&&el('tab-r').classList.add('on');
@@ -3126,7 +3179,7 @@ async function api(url,opts={}){
   const r=await fetch(API+url,{...opts,headers:{...opts.headers,'Content-Type':'application/json'},credentials:'include'});
   const ct=r.headers.get('content-type')||'';
   const d=ct.includes('application/json')?await r.json():{error:await r.text()};
-  if(!r.ok)throw new Error(d.error||'请求失败，请稍后重试');return d;
+  if(!r.ok){const err=new Error(d.error||'请求失败，请稍后重试');err.data=d;err.status=r.status;throw err;}return d;
 }
 function el(id){return document.getElementById(id)}
 function setText(id,v){const e=el(id);if(e)e.textContent=v;}
