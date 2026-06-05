@@ -1219,24 +1219,6 @@ tr:hover td{background:var(--orange3)}
           <span class="email-verify-mini">QQ邮箱建议：回复“收到”并加入联系人；右下角更多 → 这不是广告。</span>
         </div>
       </div>
-      <div class="fg" style="margin-top:10px">
-        <div class="flabel">信源范围</div>
-        <div class="source-grid">
-          <label class="source-chip primary"><input type="checkbox" id="src-vip"><span class="source-name">VIP终端</span><span class="source-hint">推荐</span></label>
-          <label class="source-chip optional"><input type="checkbox" id="src-reuters"><span class="source-name">路透社</span><span class="source-hint">可选</span></label>
-          <label class="source-chip optional"><input type="checkbox" id="src-bloomberg"><span class="source-name">彭博社</span><span class="source-hint">可选</span></label>
-        </div>
-      </div>
-      <div class="rule-mode-card" id="rule-mode-card">
-        <div class="rule-mode-top">
-          <div>
-            <div class="rule-mode-title">发送模式</div>
-            <div class="rule-mode-copy" id="rule-mode-copy">默认按所选信源全量推送；关键词和板块仍会用于高优先级识别。</div>
-          </div>
-          <label class="tgl"><input type="checkbox" id="tog-email-only" onchange="renderRuleModeHint()"><span class="sldr"></span></label>
-        </div>
-        <div class="rule-mode-badge" id="rule-mode-badge">默认全量推送</div>
-      </div>
     </div>
     <div class="channel-form disabled" id="pwa-form">
       <div class="flabel">PWA App 通知</div>
@@ -1246,6 +1228,26 @@ tr:hover td{background:var(--orange3)}
         <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知</button>
       </div>
       <div class="pwa-status" id="pwa-settings-status">iPhone 需 iOS/iPadOS 16.4+，并从主屏幕图标打开后才支持通知。</div>
+    </div>
+    <div class="channel-form disabled" id="delivery-rules-form">
+      <div class="fg">
+        <div class="flabel">信源范围 <span style="color:var(--text3)">（邮箱和 PWA App 通知共用）</span></div>
+        <div class="source-grid">
+          <label class="source-chip primary"><input type="checkbox" id="src-vip"><span class="source-name">VIP终端</span><span class="source-hint">推荐</span></label>
+          <label class="source-chip optional"><input type="checkbox" id="src-reuters"><span class="source-name">路透社</span><span class="source-hint">可选</span></label>
+          <label class="source-chip optional"><input type="checkbox" id="src-bloomberg"><span class="source-name">彭博社</span><span class="source-hint">可选</span></label>
+        </div>
+      </div>
+      <div class="rule-mode-card" id="rule-mode-card">
+        <div class="rule-mode-top">
+          <div>
+            <div class="rule-mode-title">推送发送模式</div>
+            <div class="rule-mode-copy" id="rule-mode-copy">默认按所选信源全量推送；关键词和板块仍会用于高优先级识别。</div>
+          </div>
+          <label class="tgl"><input type="checkbox" id="tog-email-only" onchange="renderRuleModeHint()"><span class="sldr"></span></label>
+        </div>
+        <div class="rule-mode-badge" id="rule-mode-badge">默认全量推送</div>
+      </div>
     </div>
   </div>
 
@@ -1282,9 +1284,9 @@ tr:hover td{background:var(--orange3)}
       </select>
     </div>
     <div class="fg">
-      <div class="flabel">推送频率策略（PWA 会按该频率限流，邮箱超出自动聚合）</div>
+      <div class="flabel">推送频率策略（PWA 系统通知最高 3 条/分钟，邮箱超出自动聚合）</div>
       <select class="finput" id="s-maxpm">
-        <option value="50" selected>50条/分钟（近似无限制）</option>
+        <option value="50" selected>邮箱近似无限制 / PWA最多3条/分钟</option>
         <option value="3">最高3条/分钟（智能防刷屏）</option>
         <option value="1">最高1条/分钟（极简摘要）</option>
         <option value="-5">每5分钟1封（推荐）</option>
@@ -1292,7 +1294,7 @@ tr:hover td{background:var(--orange3)}
         <option value="-60">每1小时1封（禅定模式）</option>
       </select>
     </div>
-    <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为VIP邮箱推送专属功能</div>
+    <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为 VIP 推送专属功能</div>
   </div>
 
   <div class="set-sec">
@@ -1883,6 +1885,7 @@ function updateFreeAccessNotice(){
 }
 function setLoggedIn(u){
   ME=u;
+  window.ME=u;
   setText('hdr-name',u.username);
   setText('hdr-status',u.is_vip?'⚡ VIP 会员':'普通用户');
   el('hdr-status').className='profile-status'+(u.is_vip?' vip':'');
@@ -1906,6 +1909,7 @@ function setLoggedIn(u){
 }
 function setGuest(){
   ME=null;
+  window.ME=null;
   setText('hdr-name','未登录');setText('hdr-status','普通用户');
   el('hdr-status').className='profile-status';setText('hdr-avatar','A');
   el('pm-login').style.display='flex';el('pm-logout').style.display='none';
@@ -2246,10 +2250,10 @@ function showSettings(){
   el('tog-email-only').checked=!!p.email_only_custom;
   const sources=p.sources||{};
   const hasSourcePrefs=!!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'));
-  const emailFirstDefault=mode==='email'&&(!hasSourcePrefs||(!p.delivery_locked&&!p.push_email));
-  el('src-vip').checked=emailFirstDefault?true:sources.vip_terminal!==false;
-  el('src-reuters').checked=emailFirstDefault?false:sources.reuters!==false;
-  el('src-bloomberg').checked=emailFirstDefault?false:sources.bloomberg!==false;
+  const channelFirstDefault=(mode==='email'||mode==='pwa')&&!hasSourcePrefs;
+  el('src-vip').checked=channelFirstDefault?true:sources.vip_terminal!==false;
+  el('src-reuters').checked=channelFirstDefault?(mode==='pwa'):sources.reuters!==false;
+  el('src-bloomberg').checked=channelFirstDefault?(mode==='pwa'):sources.bloomberg!==false;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
   el('s-maxpm').value=String(p.max_per_min||50);
@@ -2276,10 +2280,10 @@ function selectDelivery(mode){
   }
   if(!ME||!ME.is_vip){showToast('请先升级 VIP 后选择推送通道');return;}
   el('delivery-mode').value=mode;
-  if(mode==='email'&&!p.delivery_locked){
+  if((mode==='email'||mode==='pwa')&&!p.delivery_locked&&!Object.prototype.hasOwnProperty.call(p.sources||{},'vip_terminal')){
     el('src-vip').checked=true;
-    el('src-reuters').checked=false;
-    el('src-bloomberg').checked=false;
+    el('src-reuters').checked=mode==='pwa';
+    el('src-bloomberg').checked=mode==='pwa';
   }
   renderDelivery(mode,!!p.delivery_locked);
 }
@@ -2299,11 +2303,12 @@ function renderDelivery(mode,locked=false){
   });
   el('email-form').classList.toggle('disabled',mode!=='email'||emailBlocked);
   el('pwa-form').classList.toggle('disabled',mode!=='pwa');
+  if(el('delivery-rules-form'))el('delivery-rules-form').classList.toggle('disabled',!mode);
   el('email-form').classList.toggle('locked',locked&&mode==='email');
   el('pwa-form').classList.toggle('locked',locked&&mode==='pwa');
   const note=el('delivery-lock-note');
   if(note){
-    if(emailBlocked){
+    if(emailBlocked&&mode==='email'){
       note.textContent=p.email_push_disabled_reason||'该账号当前仅开放网页 VIP 权限，暂不开放邮箱推送。后台恢复后即可重新选择邮箱通道。';
       note.classList.add('show');
     }else if(mode){
@@ -2317,9 +2322,9 @@ function renderDelivery(mode,locked=false){
   }
   const filterDisabled=!ME||!ME.is_vip||!mode;
   ['s-email'].forEach(id=>{if(el(id))el(id).disabled=locked||(id==='s-email'&&emailBlocked);});
-  ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive||emailBlocked;});
+  ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive||(emailBlocked&&mode==='email');});
   if(el('filter-notice')){
-    if(emailBlocked){el('filter-notice').style.display='block';el('filter-notice').textContent='该账号暂未开放邮箱推送，关键词与频率规则仅在后台恢复邮箱权限后生效。';}
+    if(emailBlocked&&mode==='email'){el('filter-notice').style.display='block';el('filter-notice').textContent='该账号暂未开放邮箱推送，可切换到 PWA App 通知继续使用关键词、信源和频率规则。';}
     else if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为 VIP 专属功能';}
     else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱或 PWA 通知后启用关键词、板块和信源筛选。';}
     else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。系统通过冷却期降低误操作和高频改规则风险。`;}
@@ -2335,7 +2340,7 @@ function renderRuleModeHint(){
   if(badge)badge.textContent=checked?(hasRules?'仅规则命中才发':'未设规则 · 自动全量'):'默认全量推送';
   if(copy)copy.textContent=checked
     ? (hasRules?'只在关键词、板块、关注资产或股票代码命中时发送；适合不想被全量快讯打扰。':'你已开启仅规则命中，但还没有设置关键词/板块/关注资产。为避免漏收，系统会暂时按所选信源全量推送。')
-    : '按所选信源全量发送邮件；关键词和板块仍会用于高优先级识别与命中说明。';
+    : '按所选信源全量发送当前通道通知；关键词和板块仍会用于高优先级识别与命中说明。';
 }
 function renderEmailVerification(p={},mode=''){
   const badge=el('email-verify-badge');
@@ -3104,7 +3109,7 @@ async function adminSetPwa(uid){
   try{
     await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({
       delivery_mode:'pwa',
-      sources:{vip_terminal:true,reuters:false,bloomberg:false,benzinga:false},
+      sources:{vip_terminal:true,reuters:true,bloomberg:true,benzinga:false},
       email_only_custom:false,
       level_min:'C',
       sentiments:'all',
@@ -3324,6 +3329,6 @@ function animNum(id,target){
   let i=0;const iv=setInterval(()=>{i++;e.textContent=Math.round(start+diff*(i/20));if(i>=20)clearInterval(iv)},20);
 }
 </script>
-<script src="/static/pwa.js" defer></script>
+<script src="/static/pwa.js?v=20260605-login" defer></script>
 </body>
 </html>
