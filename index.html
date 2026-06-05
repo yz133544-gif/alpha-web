@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#ff6b2b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Alpha Heartbeat">
+<meta name="apple-mobile-web-app-title" content="先讯">
 <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1072,7 +1072,7 @@ tr:hover td{background:var(--orange3)}
         <div class="pwa-top">
           <div>
             <div class="pwa-title">移动端 App</div>
-            <div class="pwa-sub">添加到桌面后，可像 App 一样打开 Alpha Heartbeat，并开启系统快讯通知。</div>
+            <div class="pwa-sub">添加到桌面后，可像 App 一样打开先讯，并开启系统快讯通知。</div>
           </div>
         </div>
         <div class="pwa-actions">
@@ -1082,7 +1082,7 @@ tr:hover td{background:var(--orange3)}
         <div class="pwa-status" id="pwa-status">正在检测 App 与通知能力...</div>
         <div class="pwa-guide">
           <div><b>安卓用户</b><p>请使用 Chrome 打开本站，点击浏览器菜单里的“安装应用”或“添加到主屏幕”，安装后从桌面图标打开，并点击“开启快讯通知”。</p></div>
-          <div><b>iPhone 用户</b><p>请使用 Safari 打开本站，点击底部分享按钮，选择“添加到主屏幕”。添加完成后，请从桌面 Alpha Heartbeat 图标打开网站，再点击“开启快讯通知”。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
+          <div><b>iPhone 用户</b><p>请使用 Safari 打开本站，点击底部分享按钮，选择“添加到主屏幕”。添加完成后，请从桌面先讯图标打开网站，再点击“开启快讯通知”。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
           <div><b>没有收到通知？</b><p>请检查系统通知权限、浏览器通知权限、账号是否登录、会员是否有效。</p></div>
         </div>
       </div>
@@ -1284,17 +1284,22 @@ tr:hover td{background:var(--orange3)}
       </select>
     </div>
     <div class="fg">
-      <div class="flabel">推送频率策略（PWA 系统通知最高 3 条/分钟，邮箱超出自动聚合）</div>
+      <div class="flabel">推送频率策略（PWA 可选 1/3/5/10 条每分钟；S级绕过普通限频，邮箱超出自动聚合）</div>
       <select class="finput" id="s-maxpm">
-        <option value="50" selected>邮箱近似无限制 / PWA最多3条/分钟</option>
-        <option value="3">最高3条/分钟（智能防刷屏）</option>
+        <option value="3" selected>最高3条/分钟（默认）</option>
         <option value="1">最高1条/分钟（极简摘要）</option>
-        <option value="-5">每5分钟1封（推荐）</option>
+        <option value="5">最高5条/分钟（高频）</option>
+        <option value="10">最高10条/分钟（极高频）</option>
+        <option value="-5">每5分钟1封（邮箱聚合）</option>
         <option value="-30">每30分钟1封</option>
         <option value="-60">每1小时1封（禅定模式）</option>
       </select>
     </div>
     <div id="filter-notice" style="display:none;background:var(--orange3);border:1px solid rgba(255,107,43,.15);border-radius:4px;padding:7px 9px;font-size:9px;color:var(--orange);font-family:var(--mono)">🔒 自定义筛选为 VIP 推送专属功能</div>
+    <div id="delivery-reset-box" style="display:none;margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 12px">
+      <div id="delivery-reset-copy" style="font-size:9px;color:var(--text3);line-height:1.7;font-family:var(--mono)">推送通道冷却期结束后，可自助重置并重新选择邮箱或 PWA App 通知。</div>
+      <button class="btn btn-sec" id="delivery-reset-btn" onclick="resetMyDelivery()" style="margin-top:8px;font-size:9px;padding:6px 10px">重置推送通道</button>
+    </div>
   </div>
 
   <div class="set-sec">
@@ -1480,8 +1485,25 @@ tr:hover td{background:var(--orange3)}
         <!-- PUSH LOG -->
         <div id="at-pushlog" style="display:none">
           <div class="admin-title">推送日志<button class="btn btn-sec" style="font-size:9px" onclick="loadPushLog()">刷新</button></div>
-          <div class="tbl-wrap"><div class="tbl-head"><h3>最近100条推送记录</h3></div>
-          <div class="tbl-scroll"><table><thead><tr><th>时间</th><th>用户</th><th>新闻</th><th>等级</th><th>渠道</th><th>优先级</th><th>状态</th><th>原因</th><th>延迟</th></tr></thead><tbody id="pl-tbody"></tbody></table></div></div>
+          <div class="tbl-wrap"><div class="tbl-head"><h3>最近推送记录</h3></div>
+          <div style="padding:10px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border)">
+            <input class="finput" id="pl-q" placeholder="用户名 / 邮箱 / 用户ID" style="width:180px">
+            <select class="finput" id="pl-channel" style="width:120px">
+              <option value="">全部渠道</option>
+              <option value="pwa">PWA</option>
+              <option value="email">邮箱</option>
+              <option value="ws">站内</option>
+              <option value="feishu">旧飞书</option>
+            </select>
+            <select class="finput" id="pl-status" style="width:120px">
+              <option value="">全部状态</option>
+              <option value="ok">ok</option>
+              <option value="fail">fail</option>
+              <option value="skip">skip</option>
+            </select>
+            <button class="btn btn-sec" onclick="loadPushLog()">筛选</button>
+          </div>
+          <div class="tbl-scroll"><table><thead><tr><th>时间</th><th>用户</th><th>新闻</th><th>等级</th><th>渠道</th><th>优先级</th><th>状态</th><th>通知内容</th><th>原因</th><th>延迟</th></tr></thead><tbody id="pl-tbody"></tbody></table></div></div>
         </div>
         <!-- NEWS -->
         <div id="at-news" style="display:none">
@@ -2256,7 +2278,7 @@ function showSettings(){
   el('src-bloomberg').checked=channelFirstDefault?(mode==='pwa'):sources.bloomberg!==false;
   el('s-level').value=p.level_min||'C';
   el('s-sent').value=p.sentiments||'all';
-  el('s-maxpm').value=String(p.max_per_min||50);
+  el('s-maxpm').value=String([1,3,5,10,-5,-30,-60].includes(Number(p.max_per_min))?Number(p.max_per_min):3);
   el('tog-theme').checked=localStorage.getItem('theme')!=='light';
   if(ME.is_vip){el('vip-t').textContent='⚡ VIP会员';el('vip-s').textContent='到期：'+(ME.vip_expire||'—');el('filter-notice').style.display='none';el('filter-lock').textContent='';}
   else{el('vip-t').textContent='免费版';el('vip-s').textContent='升级VIP解锁实时推送';el('filter-notice').style.display='block';el('filter-lock').textContent='(VIP专属)';}
@@ -2330,6 +2352,22 @@ function renderDelivery(mode,locked=false){
     else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。系统通过冷却期降低误操作和高频改规则风险。`;}
     else{el('filter-notice').style.display='none';}
   }
+  const resetBox=el('delivery-reset-box'), resetBtn=el('delivery-reset-btn'), resetCopy=el('delivery-reset-copy');
+  if(resetBox&&resetBtn&&resetCopy){
+    const canShow=!!(ME&&ME.is_vip&&locked&&mode);
+    resetBox.style.display=canShow?'block':'none';
+    if(canShow){
+      if(cooldownActive){
+        resetCopy.textContent=`当前通道已锁定。为防止误操作和滥用，${cooldownText} 后可自助重置并重新选择邮箱或 PWA。`;
+        resetBtn.disabled=true;
+        resetBtn.textContent='冷却期未结束';
+      }else{
+        resetCopy.textContent='冷却期已结束。如需切换邮箱/PWA 或重新配置通道，可以在这里重置后重新选择。';
+        resetBtn.disabled=false;
+        resetBtn.textContent='重置推送通道';
+      }
+    }
+  }
 }
 function renderRuleModeHint(){
   const checked=!!(el('tog-email-only')&&el('tog-email-only').checked);
@@ -2402,7 +2440,7 @@ async function saveSettings(){
     sources:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false},
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
-    max_per_min:parseInt(el('s-maxpm').value)||50,
+    max_per_min:parseInt(el('s-maxpm').value)||3,
     watchlist:(ME.notification_prefs||{}).watchlist||[]
   };
   try{
@@ -2433,6 +2471,21 @@ async function resendPushEmailActivation(){
     openActivationModal(cur.push_email);
   }catch(e){
     showFmsg('s-msg',e.message,'err');
+  }
+}
+
+async function resetMyDelivery(){
+  if(!ME){openModal('login');return}
+  if(!confirm('确定重置推送通道吗？重置后需要重新选择邮箱或 PWA App 通知并保存。'))return;
+  try{
+    const d=await api('/api/me/delivery-reset',{method:'POST',body:JSON.stringify({})});
+    await checkAuth();
+    showSettings();
+    showFmsg('s-msg',d.message||'推送通道已重置','ok');
+    showToast('✅ 推送通道已重置');
+  }catch(e){
+    showFmsg('s-msg',e.message||'重置失败','err');
+    showToast(e.message||'重置失败');
   }
 }
 
@@ -3113,7 +3166,7 @@ async function adminSetPwa(uid){
       email_only_custom:false,
       level_min:'C',
       sentiments:'all',
-      max_per_min:50,
+      max_per_min:3,
       delivery_locked:true
     })});
     showToast('✅ PWA通知已设置');loadUsers();
@@ -3224,18 +3277,24 @@ async function sendTestPush(){
 
 async function loadPushLog(){
   try{
-    const d=await api('/api/admin/push-log');
+    const p=new URLSearchParams();
+    p.set('limit','300');
+    if(el('pl-q')&&el('pl-q').value.trim())p.set('q',el('pl-q').value.trim());
+    if(el('pl-channel')&&el('pl-channel').value)p.set('channel',el('pl-channel').value);
+    if(el('pl-status')&&el('pl-status').value)p.set('status',el('pl-status').value);
+    const d=await api('/api/admin/push-log?'+p.toString());
     el('pl-tbody').innerHTML=d.items.map(r=>`<tr>
       <td style="font-family:var(--mono);font-size:8px;white-space:nowrap">${r.time_str}</td>
-      <td style="font-size:9px">${esc(r.username||'—')}</td>
+      <td style="font-size:9px">${esc(r.username||('UID '+(r.user_id||'—')))}</td>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px">${esc(r.title_cn||'')}</td>
       <td><span class="level-badge l-${(r.level||'c').toLowerCase()}">${r.level||'?'}</span></td>
       <td style="font-family:var(--mono);font-size:8px">${r.channel}</td>
       <td style="font-family:var(--mono);font-size:8px">${r.priority}</td>
-      <td style="color:${r.status==='ok'?'var(--green)':'var(--red)'};font-family:var(--mono);font-size:8px">${r.status}</td>
+      <td style="color:${r.status==='ok'?'var(--green)':(r.status==='skip'?'var(--gold)':'var(--red)')};font-family:var(--mono);font-size:8px">${r.status}</td>
+      <td title="${esc((r.pwa_title||'')+' '+(r.body_preview||''))}" style="font-size:8px;color:var(--text2);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.pwa_title||'')}${r.body_preview?`<br><span style="color:var(--text3)">${esc(r.body_preview)}</span>`:''}</td>
       <td title="${esc(r.reason||'')}" style="font-size:8px;color:var(--text3);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.reason||'')}</td>
       <td style="font-family:var(--mono);font-size:8px">${r.latency_ms}ms</td>
-    </tr>`).join('');
+    </tr>`).join('') || '<tr><td colspan="10" style="padding:14px;color:var(--text3);font-size:9px;text-align:center">暂无匹配记录</td></tr>';
   }catch(e){}
 }
 let nPg=1;
