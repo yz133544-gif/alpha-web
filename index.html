@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Alpha Heartbeat · 全球金融快讯终端</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff6b2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Alpha Heartbeat">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -324,6 +330,16 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .activation-code-row button{height:38px;border-radius:6px;border:1px solid rgba(255,106,0,.35);background:var(--orange);color:#fff;font-size:10px;font-weight:900;padding:0 12px;white-space:nowrap;cursor:pointer}
 .activation-code-msg{font-size:10px;line-height:1.6;margin-top:7px;color:var(--text3);min-height:16px}
 .activation-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.pwa-card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,107,43,.08),rgba(255,255,255,.018));border-radius:8px;padding:12px;margin:12px 0}
+.pwa-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.pwa-title{font-size:13px;font-weight:900;color:var(--text)}
+.pwa-sub{font-size:9px;color:var(--text3);line-height:1.75}
+.pwa-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+.pwa-actions .btn{font-size:9px;padding:7px 10px}
+.pwa-guide{border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:grid;gap:8px}
+.pwa-guide b{color:var(--orange);font-size:10px}
+.pwa-guide p{font-size:9px;color:var(--text2);line-height:1.8;margin-top:3px}
+.pwa-status{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.7;min-height:14px}
 
 /* VIP modal */
 .upgrade-modal{max-width:440px}
@@ -961,7 +977,7 @@ tr:hover td{background:var(--orange3)}
         <div class="s-title">订阅方案</div>
         <div class="plan-list">
           <div class="plan-item"><div><div class="p-name">体验席位</div><div class="p-desc">10天体验票 · 每个账号限购1次</div></div><span style="color:var(--orange);font-size:9px;font-family:var(--mono)">¥9.9</span></div>
-          <div class="plan-item"><div><div class="p-name">月付会员</div><div class="p-desc">30天秒级快讯 · 邮箱/飞书二选一</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥39</span></div>
+          <div class="plan-item"><div><div class="p-name">月付会员</div><div class="p-desc">30天秒级快讯 · 邮箱/PWA通知二选一</div></div><span style="color:var(--blue);font-size:9px;font-family:var(--mono);font-weight:600">¥39</span></div>
           <div class="plan-item"><div><div class="p-name">半年会员</div><div class="p-desc">覆盖连续行情周期 · 减少漏看成本</div></div><span style="color:var(--orange);font-size:9px;font-family:var(--mono);font-weight:600">¥128</span></div>
           <div class="plan-item vp"><div><div class="p-name" style="color:var(--gold)">年度会员</div><div class="p-desc">全年低延迟队列 · 长期信息优势</div></div><span style="color:var(--gold);font-size:9px;font-family:var(--mono);font-weight:600">¥199</span></div>
         </div>
@@ -1024,7 +1040,7 @@ tr:hover td{background:var(--orange3)}
     <div class="mine-list">
       <button class="mine-item hot" onclick="showPage('settings');bnSet('settings')">
         <span class="mine-ico">◈</span>
-        <span><span class="mine-item-title">消息定制</span><span class="mine-item-sub" id="mine-custom-sub">邮箱 / 飞书二选一，关键词、板块、资产触发推送</span></span>
+        <span><span class="mine-item-title">消息定制</span><span class="mine-item-sub" id="mine-custom-sub">邮箱 / PWA通知二选一，关键词、板块、资产触发推送</span></span>
         <span class="mine-arrow">›</span>
       </button>
       <button class="mine-item" onclick="showPage('main');bnSet('home');setTimeout(openAccountDrawer,80)">
@@ -1034,7 +1050,7 @@ tr:hover td{background:var(--orange3)}
       </button>
       <button class="mine-item vip" onclick="openVipModal()">
         <span class="mine-ico">♛</span>
-        <span><span class="mine-item-title">会员服务</span><span class="mine-item-sub">升级 VIP，解锁实时快讯、邮件或飞书专属推送</span></span>
+        <span><span class="mine-item-title">会员服务</span><span class="mine-item-sub">升级 VIP，解锁实时快讯、邮件或 PWA App 通知</span></span>
         <span class="mine-arrow">›</span>
       </button>
       <button class="mine-item" onclick="openOrdersModal()">
@@ -1052,6 +1068,24 @@ tr:hover td{background:var(--orange3)}
         <span><span class="mine-item-title">账户安全</span><span class="mine-item-sub">修改登录密码，建议定期更新并避免与其他网站复用</span></span>
         <span class="mine-arrow">›</span>
       </button>
+      <div class="pwa-card">
+        <div class="pwa-top">
+          <div>
+            <div class="pwa-title">移动端 App</div>
+            <div class="pwa-sub">添加到桌面后，可像 App 一样打开 Alpha Heartbeat，并开启系统快讯通知。</div>
+          </div>
+        </div>
+        <div class="pwa-actions">
+          <button class="btn btn-pri" id="pwa-install-btn" onclick="window.AHPWA&&window.AHPWA.install()">安装 App</button>
+          <button class="btn btn-sec" id="pwa-notify-btn" onclick="window.AHPWA&&window.AHPWA.enableNotifications()">开启快讯通知</button>
+        </div>
+        <div class="pwa-status" id="pwa-status">正在检测 App 与通知能力...</div>
+        <div class="pwa-guide">
+          <div><b>安卓用户</b><p>请使用 Chrome 打开本站，点击浏览器菜单里的“安装应用”或“添加到主屏幕”，安装后从桌面图标打开，并点击“开启快讯通知”。</p></div>
+          <div><b>iPhone 用户</b><p>请使用 Safari 打开本站，点击底部分享按钮，选择“添加到主屏幕”。添加完成后，请从桌面 Alpha Heartbeat 图标打开网站，再点击“开启快讯通知”。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
+          <div><b>没有收到通知？</b><p>请检查系统通知权限、浏览器通知权限、账号是否登录、会员是否有效。</p></div>
+        </div>
+      </div>
       <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
         <span class="mine-ico">⚙</span>
         <span><span class="mine-item-title">设置</span><span class="mine-item-sub">外观偏好、订阅状态、邀请码兑换与推送通道</span></span>
@@ -1158,16 +1192,16 @@ tr:hover td{background:var(--orange3)}
 
   <div class="set-sec">
     <div class="set-stitle">推送通道</div>
-    <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.7;font-family:var(--mono)">VIP 用户可在邮箱和飞书中选择一个专属接收通道。系统仅负责资讯路由、到达确认和自动化分发，不提供投资建议、交易指令或收益承诺。</p>
+    <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.7;font-family:var(--mono)">VIP 用户可在邮箱和 PWA App 通知中选择一个专属接收通道。免费用户不能开启 PWA 系统通知，只能在网站内查看快讯。</p>
     <div class="delivery-grid">
       <div class="delivery-card" id="delivery-email" onclick="selectDelivery('email')">
         <div class="delivery-title">邮箱推送</div>
         <div class="delivery-copy">支持全量推送，也可以按关键词、板块、资产或股票代码定制触发。</div>
         <div class="delivery-lock">LOCKED</div>
       </div>
-      <div class="delivery-card" id="delivery-feishu" onclick="selectDelivery('feishu')">
-        <div class="delivery-title">飞书推送</div>
-        <div class="delivery-copy">添加主理人为飞书外部联系人，拉群后全量推送，不开放筛选。</div>
+      <div class="delivery-card" id="delivery-pwa" onclick="selectDelivery('pwa')">
+        <div class="delivery-title">PWA App 通知</div>
+        <div class="delivery-copy">添加到主屏幕后开启系统通知，支持全量或按关键词、板块、资产、等级与频率筛选。</div>
         <div class="delivery-lock">LOCKED</div>
       </div>
     </div>
@@ -1176,7 +1210,7 @@ tr:hover td{background:var(--orange3)}
     <div class="channel-form" id="email-form">
       <div class="flabel">邮箱推送地址 <span id="email-verify-badge"></span></div>
       <input class="finput" id="s-email" placeholder="请输入接收推送的邮箱" type="email">
-      <div style="font-size:8px;color:var(--text3);margin-top:6px;font-family:var(--mono);line-height:1.7">推荐使用 QQ 邮箱。收到激活邮件后，请点击确认按钮、回复“收到”，并把发件人加入联系人；如被识别为广告，请点右下角“更多”→“这不是广告”。选择邮箱后，飞书入口将关闭。</div>
+      <div style="font-size:8px;color:var(--text3);margin-top:6px;font-family:var(--mono);line-height:1.7">推荐使用 QQ 邮箱。收到激活邮件后，请点击确认按钮、回复“收到”，并把发件人加入联系人；如被识别为广告，请点右下角“更多”→“这不是广告”。选择邮箱后，PWA 通知入口将关闭。</div>
       <div class="email-verify-panel" id="email-verify-panel">
         <div class="email-verify-title" id="email-verify-title">快讯邮箱待激活</div>
         <div class="email-verify-copy" id="email-verify-copy">我们会向该邮箱发送一封确认邮件。点击邮件中的按钮后，快讯推送才会正式开启。</div>
@@ -1196,7 +1230,7 @@ tr:hover td{background:var(--orange3)}
       <div class="rule-mode-card" id="rule-mode-card">
         <div class="rule-mode-top">
           <div>
-            <div class="rule-mode-title">邮件发送模式</div>
+            <div class="rule-mode-title">发送模式</div>
             <div class="rule-mode-copy" id="rule-mode-copy">默认按所选信源全量推送；关键词和板块仍会用于高优先级识别。</div>
           </div>
           <label class="tgl"><input type="checkbox" id="tog-email-only" onchange="renderRuleModeHint()"><span class="sldr"></span></label>
@@ -1204,16 +1238,14 @@ tr:hover td{background:var(--orange3)}
         <div class="rule-mode-badge" id="rule-mode-badge">默认全量推送</div>
       </div>
     </div>
-    <div class="channel-form disabled" id="feishu-form">
-      <div class="flabel">飞书外部联系人</div>
-      <div class="feishu-owner">1335446145@qq.com</div>
-      <div style="font-size:9px;color:var(--text3);line-height:1.7">飞书通道为全量推送。选择飞书后，邮箱入口关闭；管理员验证并拉群后开始推送。</div>
-      <ul class="feishu-steps">
-        <li><b>1</b>打开飞书 App，进入「联系人 / 外部联系人」。</li>
-        <li><b>2</b>搜索飞书账号 <strong style="color:var(--gold);font-family:var(--mono)">1335446145@qq.com</strong>。</li>
-        <li><b>3</b>添加主理人，并备注您的注册邮箱或用户名，等待拉入快讯群。</li>
-      </ul>
-      <input class="finput" id="s-feishu" placeholder="您的飞书昵称或备注，便于管理员核验" style="margin-top:8px">
+    <div class="channel-form disabled" id="pwa-form">
+      <div class="flabel">PWA App 通知</div>
+      <div style="font-size:9px;color:var(--text3);line-height:1.7">先在“我的 → 移动端 App”安装/添加到主屏幕，并点击“开启快讯通知”。保存本通道后，系统会按下面的关键词、资产、板块、等级和频率规则发送手机系统通知。</div>
+      <div class="pwa-actions" style="margin-top:8px">
+        <button class="btn btn-pri" onclick="window.AHPWA&&window.AHPWA.install()" type="button">安装 App</button>
+        <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知</button>
+      </div>
+      <div class="pwa-status" id="pwa-settings-status">iPhone 需 iOS/iPadOS 16.4+，并从主屏幕图标打开后才支持通知。</div>
     </div>
   </div>
 
@@ -1250,7 +1282,7 @@ tr:hover td{background:var(--orange3)}
       </select>
     </div>
     <div class="fg">
-      <div class="flabel">邮件频率策略（超出自动聚合）</div>
+      <div class="flabel">推送频率策略（PWA 会按该频率限流，邮箱超出自动聚合）</div>
       <select class="finput" id="s-maxpm">
         <option value="50" selected>50条/分钟（近似无限制）</option>
         <option value="3">最高3条/分钟（智能防刷屏）</option>
@@ -1430,6 +1462,18 @@ tr:hover td{background:var(--orange3)}
               <div class="fmsg" id="test-email-msg"></div>
             </div>
           </div>
+          <div class="tbl-wrap">
+            <div class="tbl-head"><h3>PWA 测试通知</h3></div>
+            <div style="padding:12px">
+              <p style="font-size:9px;color:var(--text3);margin-bottom:10px;line-height:1.6">先让用户在“我的 → 移动端 App”里开启快讯通知，再输入用户 ID 发送一条系统通知测试。</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <input class="finput" id="test-push-user" placeholder="用户 ID" type="number" style="width:110px">
+                <input class="finput" id="test-push-body" placeholder="通知内容" value="这是一条 PWA 推送测试" style="flex:1">
+                <button class="btn btn-pri" onclick="sendTestPush()">发送通知</button>
+              </div>
+              <div class="fmsg" id="test-push-msg"></div>
+            </div>
+          </div>
         </div>
         <!-- PUSH LOG -->
         <div id="at-pushlog" style="display:none">
@@ -1600,7 +1644,7 @@ tr:hover td{background:var(--orange3)}
   <div class="modal-sub">网页支付完成后自动开通对应天数；邀请码兑换完整保留，适用于存量客户、线下渠道和专属权益迁移。</div>
   <div class="vip-hero">
     <div style="font-size:20px;font-weight:900;color:var(--gold);margin-bottom:4px">👑 VIP 实时情报席位</div>
-    <div style="font-size:10px;color:var(--text3);line-height:1.7">VIP 用户享受机构级实时快讯、终端信源和邮箱/飞书单通道定向推送。</div>
+    <div style="font-size:10px;color:var(--text3);line-height:1.7">VIP 用户享受机构级实时快讯、终端信源和邮箱/PWA App 通知单通道定向推送。</div>
   </div>
   <div class="vip-benefits">
     <div class="vip-benefit"><strong>秒级直达</strong>&nbsp;<span>把资讯滞后压缩到更低，先看到就是风控和机会。</span></div>
@@ -1609,7 +1653,7 @@ tr:hover td{background:var(--orange3)}
   </div>
   <div style="font-size:11px;color:var(--text2);line-height:1.7">请前往“订阅与推送”页面选择套餐或输入邀请码。</div>
   <div class="wechat-box">
-    <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">推送通道</div><div class="wechat-code">邮箱 / 飞书二选一</div></div>
+    <div><div style="font-size:9px;color:var(--text3);margin-bottom:2px">推送通道</div><div class="wechat-code">邮箱 / PWA 二选一</div></div>
     <button class="btn btn-pri" onclick="closeVipModal();showPage('settings')">去订阅</button>
   </div>
   <div class="fmsg" id="vip-msg"></div>
@@ -1874,8 +1918,8 @@ function renderMinePage(){
   const wl=p.watchlist||[];
   const kws=Array.isArray(p.keywords)?p.keywords:[];
   const secs=Array.isArray(p.sectors)?p.sectors:[];
-  const mode=p.delivery_mode || ((p.channels||{}).email?'email':(p.channels||{}).feishu?'feishu':'');
-  const route=mode==='email'?'邮箱推送':(mode==='feishu'?'飞书推送':'未设置');
+  const mode=p.delivery_mode || ((p.channels||{}).email?'email':((p.channels||{}).pwa?'pwa':''));
+  const route=mode==='email'?'邮箱推送':(mode==='pwa'?'PWA通知':'未设置');
   const src=p.sources||{};
   const srcText=['vip_terminal','reuters','bloomberg'].filter(k=>src[k]!==false).map(k=>({vip_terminal:'VIP终端',reuters:'路透',bloomberg:'彭博'}[k])).join(' / ')||'全部信源';
   setText('mine-avatar',(ME.username||'A')[0].toUpperCase());
@@ -1888,7 +1932,7 @@ function renderMinePage(){
   const hasRules=kws.length||secs.length||wl.length;
   const customSub=mode==='email'
     ? `${p.email_only_custom?(hasRules?'定制命中':'未设规则 · 自动全量'):'全量'} · ${srcText}${kws.length||secs.length?' · '+[...kws,...secs.map(s=>'板块:'+s)].slice(0,3).join('、'):''}`
-    : (mode==='feishu'?'飞书全量推送 · 专属通道已启用':'选择邮箱或飞书，配置专属快讯通道');
+    : (mode==='pwa'?'PWA通知 · 按当前规则推送':'选择邮箱或 PWA，配置专属快讯通道');
   setText('mine-custom-sub',customSub);
 }
 async function doLogin(){
@@ -2195,11 +2239,10 @@ function showSettings(){
   if(!ME){showPage('main');openModal('login');return}
   const p=ME.notification_prefs||{};
   const ch=p.channels||{};
-  const mode=p.delivery_mode || (ch.email?'email':ch.feishu?'feishu':'');
+  const mode=p.delivery_mode || (ch.email?'email':(ch.pwa?'pwa':''));
   const emailBlocked=!!p.email_push_disabled;
   el('delivery-mode').value=mode;
   el('s-email').value=p.push_email||'';
-  el('s-feishu').value=p.feishu_name||ME.feishu_name||'';
   el('tog-email-only').checked=!!p.email_only_custom;
   const sources=p.sources||{};
   const hasSourcePrefs=!!(p.sources&&Object.prototype.hasOwnProperty.call(p.sources,'vip_terminal'));
@@ -2224,7 +2267,7 @@ function showSettings(){
 function selectDelivery(mode){
   const p=(ME&&ME.notification_prefs)||{};
   if(mode==='email'&&p.email_push_disabled){
-    showToast('该账号暂未开放邮箱推送，可使用网页VIP或飞书群接收');
+    showToast('该账号暂未开放邮箱推送，可使用 PWA 通知或网站内查看');
     return;
   }
   if(p.delivery_locked && p.delivery_mode && p.delivery_mode!==mode){
@@ -2244,9 +2287,9 @@ function renderDelivery(mode,locked=false){
   const p=(ME&&ME.notification_prefs)||{};
   const emailBlocked=!!p.email_push_disabled;
   const cooldownUntil=Number(p.rules_cooldown_until||0)*1000;
-  const cooldownActive=mode==='email'&&cooldownUntil>Date.now();
+  const cooldownActive=(mode==='email'||mode==='pwa')&&cooldownUntil>Date.now();
   const cooldownText=cooldownActive?new Date(cooldownUntil).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-  ['email','feishu'].forEach(m=>{
+  ['email','pwa'].forEach(m=>{
     const card=el('delivery-'+m);
     if(!card)return;
     card.classList.toggle('on',mode===m);
@@ -2255,31 +2298,30 @@ function renderDelivery(mode,locked=false){
     card.classList.toggle('hidden',locked&&mode&&mode!==m);
   });
   el('email-form').classList.toggle('disabled',mode!=='email'||emailBlocked);
-  el('feishu-form').classList.toggle('disabled',mode!=='feishu');
+  el('pwa-form').classList.toggle('disabled',mode!=='pwa');
   el('email-form').classList.toggle('locked',locked&&mode==='email');
-  el('feishu-form').classList.toggle('locked',locked&&mode==='feishu');
+  el('pwa-form').classList.toggle('locked',locked&&mode==='pwa');
   const note=el('delivery-lock-note');
   if(note){
     if(emailBlocked){
       note.textContent=p.email_push_disabled_reason||'该账号当前仅开放网页 VIP 权限，暂不开放邮箱推送。后台恢复后即可重新选择邮箱通道。';
       note.classList.add('show');
     }else if(mode){
-      const label=mode==='email'?'邮箱推送':'飞书推送';
-      note.textContent=(locked?'当前接收通道':'即将启用通道')+`：${label}。${mode==='email'?'信源、关键词与频率规则可在系统允许周期内调整；':''}为保障账号安全与反滥用风控，通道切换需经过系统校验。`;
+      const label=mode==='email'?'邮箱推送':'PWA App 通知';
+      note.textContent=(locked?'当前接收通道':'即将启用通道')+`：${label}。信源、关键词与频率规则可在系统允许周期内调整；为保障账号安全与反滥用风控，通道切换需经过系统校验。`;
       note.classList.add('show');
     }else{
       note.textContent='';
       note.classList.remove('show');
     }
   }
-  const filterDisabled=!ME||!ME.is_vip||mode==='feishu'||!mode;
-  ['s-email','s-feishu'].forEach(id=>{if(el(id))el(id).disabled=locked||(id==='s-email'&&emailBlocked);});
+  const filterDisabled=!ME||!ME.is_vip||!mode;
+  ['s-email'].forEach(id=>{if(el(id))el(id).disabled=locked||(id==='s-email'&&emailBlocked);});
   ['tog-email-only','src-vip','src-reuters','src-bloomberg','kw-inp','sec-inp','s-level','s-sent','s-maxpm'].forEach(id=>{if(el(id))el(id).disabled=filterDisabled||cooldownActive||emailBlocked;});
   if(el('filter-notice')){
     if(emailBlocked){el('filter-notice').style.display='block';el('filter-notice').textContent='该账号暂未开放邮箱推送，关键词与频率规则仅在后台恢复邮箱权限后生效。';}
-    else if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为VIP邮箱推送专属功能';}
-    else if(mode==='feishu'){el('filter-notice').style.display='block';el('filter-notice').textContent='飞书通道为全量推送，筛选规则仅邮箱推送可用。';}
-    else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱推送后启用关键词、板块和信源筛选。';}
+    else if(!ME||!ME.is_vip){el('filter-notice').style.display='block';el('filter-notice').textContent='🔒 自定义筛选为 VIP 专属功能';}
+    else if(!mode){el('filter-notice').style.display='block';el('filter-notice').textContent='请选择邮箱或 PWA 通知后启用关键词、板块和信源筛选。';}
     else if(cooldownActive){el('filter-notice').style.display='block';el('filter-notice').textContent=`消息定制已生效，下次可调整时间：${cooldownText}。系统通过冷却期降低误操作和高频改规则风险。`;}
     else{el('filter-notice').style.display='none';}
   }
@@ -2292,7 +2334,7 @@ function renderRuleModeHint(){
   if(card)card.classList.toggle('custom',checked);
   if(badge)badge.textContent=checked?(hasRules?'仅规则命中才发':'未设规则 · 自动全量'):'默认全量推送';
   if(copy)copy.textContent=checked
-    ? (hasRules?'只在关键词、板块、关注资产或股票代码命中时发送邮件；适合不想被全量快讯打扰。':'你已开启仅规则命中，但还没有设置关键词/板块/关注资产。为避免漏收，系统会暂时按所选信源全量推送。')
+    ? (hasRules?'只在关键词、板块、关注资产或股票代码命中时发送；适合不想被全量快讯打扰。':'你已开启仅规则命中，但还没有设置关键词/板块/关注资产。为避免漏收，系统会暂时按所选信源全量推送。')
     : '按所选信源全量发送邮件；关键词和板块仍会用于高优先级识别与命中说明。';
 }
 function renderEmailVerification(p={},mode=''){
@@ -2342,17 +2384,17 @@ async function saveSettings(){
   const mode=el('delivery-mode').value;
   const curPrefs=(ME&&ME.notification_prefs)||{};
   if(curPrefs.email_push_disabled&&mode==='email'){
-    showFmsg('s-msg','该账号暂未开放邮箱推送，请使用网页VIP或飞书群接收；如需开通请联系后台。','err');
+    showFmsg('s-msg','该账号暂未开放邮箱推送，可改用 PWA App 通知；如需开通邮箱请联系后台。','err');
     return;
   }
-  if(!mode){showFmsg('s-msg','请选择邮箱或飞书推送通道','err');return;}
-  const isFeishu=mode==='feishu';
+  if(!mode){showFmsg('s-msg','请选择邮箱或 PWA 通知通道','err');return;}
+  const isPwa=mode==='pwa';
   const prefs={
-    channels:{ws:!!ME.is_vip,email:mode==='email',feishu:mode==='feishu'},
+    channels:{ws:!!ME.is_vip,email:mode==='email',pwa:isPwa,feishu:false},
     delivery_mode:mode,
-    push_email:isFeishu?'':el('s-email').value.trim(),feishu_name:isFeishu?el('s-feishu').value.trim():'',
-    email_only_custom:isFeishu?false:el('tog-email-only').checked,
-    sources:isFeishu?{vip_terminal:true,reuters:true,bloomberg:true,benzinga:true}:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false},
+    push_email:isPwa?'':el('s-email').value.trim(),feishu_name:'',
+    email_only_custom:el('tog-email-only').checked,
+    sources:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false},
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
     max_per_min:parseInt(el('s-maxpm').value)||50,
@@ -2372,7 +2414,7 @@ async function saveSettings(){
         showToast('激活邮件发送失败');
       }
     }else{
-      showFmsg('s-msg','✅ 设置已保存','ok');showToast('设置已保存');
+      showFmsg('s-msg',mode==='pwa'?'✅ PWA 通知规则已保存，请确认已开启快讯通知':'✅ 设置已保存','ok');showToast('设置已保存');
     }
   }catch(e){showFmsg('s-msg',e.message,'err');}
 }
@@ -2948,11 +2990,11 @@ async function loadUsers(){
       const emailStatus=u.email_unsubscribed?'已退订':(u.push_email_verified===false?'待激活':'已激活');
       const mode=u.delivery_mode==='email'
         ? `邮箱 · ${esc(u.push_email||u.email||'未填写')} ${emailStatus}`
-        : (u.delivery_mode==='feishu'?`飞书 · ${esc(u.feishu_name||'待备注')} ${u.feishu_verified?'✅':'待验证'}`:'未选择');
+        : (u.delivery_mode==='pwa'?`PWA通知 · ${u.is_vip_active?'VIP规则':'未开通VIP'}`:(u.delivery_mode==='feishu'?`旧飞书 · ${esc(u.feishu_name||'待备注')}`:'未选择'));
       const unsubLine=u.email_unsubscribed?`<br><span style="color:var(--red)">用户已退订${u.email_unsubscribed_str?' · '+esc(u.email_unsubscribed_str):''}</span>`:'';
       const emailDisabledLine=u.email_push_disabled?`<br><span style="color:var(--gold)">邮箱权限暂停${u.email_push_disabled_str?' · '+esc(u.email_push_disabled_str):''}${u.email_push_disabled_source?' · '+esc(u.email_push_disabled_source):''}</span>`:'';
       return `<tr>
-      <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong>${accountBadge}</td>
+      <td><strong style="font-family:var(--mono)">${esc(u.username)}</strong><br><span style="font-family:var(--mono);font-size:8px;color:var(--text3)">ID ${u.id}</span>${accountBadge}</td>
       <td style="color:var(--text2);font-size:9px">${esc(u.email)}${emailVerifyHint}</td>
       <td>${planBadge}</td>
       <td style="font-family:var(--mono);font-size:9px;color:var(--text3)">${u.expire_str||'—'}</td>
@@ -2961,10 +3003,9 @@ async function loadUsers(){
         <div class="admin-push-actions">
           <button onclick="toggleUserEmailPush(${u.id},${u.email_push_disabled?0:1})" style="background:${u.email_push_disabled?'rgba(0,200,120,.1)':'rgba(255,184,0,.08)'};border:1px solid ${u.email_push_disabled?'rgba(0,200,120,.2)':'rgba(255,184,0,.18)'};color:${u.email_push_disabled?'var(--green)':'var(--gold)'};padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">${u.email_push_disabled?'恢复邮箱':'禁邮箱'}</button>
           <button onclick="adminSetEmail(${u.id})" style="background:var(--orange3);border:1px solid rgba(255,107,43,.2);color:var(--orange);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设邮箱</button>
-          <button onclick="adminSetFeishu(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设飞书</button>
+          <button onclick="adminSetPwa(${u.id})" style="background:rgba(30,144,212,.09);border:1px solid rgba(30,144,212,.22);color:var(--blue);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">设PWA</button>
           ${u.delivery_mode==='email'&&u.push_email?`<button onclick="adminResendActivation(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重发激活</button>`:''}
           ${u.delivery_mode==='email'&&u.push_email&&u.push_email_verified===false?`<button onclick="adminActivatePushEmail(${u.id})" style="background:rgba(0,200,120,.14);border:1px solid rgba(0,200,120,.28);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">直接激活</button>`:''}
-          ${u.delivery_mode==='feishu'&&!u.feishu_verified?`<button onclick="verifyFs(${u.id})" style="background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.2);color:var(--green);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">验证</button>`:''}
           <button onclick="resetDelivery(${u.id})" style="background:rgba(255,184,0,.07);border:1px solid rgba(255,184,0,.18);color:var(--gold);padding:1px 4px;border-radius:2px;cursor:pointer;font-size:8px">重置</button>
         </div>
       </td>
@@ -2996,7 +3037,7 @@ async function setUPlan(uid,plan){
   }catch(e){showToast(e.message||'更新失败');loadUsers();}
 }
 async function cancelVip(uid){
-  if(!confirm('确定取消该用户 VIP 吗？系统会立即停止网页实时推送、邮箱推送、飞书推送，并清空未发送的聚合邮件。')){loadUsers();return;}
+  if(!confirm('确定取消该用户 VIP 吗？系统会立即停止网页实时推送、邮箱推送、PWA通知，并清空未发送的聚合邮件。')){loadUsers();return;}
   try{
     await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({cancel_vip:1})});
     showToast('✅ 已取消VIP并停止推送');
@@ -3058,22 +3099,23 @@ async function adminSetEmail(uid){
     showToast('✅ 邮箱推送已设置');loadUsers();
   }catch(e){showToast(e.message||'设置失败');}
 }
-async function adminSetFeishu(uid){
-  const name=prompt('输入用户飞书昵称/备注。飞书通道为全量推送');
-  if(name===null)return;
+async function adminSetPwa(uid){
+  if(!confirm('确定把该用户通道设置为 PWA App 通知？用户仍需要先在“我的 → 移动端 App”开启通知权限。'))return;
   try{
     await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({
-      delivery_mode:'feishu',
-      feishu_name:(name||'').trim(),
-      feishu_verified:1,
-      sources:{vip_terminal:true,reuters:true,bloomberg:true,benzinga:true},
+      delivery_mode:'pwa',
+      sources:{vip_terminal:true,reuters:false,bloomberg:false,benzinga:false},
+      email_only_custom:false,
+      level_min:'C',
+      sentiments:'all',
+      max_per_min:50,
       delivery_locked:true
     })});
-    showToast('✅ 飞书推送已设置');loadUsers();
+    showToast('✅ PWA通知已设置');loadUsers();
   }catch(e){showToast(e.message||'设置失败');}
 }
 async function resetDelivery(uid){
-  if(!confirm('确定重置该用户推送通道？重置后用户可重新选择邮箱或飞书。'))return;
+  if(!confirm('确定重置该用户推送通道？重置后用户可重新选择邮箱或 PWA 通知。'))return;
   try{await api(`/api/admin/users/${uid}`,{method:'PATCH',body:JSON.stringify({reset_delivery:1})});showToast('✅ 推送通道已重置');loadUsers();}catch(e){showToast(e.message||'重置失败');}
 }
 async function delUser(uid){if(!confirm('确定删除此用户？所有数据不可恢复！'))return;try{await api(`/api/admin/users/${uid}`,{method:'DELETE'});loadUsers();}catch(e){}}
@@ -3082,8 +3124,8 @@ async function delUser(uid){if(!confirm('确定删除此用户？所有数据不
 async function exportUsersCsv(){
   try{
     const d=await api('/api/admin/users?page=1&size=500&q=');
-    const headers=['用户名','邮箱','计划','VIP到期','推送通道','接收邮箱','飞书','锁定','注册时间'];
-    const rows=d.items.map(u=>[u.username,u.email,u.is_vip_active?'VIP':'免费',u.expire_str||'',u.delivery_mode||'',u.push_email||'',u.feishu_name||'',u.delivery_locked?'是':'否',u.created_str||'']);
+    const headers=['用户名','邮箱','计划','VIP到期','推送通道','接收邮箱','锁定','注册时间'];
+    const rows=d.items.map(u=>[u.username,u.email,u.is_vip_active?'VIP':'免费',u.expire_str||'',u.delivery_mode||'',u.push_email||'',u.delivery_locked?'是':'否',u.created_str||'']);
     const csv=[headers,...rows].map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
     const a=document.createElement('a');
     a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
@@ -3127,7 +3169,7 @@ function copyAllCodes(){
 async function delInvite(id){try{await api(`/api/admin/invite-codes/${id}`,{method:'DELETE'});loadInvites();}catch(e){}}
 async function toggleInviteEmail(id,flag){
   const msg=flag
-    ? '确定把这个邀请码设为“禁邮箱”吗？已使用该邀请码的用户也会同步暂停邮箱推送，只保留网页VIP/飞书群。'
+    ? '确定把这个邀请码设为“禁邮箱”吗？已使用该邀请码的用户也会同步暂停邮箱推送，只保留网页VIP/PWA通知。'
     : '确定恢复这个邀请码的邮箱权限吗？已使用该邀请码的用户也会同步恢复可选择邮箱，但不会自动开启邮件。';
   if(!confirm(msg))return;
   try{
@@ -3163,6 +3205,16 @@ async function sendTestEmail(){
     const d=await api('/api/admin/test-email',{method:'POST',body:JSON.stringify({email,kind})});
     showFmsg('test-email-msg',d.message||'测试邮件已发送','ok');
   }catch(e){showFmsg('test-email-msg',e.message,'err');}
+}
+
+async function sendTestPush(){
+  const userId=parseInt((el('test-push-user')||{value:''}).value,10)||0;
+  const body=((el('test-push-body')||{value:''}).value||'这是一条 PWA 推送测试').trim();
+  if(!userId){showFmsg('test-push-msg','请输入用户 ID','err');return}
+  try{
+    const d=await api('/api/admin/test-push',{method:'POST',body:JSON.stringify({user_id:userId,body,url:'/'})});
+    showFmsg('test-push-msg',d.message||'测试通知已发送','ok');
+  }catch(e){showFmsg('test-push-msg',e.message,'err');}
 }
 
 async function loadPushLog(){
@@ -3272,5 +3324,6 @@ function animNum(id,target){
   let i=0;const iv=setInterval(()=>{i++;e.textContent=Math.round(start+diff*(i/20));if(i>=20)clearInterval(iv)},20);
 }
 </script>
+<script src="/static/pwa.js" defer></script>
 </body>
 </html>
