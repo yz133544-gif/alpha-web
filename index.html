@@ -317,6 +317,12 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .activation-step{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start;border:1px solid var(--border);background:rgba(255,255,255,.018);border-radius:6px;padding:9px}
 .activation-step b{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--orange3);color:var(--orange);font-family:var(--mono);font-size:9px}
 .activation-step span{font-size:10px;color:var(--text2);line-height:1.65}
+.activation-code-box{border:1px solid var(--border);background:rgba(255,255,255,.025);border-radius:6px;padding:10px;margin-top:10px}
+.activation-code-title{font-size:10px;color:var(--text2);line-height:1.6;margin-bottom:7px}
+.activation-code-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.activation-code-row input{height:38px;border-radius:6px;border:1px solid var(--border);background:var(--bg0);color:var(--text);font-family:var(--mono);font-size:18px;font-weight:900;letter-spacing:5px;text-align:center;padding:0 10px;min-width:0}
+.activation-code-row button{height:38px;border-radius:6px;border:1px solid rgba(255,106,0,.35);background:var(--orange);color:#fff;font-size:10px;font-weight:900;padding:0 12px;white-space:nowrap;cursor:pointer}
+.activation-code-msg{font-size:10px;line-height:1.6;margin-top:7px;color:var(--text3);min-height:16px}
 .activation-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 
 /* VIP modal */
@@ -1553,9 +1559,17 @@ tr:hover td{background:var(--orange3)}
     我们已向 <span class="activation-mail" id="activation-email">您的邮箱</span> 发送快讯通道确认邮件。请完成下面几步，确保后续快讯稳定送达。
   </div>
   <div class="activation-list">
-    <div class="activation-step"><b>1</b><span>前往邮箱，点击邮件里的 <strong style="color:var(--text)">确认并激活快讯通道</strong> 按钮。</span></div>
+    <div class="activation-step"><b>1</b><span>前往邮箱，点击邮件里的 <strong style="color:var(--text)">确认并激活快讯通道</strong> 按钮；如果打不开，就把邮件中的 6 位验证码填到下面。</span></div>
     <div class="activation-step"><b>2</b><span>直接回复那封邮件：<strong style="color:var(--green)">收到</strong>，让邮箱系统识别这是你认可的发件人。</span></div>
     <div class="activation-step"><b>3</b><span>把发件人加入通讯录 / 白名单；QQ 邮箱如提示广告，请点右下角 <strong style="color:var(--orange)">更多 → 这不是广告</strong>。</span></div>
+  </div>
+  <div class="activation-code-box">
+    <div class="activation-code-title">按钮打不开时，输入邮件里的 6 位验证码激活：</div>
+    <div class="activation-code-row">
+      <input id="activation-code" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="000000" oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)" onkeydown="if(event.key==='Enter')verifyPushEmailCode()">
+      <button onclick="verifyPushEmailCode()">激活</button>
+    </div>
+    <div class="activation-code-msg" id="activation-code-msg"></div>
   </div>
   <div class="activation-actions">
     <button class="btn-full btn-outline" onclick="closeActivationModal()">我知道了</button>
@@ -2115,9 +2129,32 @@ async function recheckOrder(orderNo){
 function copyWechat(){navigator.clipboard&&navigator.clipboard.writeText('alphaheartbeat.com').then(()=>{showFmsg('vip-msg','网址已复制：alphaheartbeat.com','ok');showToast('已复制网址');}).catch(()=>showFmsg('vip-msg','请手动访问 alphaheartbeat.com','err'));}
 function openActivationModal(email){
   if(el('activation-email'))el('activation-email').textContent=email||'您的邮箱';
+  if(el('activation-code'))el('activation-code').value='';
+  if(el('activation-code-msg'))el('activation-code-msg').textContent='';
   el('activation-overlay').classList.add('open');
 }
 function closeActivationModal(){el('activation-overlay').classList.remove('open');}
+async function verifyPushEmailCode(){
+  const input=el('activation-code');
+  const msg=el('activation-code-msg');
+  const code=(input&&input.value||'').trim();
+  if(msg){msg.style.color='var(--text3)';msg.textContent='';}
+  if(!/^\d{6}$/.test(code)){
+    if(msg){msg.style.color='var(--red)';msg.textContent='请输入邮件里的 6 位验证码';}
+    input&&input.focus();
+    return;
+  }
+  try{
+    const d=await api('/api/me/push-email/verify-code',{method:'POST',body:JSON.stringify({code})});
+    if(msg){msg.style.color='var(--green)';msg.textContent=d.message||'快讯邮箱已激活';}
+    await checkAuth();
+    renderSettings();
+    showToast('快讯邮箱已激活');
+    setTimeout(closeActivationModal,700);
+  }catch(e){
+    if(msg){msg.style.color='var(--red)';msg.textContent=e.message||'验证码验证失败';}
+  }
+}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.profile-wrap'))closeHeaderMenus();
 });
