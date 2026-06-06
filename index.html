@@ -1102,7 +1102,7 @@ tr:hover td{background:var(--orange3)}
         <div class="pwa-actions">
           <button class="btn btn-sec pwa-install-action" id="pwa-install-btn" onclick="window.AHPWA&&window.AHPWA.install()">安装到桌面</button>
           <button class="btn pwa-notify-primary pwa-notify-action" id="pwa-notify-btn" onclick="window.AHPWA&&window.AHPWA.enableNotifications()">开启通知【必点】</button>
-          <button class="btn btn-sec pwa-test-btn" onclick="window.AHPWA&&window.AHPWA.sendTestNotification()" type="button">发送测试通知</button>
+          <button class="btn btn-sec pwa-test-btn" onclick="window.AHPWA&&window.AHPWA.sendTestNotification()" type="button">本地通知测试</button>
           <span class="pwa-must-copy">只安装 App 不会自动开启通知，必须点击授权。</span>
           <div class="pwa-flow-note">开启通知后，还需要选择信源范围/推送模式，并点击页面底部的【保存设置】，否则规则不会生效。</div>
         </div>
@@ -1259,7 +1259,7 @@ tr:hover td{background:var(--orange3)}
       <div class="pwa-actions" style="margin-top:8px">
         <button class="btn btn-sec pwa-install-action" onclick="window.AHPWA&&window.AHPWA.install()" type="button">安装到桌面</button>
         <button class="btn pwa-notify-primary pwa-notify-action" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知【必点】</button>
-        <button class="btn btn-sec pwa-test-btn" onclick="window.AHPWA&&window.AHPWA.sendTestNotification()" type="button">发送测试通知</button>
+        <button class="btn btn-sec pwa-test-btn" onclick="window.AHPWA&&window.AHPWA.sendTestNotification()" type="button">本地通知测试</button>
         <span class="pwa-must-copy">只安装 App 不会自动开启通知，必须点击授权。</span>
         <div class="pwa-flow-note">开启通知后，还需要选择信源范围/推送模式，并点击页面底部的【保存设置】，否则规则不会生效。</div>
       </div>
@@ -3455,6 +3455,6 @@ function setupPushSaveAttention(){
 }
 setupPushSaveAttention();
 </script>
-<script src="/static/pwa.js?v=20260606-save" defer></script>
+<script src="/static/pwa.js?v=20260606-push-fallback" defer></script>
 </body>
 </html>
