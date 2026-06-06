@@ -3371,7 +3371,7 @@ async function loadPushLog(){
       <td style="font-family:var(--mono);font-size:8px">${r.priority}</td>
       <td style="color:${r.status==='ok'?'var(--green)':(r.status==='skip'?'var(--gold)':'var(--red)')};font-family:var(--mono);font-size:8px">${r.status}</td>
       <td title="${esc((r.pwa_title||'')+' '+(r.body_preview||''))}" style="font-size:8px;color:var(--text2);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.pwa_title||'')}${r.body_preview?`<br><span style="color:var(--text3)">${esc(r.body_preview)}</span>`:''}</td>
-      <td title="${esc(r.reason||'')}" style="font-size:8px;color:var(--text3);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.reason||'')}</td>
+      <td title="${esc(r.reason||'')}" style="font-size:8px;color:var(--text3);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc((r.reason||'').includes('fcm_pwa_disabled_by_config')?'安卓 PWA 当前已关闭，请使用邮箱推送':(r.reason||''))}</td>
       <td style="font-family:var(--mono);font-size:8px">${r.latency_ms}ms</td>
     </tr>`).join('') || '<tr><td colspan="10" style="padding:14px;color:var(--text3);font-size:9px;text-align:center">暂无匹配记录</td></tr>';
   }catch(e){}
