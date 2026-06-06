@@ -1078,12 +1078,13 @@ tr:hover td{background:var(--orange3)}
         <div class="pwa-actions">
           <button class="btn btn-pri" id="pwa-install-btn" onclick="window.AHPWA&&window.AHPWA.install()">安装 App</button>
           <button class="btn btn-sec" id="pwa-notify-btn" onclick="window.AHPWA&&window.AHPWA.enableNotifications()">开启快讯通知</button>
+          <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
         </div>
         <div class="pwa-status" id="pwa-status">正在检测 App 与通知能力...</div>
         <div class="pwa-guide">
           <div><b>安卓用户</b><p>请使用 Chrome 打开本站，点击浏览器菜单里的“安装应用”或“添加到主屏幕”，安装后从桌面图标打开，并点击“开启快讯通知”。</p></div>
           <div><b>iPhone 用户</b><p>请使用 Safari 打开本站，点击底部分享按钮，选择“添加到主屏幕”。添加完成后，请从桌面先讯图标打开网站，再点击“开启快讯通知”。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
-          <div><b>没有收到通知？</b><p>请检查系统通知权限、浏览器通知权限、账号是否登录、会员是否有效。</p></div>
+          <div><b>没有收到通知？</b><p>请检查系统通知权限、浏览器通知权限、账号是否登录、会员是否有效；更换手机、重装 App 或长期未收到时，可点击“重置通知”重建通道。</p></div>
         </div>
       </div>
       <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
@@ -1226,6 +1227,7 @@ tr:hover td{background:var(--orange3)}
       <div class="pwa-actions" style="margin-top:8px">
         <button class="btn btn-pri" onclick="window.AHPWA&&window.AHPWA.install()" type="button">安装 App</button>
         <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知</button>
+        <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
       </div>
       <div class="pwa-status" id="pwa-settings-status">iPhone 需 iOS/iPadOS 16.4+，并从主屏幕图标打开后才支持通知。</div>
     </div>
@@ -2432,16 +2434,23 @@ async function saveSettings(){
   }
   if(!mode){showFmsg('s-msg','请选择邮箱或 PWA 通知通道','err');return;}
   const isPwa=mode==='pwa';
+  const sourcePrefs={vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false};
+  const watchlist=(ME.notification_prefs||{}).watchlist||[];
+  const hasCustomRules=!!(el('tog-email-only').checked||kwTags.length||secTags.length||watchlist.length||el('s-level').value!=='C'||el('s-sent').value!=='all'||!sourcePrefs.vip_terminal||!sourcePrefs.reuters||!sourcePrefs.bloomberg||sourcePrefs.benzinga);
   const prefs={
     channels:{ws:!!ME.is_vip,email:mode==='email',pwa:isPwa,feishu:false},
     delivery_mode:mode,
     push_email:isPwa?'':el('s-email').value.trim(),feishu_name:'',
     email_only_custom:el('tog-email-only').checked,
-    sources:{vip_terminal:el('src-vip').checked,reuters:el('src-reuters').checked,bloomberg:el('src-bloomberg').checked,benzinga:false},
+    rules_only:el('tog-email-only').checked,
+    custom_only:el('tog-email-only').checked,
+    source_filter_enabled:isPwa&&hasCustomRules&&(!sourcePrefs.vip_terminal||!sourcePrefs.reuters||!sourcePrefs.bloomberg||sourcePrefs.benzinga),
+    pwa_filter_mode:isPwa&&hasCustomRules?'custom':'default',
+    sources:sourcePrefs,
     keywords:kwTags,sectors:secTags,
     level_min:el('s-level').value,sentiments:el('s-sent').value,
     max_per_min:parseInt(el('s-maxpm').value)||3,
-    watchlist:(ME.notification_prefs||{}).watchlist||[]
+    watchlist:watchlist
   };
   try{
     const d=await api('/api/me/settings',{method:'POST',body:JSON.stringify({notification_prefs:prefs,theme:localStorage.getItem('theme')||'dark'})});
@@ -3388,6 +3397,6 @@ function animNum(id,target){
   let i=0;const iv=setInterval(()=>{i++;e.textContent=Math.round(start+diff*(i/20));if(i>=20)clearInterval(iv)},20);
 }
 </script>
-<script src="/static/pwa.js?v=20260605-login" defer></script>
+<script src="/static/pwa.js?v=20260606-reset" defer></script>
 </body>
 </html>
