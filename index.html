@@ -358,7 +358,17 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .pwa-guide b{color:var(--orange);font-size:10px}
 .pwa-guide p{font-size:9px;color:var(--text2);line-height:1.8;margin-top:3px}
 .pwa-status{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.7;min-height:14px}
-@media(max-width:520px){.pwa-steps{grid-template-columns:1fr}.pwa-step{padding:7px}.pwa-step span{white-space:normal}.pwa-must-copy,.pwa-flow-note{width:100%}.pwa-actions .btn{padding:7px 9px}}
+.pwa-diagnostics{margin-top:8px;border:1px solid rgba(255,255,255,.075);background:rgba(4,8,15,.38);border-radius:7px;padding:0}
+.pwa-diagnostics summary{cursor:pointer;list-style:none;padding:8px 9px;font-size:9px;font-weight:900;color:var(--text2);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pwa-diagnostics summary::-webkit-details-marker{display:none}
+.pwa-diagnostics summary:after{content:'展开';font-family:var(--mono);font-size:8px;color:var(--orange)}
+.pwa-diagnostics[open] summary:after{content:'收起'}
+.pwa-diag-body{border-top:1px solid rgba(255,255,255,.06);padding:8px 9px;display:grid;gap:5px}
+.pwa-diag-row{display:grid;grid-template-columns:118px 1fr;gap:8px;font-family:var(--mono);font-size:8px;line-height:1.55;color:var(--text3)}
+.pwa-diag-row b{color:var(--text2);font-weight:700}
+.pwa-diag-row span{word-break:break-all;color:var(--gold)}
+.pwa-diag-copy{justify-self:start;margin-top:3px;font-size:8px!important;padding:5px 8px!important}
+@media(max-width:520px){.pwa-steps{grid-template-columns:1fr}.pwa-step{padding:7px}.pwa-step span{white-space:normal}.pwa-must-copy,.pwa-flow-note{width:100%}.pwa-actions .btn{padding:7px 9px}.pwa-diag-row{grid-template-columns:1fr;gap:2px}}
 
 /* VIP modal */
 .upgrade-modal{max-width:440px}
@@ -1108,6 +1118,17 @@ tr:hover td{background:var(--orange3)}
         </div>
         <div class="pwa-status" id="pwa-status">正在检测 App 与通知能力...</div>
         <div class="pwa-fix-row"><button class="btn btn-sec pwa-rebuild-btn" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重建通知通道</button><span class="pwa-fix-copy">换手机、重装 App 或长期收不到通知时使用。</span></div>
+        <details class="pwa-diagnostics">
+          <summary>通知诊断信息</summary>
+          <div class="pwa-diag-body">
+            <div class="pwa-diag-row"><b>Notification.permission</b><span data-pwa-diag="permission">检测中</span></div>
+            <div class="pwa-diag-row"><b>SW controller</b><span data-pwa-diag="controller">检测中</span></div>
+            <div class="pwa-diag-row"><b>Endpoint hash</b><span data-pwa-diag="endpointHash">检测中</span></div>
+            <div class="pwa-diag-row"><b>Endpoint provider</b><span data-pwa-diag="provider">检测中</span></div>
+            <div class="pwa-diag-row"><b>SW / cache version</b><span data-pwa-diag="swVersion">检测中</span></div>
+            <button class="btn btn-sec pwa-diag-copy" type="button">复制诊断信息</button>
+          </div>
+        </details>
         <div class="pwa-guide">
           <div><b>安卓用户</b><p>请使用 Chrome 打开本站并安装到桌面。如果提示 Registration failed - push service error，通常是当前网络无法连接推送服务，请切换网络后重试。</p></div>
           <div><b>iPhone 用户</b><p>请使用 Safari 添加到主屏幕。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
@@ -1265,6 +1286,17 @@ tr:hover td{background:var(--orange3)}
       </div>
       <div class="pwa-status" id="pwa-settings-status">未开启通知时，手机收不到系统推送。</div>
       <div class="pwa-fix-row"><button class="btn btn-sec pwa-rebuild-btn" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重建通知通道</button><span class="pwa-fix-copy">换手机、重装 App 或长期收不到通知时使用。</span></div>
+      <details class="pwa-diagnostics">
+        <summary>通知诊断信息</summary>
+        <div class="pwa-diag-body">
+          <div class="pwa-diag-row"><b>Notification.permission</b><span data-pwa-diag="permission">检测中</span></div>
+          <div class="pwa-diag-row"><b>SW controller</b><span data-pwa-diag="controller">检测中</span></div>
+          <div class="pwa-diag-row"><b>Endpoint hash</b><span data-pwa-diag="endpointHash">检测中</span></div>
+          <div class="pwa-diag-row"><b>Endpoint provider</b><span data-pwa-diag="provider">检测中</span></div>
+          <div class="pwa-diag-row"><b>SW / cache version</b><span data-pwa-diag="swVersion">检测中</span></div>
+          <button class="btn btn-sec pwa-diag-copy" type="button">复制诊断信息</button>
+        </div>
+      </details>
     </div>
     <div class="channel-form disabled" id="delivery-rules-form">
       <div class="fg">
@@ -3455,6 +3487,6 @@ function setupPushSaveAttention(){
 }
 setupPushSaveAttention();
 </script>
-<script src="/static/pwa.js?v=20260606-push-fallback" defer></script>
+<script src="/static/pwa.js?v=20260606-diag" defer></script>
 </body>
 </html>
