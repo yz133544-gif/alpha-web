@@ -330,16 +330,27 @@ input:checked+.sldr:before{transform:translateX(16px)}
 .activation-code-row button{height:38px;border-radius:6px;border:1px solid rgba(255,106,0,.35);background:var(--orange);color:#fff;font-size:10px;font-weight:900;padding:0 12px;white-space:nowrap;cursor:pointer}
 .activation-code-msg{font-size:10px;line-height:1.6;margin-top:7px;color:var(--text3);min-height:16px}
 .activation-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.pwa-card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,107,43,.08),rgba(255,255,255,.018));border-radius:8px;padding:12px;margin:12px 0}
+.pwa-card{border:1px solid rgba(255,107,43,.28);background:linear-gradient(180deg,rgba(255,107,43,.11),rgba(255,255,255,.018));border-radius:8px;padding:12px;margin:12px 0;box-shadow:0 0 0 1px rgba(255,107,43,.04) inset}
 .pwa-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
 .pwa-title{font-size:13px;font-weight:900;color:var(--text)}
-.pwa-sub{font-size:9px;color:var(--text3);line-height:1.75}
-.pwa-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+.pwa-sub{font-size:9px;color:var(--text2);line-height:1.75;max-width:520px}
+.pwa-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}
+.pwa-step{border:1px solid rgba(255,255,255,.07);background:rgba(4,8,15,.48);border-radius:7px;padding:8px;min-width:0}
+.pwa-step b{display:block;font-family:var(--mono);font-size:8px;color:var(--orange);margin-bottom:4px}
+.pwa-step span{display:block;font-size:9px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pwa-step small{display:block;font-size:8px;color:var(--text3);line-height:1.55;margin-top:3px}
+.pwa-step.must{border-color:rgba(255,107,43,.42);background:rgba(255,107,43,.075)}
+.pwa-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 6px}
 .pwa-actions .btn{font-size:9px;padding:7px 10px}
+.pwa-notify-primary{background:var(--orange)!important;color:#fff!important;border:1px solid rgba(255,184,0,.48)!important;box-shadow:0 0 0 1px rgba(255,107,43,.2) inset,0 0 16px rgba(255,107,43,.34);font-weight:900}
+.pwa-notify-primary:hover{background:var(--orange2)!important;box-shadow:0 0 0 1px rgba(255,184,0,.28) inset,0 0 20px rgba(255,107,43,.45)}
+.pwa-reset-btn{opacity:.78}
+.pwa-must-copy{font-size:8px;color:var(--gold);font-family:var(--mono);line-height:1.5}
 .pwa-guide{border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:grid;gap:8px}
 .pwa-guide b{color:var(--orange);font-size:10px}
 .pwa-guide p{font-size:9px;color:var(--text2);line-height:1.8;margin-top:3px}
 .pwa-status{font-family:var(--mono);font-size:8px;color:var(--text3);line-height:1.7;min-height:14px}
+@media(max-width:520px){.pwa-steps{grid-template-columns:1fr}.pwa-step{padding:7px}.pwa-step span{white-space:normal}.pwa-must-copy{width:100%}}
 
 /* VIP modal */
 .upgrade-modal{max-width:440px}
@@ -1071,20 +1082,26 @@ tr:hover td{background:var(--orange3)}
       <div class="pwa-card">
         <div class="pwa-top">
           <div>
-            <div class="pwa-title">移动端 App</div>
-            <div class="pwa-sub">添加到桌面后，可像 App 一样打开先讯，并开启系统快讯通知。</div>
+            <div class="pwa-title">移动端 App 通知</div>
+            <div class="pwa-sub">想像 App 一样收到实时快讯，需要完成两步：① 先安装到桌面 ② 再点击“开启通知【必点】”。只安装 App 不会自动开启通知。未开启通知时，手机收不到系统推送。</div>
           </div>
         </div>
+        <div class="pwa-steps">
+          <div class="pwa-step"><b>第 1 步</b><span>安装到桌面</span><small>安装后从桌面图标重新打开</small></div>
+          <div class="pwa-step must"><b>第 2 步</b><span>开启通知【必点】</span><small>只安装 App 不会自动开启通知</small></div>
+          <div class="pwa-step"><b>第 3 步</b><span>测试 / 重置</span><small>发送测试通知验证；异常时重置</small></div>
+        </div>
         <div class="pwa-actions">
-          <button class="btn btn-pri" id="pwa-install-btn" onclick="window.AHPWA&&window.AHPWA.install()">安装 App</button>
-          <button class="btn btn-sec" id="pwa-notify-btn" onclick="window.AHPWA&&window.AHPWA.enableNotifications()">开启快讯通知</button>
-          <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
+          <button class="btn btn-sec" id="pwa-install-btn" onclick="window.AHPWA&&window.AHPWA.install()">第 1 步：安装到桌面</button>
+          <button class="btn pwa-notify-primary" id="pwa-notify-btn" onclick="window.AHPWA&&window.AHPWA.enableNotifications()">开启通知【必点】</button>
+          <span class="pwa-must-copy">只安装 App 不会自动开启通知</span>
+          <button class="btn btn-sec pwa-reset-btn" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
         </div>
         <div class="pwa-status" id="pwa-status">正在检测 App 与通知能力...</div>
         <div class="pwa-guide">
-          <div><b>安卓用户</b><p>请使用 Chrome 打开本站，点击浏览器菜单里的“安装应用”或“添加到主屏幕”，安装后从桌面图标打开，并点击“开启快讯通知”。</p></div>
-          <div><b>iPhone 用户</b><p>请使用 Safari 打开本站，点击底部分享按钮，选择“添加到主屏幕”。添加完成后，请从桌面先讯图标打开网站，再点击“开启快讯通知”。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
-          <div><b>没有收到通知？</b><p>请检查系统通知权限、浏览器通知权限、账号是否登录、会员是否有效；更换手机、重装 App 或长期未收到时，可点击“重置通知”重建通道。</p></div>
+          <div><b>安卓用户</b><p>请使用 Chrome 打开本站并安装到桌面。如果提示 Registration failed - push service error，通常是当前网络无法连接推送服务，请切换网络后重试。</p></div>
+          <div><b>iPhone 用户</b><p>请使用 Safari 添加到主屏幕。iOS/iPadOS 16.4+ 的主屏幕 Web App 才支持 Web Push。</p></div>
+          <div><b>长期收不到通知</b><p>请先确认已点击“开启通知【必点】”。换手机、重装 App 或旧订阅失效时，再使用“重置通知”。</p></div>
         </div>
       </div>
       <button class="mine-item" onclick="showPage('settings');bnSet('settings')">
@@ -1223,13 +1240,19 @@ tr:hover td{background:var(--orange3)}
     </div>
     <div class="channel-form disabled" id="pwa-form">
       <div class="flabel">PWA App 通知</div>
-      <div style="font-size:9px;color:var(--text3);line-height:1.7">先在“我的 → 移动端 App”安装/添加到主屏幕，并点击“开启快讯通知”。保存本通道后，系统会按下面的关键词、资产、板块、等级和频率规则发送手机系统通知。</div>
-      <div class="pwa-actions" style="margin-top:8px">
-        <button class="btn btn-pri" onclick="window.AHPWA&&window.AHPWA.install()" type="button">安装 App</button>
-        <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知</button>
-        <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
+      <div style="font-size:9px;color:var(--text3);line-height:1.7">保存 PWA 通道前，请先完成：第 1 步安装到桌面；第 2 步点击“开启通知【必点】”。只保存本通道不会自动开启手机系统推送。</div>
+      <div class="pwa-steps">
+        <div class="pwa-step"><b>第 1 步</b><span>安装到桌面</span><small>从桌面图标重新打开</small></div>
+        <div class="pwa-step must"><b>第 2 步</b><span>开启通知【必点】</span><small>系统推送必须授权</small></div>
+        <div class="pwa-step"><b>第 3 步</b><span>测试 / 重置</span><small>后台发送测试验证</small></div>
       </div>
-      <div class="pwa-status" id="pwa-settings-status">iPhone 需 iOS/iPadOS 16.4+，并从主屏幕图标打开后才支持通知。</div>
+      <div class="pwa-actions" style="margin-top:8px">
+        <button class="btn btn-sec" onclick="window.AHPWA&&window.AHPWA.install()" type="button">第 1 步：安装到桌面</button>
+        <button class="btn pwa-notify-primary" onclick="window.AHPWA&&window.AHPWA.enableNotifications()" type="button">开启通知【必点】</button>
+        <span class="pwa-must-copy">只安装 App 不会自动开启通知</span>
+        <button class="btn btn-sec pwa-reset-btn" onclick="window.AHPWA&&window.AHPWA.resetNotifications()" type="button">重置通知</button>
+      </div>
+      <div class="pwa-status" id="pwa-settings-status">未开启通知时，手机收不到系统推送。</div>
     </div>
     <div class="channel-form disabled" id="delivery-rules-form">
       <div class="fg">
@@ -3397,6 +3420,6 @@ function animNum(id,target){
   let i=0;const iv=setInterval(()=>{i++;e.textContent=Math.round(start+diff*(i/20));if(i>=20)clearInterval(iv)},20);
 }
 </script>
-<script src="/static/pwa.js?v=20260606-reset" defer></script>
+<script src="/static/pwa.js?v=20260606-guide" defer></script>
 </body>
 </html>
