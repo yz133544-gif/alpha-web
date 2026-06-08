@@ -2289,9 +2289,15 @@ async function verifyPushEmailCode(){
   try{
     const d=await api('/api/me/push-email/verify-code',{method:'POST',body:JSON.stringify({code})});
     if(msg){msg.style.color='var(--green)';msg.textContent=d.message||'快讯邮箱已激活';}
-    await checkAuth();
-    renderSettings();
-    showToast('快讯邮箱已激活');
+    showToast('邮箱已激活');
+    try{
+      await checkAuth();
+      if(typeof renderSettings==='function')renderSettings();
+      else if(typeof showSettings==='function' && el('settings-page')&&el('settings-page').classList.contains('active'))showSettings();
+      if(typeof renderMinePage==='function' && el('mine-page')&&el('mine-page').classList.contains('active'))renderMinePage();
+    }catch(refreshErr){
+      console.warn('邮箱激活后刷新用户状态失败', refreshErr);
+    }
     setTimeout(closeActivationModal,700);
   }catch(e){
     if(msg){msg.style.color='var(--red)';msg.textContent=e.message||'验证码验证失败';}
